@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
+import ReactMarkdownTyper, { type MarkdownRef } from 'react-markdown-typer';
 // 支持数学公式
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -114,7 +114,7 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
         </button>
       </div>
       <div>
-        <DsMarkdown
+        <ReactMarkdownTyper
           ref={markdownRef}
           interval={20}
           reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }}
@@ -124,7 +124,7 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
           onEnd={handleTypingEnd}
         >
           {markdownContent}
-        </DsMarkdown>
+        </ReactMarkdownTyper>
       </div>
     </div>
   );

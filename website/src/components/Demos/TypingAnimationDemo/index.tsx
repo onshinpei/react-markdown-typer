@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
+import ReactMarkdownTyper, { type MarkdownRef } from 'react-markdown-typer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
@@ -179,10 +179,10 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 ### 代码示例
 
 \`\`\`typescript
-import DsMarkdown from 'react-markdown-typer';
+import ReactMarkdownTyper from 'react-markdown-typer';
 import { katexPlugin } from 'react-markdown-typer/plugins';
 
-<DsMarkdown
+<ReactMarkdownTyper
   interval={30}
   timerType="requestAnimationFrame"
   theme="light"
@@ -194,7 +194,7 @@ import { katexPlugin } from 'react-markdown-typer/plugins';
 >
   # Hello World
   这是一个**打字动画**示例。
-</DsMarkdown>
+</ReactMarkdownTyper>
 \`\`\`
 
 > 🎯 这是一个完整的功能演示，展示了库的所有核心特性！
@@ -478,7 +478,7 @@ import { katexPlugin } from 'react-markdown-typer/plugins';
 
       {/* 渲染区域 */}
       <div>
-        <DsMarkdown
+        <ReactMarkdownTyper
           key={rerenderKey}
           ref={markdownRef}
           interval={config.interval}
@@ -492,7 +492,7 @@ import { katexPlugin } from 'react-markdown-typer/plugins';
           onTypedChar={handleTypedChar}
         >
           {getDemoContent()}
-        </DsMarkdown>
+        </ReactMarkdownTyper>
       </div>
     </div>
   );

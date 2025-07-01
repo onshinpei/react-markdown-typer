@@ -83,7 +83,7 @@ export const propsData: ApiProperty[] = [
   },
 ];
 
-// DsMarkdown Ref 方法
+// ReactMarkdownTyper Ref 方法
 export const dsMarkdownMethods: RefMethod[] = [
   {
     method: 'start()',

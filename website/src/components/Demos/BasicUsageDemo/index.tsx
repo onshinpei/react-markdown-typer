@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
+import ReactMarkdownTyper, { type MarkdownRef } from 'react-markdown-typer';
 import remarkGfm from 'remark-gfm';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
@@ -80,7 +80,7 @@ const BasicUsageDemo: React.FC<DemoProps> = ({ markdown }) => {
           {disableTyping ? t('button.enableTyping') : t('button.disableTyping')}
         </button>
       </div>
-      <DsMarkdown
+      <ReactMarkdownTyper
         ref={markdownRef}
         interval={25}
         reactMarkdownProps={{
@@ -92,7 +92,7 @@ const BasicUsageDemo: React.FC<DemoProps> = ({ markdown }) => {
         onEnd={handleTypingEnd}
       >
         {markdown}
-      </DsMarkdown>
+      </ReactMarkdownTyper>
     </div>
   );
 };

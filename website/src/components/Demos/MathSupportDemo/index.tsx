@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
+import ReactMarkdownTyper, { type MarkdownRef } from 'react-markdown-typer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
@@ -89,7 +89,7 @@ const MathSupportDemo: React.FC<DemoProps> = ({ markdown }) => {
           {disableTyping ? '开启打字效果' : '关闭打字效果'}
         </button>
       </div>
-      <DsMarkdown
+      <ReactMarkdownTyper
         ref={markdownRef}
         interval={20}
         reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }}
@@ -99,7 +99,7 @@ const MathSupportDemo: React.FC<DemoProps> = ({ markdown }) => {
         onEnd={handleTypingEnd}
       >
         {markdown}
-      </DsMarkdown>
+      </ReactMarkdownTyper>
     </div>
   );
 };
