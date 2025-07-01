@@ -31,7 +31,7 @@ A React component designed for modern AI applications, providing smooth real-tim
   Small bundle size, high performance, works on both mobile and desktop. Core dependency is [react-markdown](https://github.com/remarkjs/react-markdown) (industry-standard, mature Markdown renderer), no heavy dependencies, ready to use out of the box.
 
 - **Multi-theme & plugin architecture**  
-  Supports light/dark themes, compatible with remark/rehype plugins for advanced customization and extension.
+  compatible with [react-markdown](https://github.com/remarkjs/react-markdown) remark/rehype plugins for advanced customization and extension.
 
 - **Wide range of use cases**
   - AI chatbots/assistants

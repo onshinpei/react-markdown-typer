@@ -31,7 +31,7 @@
   体积小、性能优，适配移动端和桌面端。核心依赖 [react-markdown](https://github.com/remarkjs/react-markdown)（业界主流、成熟的 Markdown 渲染库），无其它重量级依赖，开箱即用。
 
 - **多主题与插件化架构**  
-  支持亮/暗主题切换，兼容 remark/rehype 插件，满足个性化和高级扩展需求。
+  兼容 [react-markdown](https://github.com/remarkjs/react-markdown) remark/rehype 插件，满足个性化和高级扩展需求。
 
 - **适用场景广泛**
   - AI 聊天机器人/助手
@@ -439,7 +439,6 @@ import MarkdownTyper, { MarkdownCMD } from 'react-markdown-typer';
 | `interval`          | `number`                                    | 打字间隔 (毫秒)                                               | `30`                                                        |
 | `timerType`         | `'setTimeout'` \| `'requestAnimationFrame'` | 定时器类型，不支持动态修改                                    | 当前默认值是`setTimeout`，后期会改为`requestAnimationFrame` |
 | `theme`             | `'light'` \| `'dark'`                       | 主题类型                                                      | `'light'`                                                   |
-| `plugins`           | `IMarkdownPlugin[]`                         | 插件配置                                                      | `[]`                                                        |
 | `math`              | [IMarkdownMath](#IMarkdownMath)             | 数学公式配置                                                  | `{ splitSymbol: 'dollar' }`                                 |
 | `onEnd`             | `(data: EndData) => void`                   | 打字结束回调                                                  | -                                                           |
 | `onStart`           | `(data: StartData) => void`                 | 打字开始回调                                                  | -                                                           |
