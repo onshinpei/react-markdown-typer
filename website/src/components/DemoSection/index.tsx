@@ -32,7 +32,7 @@ const DemoSection: React.FC<DemoSectionProps> = ({ id, title, sourceCode, showHe
               <code className="language-markdown">{sourceCode.markdownString}</code>
             </pre>
           ) : (
-            <div className="ds-markdown code-block">
+            <div className="react-markdown-typer code-block">
               <div className="md-code-block md-code-block-light">
                 <SyntaxHighlighter useInlineStyles={false} language={activeTab === 'code' ? sourceCode.lang || 'tsx' : 'markdown'} style={{}}>
                   {sourceCode.code}

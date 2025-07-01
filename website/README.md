@@ -1,6 +1,6 @@
-# ds-markdown 在线文档网站
+# react-markdown-typer 在线文档网站
 
-这是 ds-markdown 库的官方在线文档网站，展示了库的所有功能和使用方法。
+这是 react-markdown-typer 库的官方在线文档网站，展示了库的所有功能和使用方法。
 
 ## 🚀 快速开始
 
@@ -81,7 +81,7 @@ website/
 
 - **React 18** - 前端框架
 - **TypeScript** - 类型安全
-- **ds-markdown** - 核心库
+- **react-markdown-typer** - 核心库
 - **Vite** - 开发服务器和构建工具
 - **CSS3** - 样式和布局
 
@@ -110,7 +110,7 @@ npm run type-check  # 运行 TypeScript 类型检查
 
 项目已配置自动部署，当推送代码到 `main` 或 `master` 分支时，会自动构建并部署到 GitHub Pages。
 
-**访问地址**: `https://onshinpei.github.io/ds-markdown/`
+**访问地址**: `https://onshinpei.github.io/react-markdown-typer/`
 
 #### 设置步骤：
 
@@ -121,7 +121,7 @@ npm run type-check  # 运行 TypeScript 类型检查
 #### 配置文件：
 
 - `.github/workflows/deploy-website.yml` - GitHub Actions 工作流
-- `website/vite.config.js` - 配置了 `base: '/ds-markdown/'`
+- `website/vite.config.js` - 配置了 `base: '/react-markdown-typer/'`
 
 ### 手动部署
 
@@ -171,8 +171,8 @@ npm run build:prod
 
 ```bash
 # 克隆仓库
-git clone https://github.com/onshinpei/ds-markdown.git
-cd ds-markdown/website
+git clone https://github.com/onshinpei/react-markdown-typer.git
+cd react-markdown-typer/website
 
 # 安装依赖
 npm install
@@ -188,7 +188,7 @@ npm run dev
 ```javascript
 export default defineConfig({
   // GitHub Pages 部署需要的基础路径
-  base: '/ds-markdown/',
+  base: '/react-markdown-typer/',
 
   // 其他配置...
 });
@@ -236,8 +236,8 @@ MIT License - 详见 [LICENSE](../license) 文件。
 
 ## 📞 联系方式
 
-- GitHub: [onshinpei/ds-markdown](https://github.com/onshinpei/ds-markdown)
-- NPM: [ds-markdown](https://www.npmjs.com/package/ds-markdown)
+- GitHub: [onshinpei/react-markdown-typer](https://github.com/onshinpei/react-markdown-typer)
+- NPM: [react-markdown-typer](https://www.npmjs.com/package/react-markdown-typer)
 
 ---
 

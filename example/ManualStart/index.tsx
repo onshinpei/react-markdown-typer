@@ -3,10 +3,6 @@ import { useMemo, useRef, useState } from 'react';
 import Markdown, { MarkdownRef } from '../../src';
 import dataJson from './data.json';
 
-import 'katex/dist/katex.min.css';
-import { katexPlugin } from '../../src/plugins';
-import { replaceMathBracket } from '../../src/utils/remarkMathBracket';
-
 function throttle<T extends unknown[]>(fn: (...args: T) => void, delay: number) {
   let lastTime = 0;
   return (...args: T) => {
@@ -135,12 +131,9 @@ const App: React.FC<{
         <div className="ds-message-list">
           <Markdown
             ref={markdownRef}
-            plugins={mathOpen ? [katexPlugin] : []}
             interval={interval}
-            answerType="answer"
             onTypedChar={throttleOnTypedChar}
             timerType={timerType}
-            theme={theme}
             math={{ splitSymbol: 'bracket' }}
             disableTyping={disableTyping}
             autoStartTyping={false}

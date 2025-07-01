@@ -131,7 +131,7 @@ export const CodeExample: React.FC<{
 }> = ({ code, title, language = 'tsx' }) => (
   <div style={{ marginBottom: '20px' }}>
     <h4>{title}</h4>
-    <div className="code-block ds-markdown">
+    <div className="code-block react-markdown-typer">
       <div className="md-code-block md-code-block-light">
         <SyntaxHighlighter useInlineStyles={false} language={language} style={{}}>
           {code}

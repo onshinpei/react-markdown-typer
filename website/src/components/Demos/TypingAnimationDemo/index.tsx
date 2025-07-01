@@ -1,6 +1,8 @@
 import React, { useState, useRef, useCallback } from 'react';
-import DsMarkdown, { type MarkdownRef } from 'ds-markdown';
-import { katexPlugin } from 'ds-markdown/plugins';
+import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import remarkGfm from 'remark-gfm';
 
 interface DemoProps {
   markdown: string;
@@ -18,7 +20,6 @@ interface TypingStats {
 interface ComponentConfig {
   interval: number;
   timerType: 'setTimeout' | 'requestAnimationFrame';
-  answerType: 'thinking' | 'answer';
   theme: 'light' | 'dark';
   disableTyping: boolean;
   autoStartTyping: boolean;
@@ -28,7 +29,6 @@ interface ComponentConfig {
 interface ITypedChar {
   currentIndex: number;
   currentChar: string;
-  answerType: 'thinking' | 'answer';
   prevStr: string;
   currentStr: string;
   percent: number;
@@ -37,7 +37,6 @@ interface ITypedChar {
 interface IBeforeTypedChar {
   currentIndex: number;
   currentChar: string;
-  answerType: 'thinking' | 'answer';
   prevStr: string;
   percent: number;
 }
@@ -121,7 +120,7 @@ const TypingAnimationDemo: React.FC<DemoProps> = ({ markdown }) => {
   const getDemoContent = () => {
     return `# 🚀 全面API演示
 
-这个演示展示了 **ds-markdown** 的所有核心功能和特性。
+这个演示展示了 **react-markdown-typer** 的所有核心功能和特性。
 
 ## ⌨️ 打字效果特性
 
@@ -177,8 +176,8 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 ### 代码示例
 
 \`\`\`typescript
-import DsMarkdown from 'ds-markdown';
-import { katexPlugin } from 'ds-markdown/plugins';
+import DsMarkdown from 'react-markdown-typer';
+import { katexPlugin } from 'react-markdown-typer/plugins';
 
 <DsMarkdown
   interval={30}
@@ -387,21 +386,6 @@ import { katexPlugin } from 'ds-markdown/plugins';
               <span className="select-label">自动开始</span>
             </label>
           </div>
-          {/* 内容类型 */}
-          <div className="select-wrapper">
-            <label className="select-label">内容类型:</label>
-            <select
-              className="select-control"
-              value={config.answerType}
-              onChange={(e) => {
-                updateConfig('answerType', e.target.value);
-                resetStatus();
-              }}
-            >
-              <option value="answer">Answer</option>
-              <option value="thinking">Thinking</option>
-            </select>
-          </div>
         </div>
       </div>
 
@@ -496,12 +480,9 @@ import { katexPlugin } from 'ds-markdown/plugins';
           ref={markdownRef}
           interval={config.interval}
           timerType={config.timerType}
-          answerType={config.answerType}
-          theme={config.theme}
           disableTyping={config.disableTyping}
           autoStartTyping={config.autoStartTyping}
-          plugins={config.mathEnabled ? [katexPlugin] : []}
-          math={{ splitSymbol: 'dollar' }}
+          reactMarkdownProps={{ remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] }}
           onStart={handleStart}
           onEnd={handleEnd}
           onBeforeTypedChar={handleBeforeTypedChar}

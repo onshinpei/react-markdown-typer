@@ -1,6 +1,9 @@
 import React, { useRef, useState } from 'react';
-import DsMarkdown, { type MarkdownRef } from 'ds-markdown';
-import { katexPlugin } from 'ds-markdown/plugins';
+import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+
+import 'katex/dist/katex.min.css';
 
 interface DemoProps {
   markdown: string;
@@ -89,10 +92,7 @@ const MathSupportDemo: React.FC<DemoProps> = ({ markdown }) => {
       <DsMarkdown
         ref={markdownRef}
         interval={20}
-        answerType="answer"
-        theme={theme}
-        plugins={mathOpen ? [katexPlugin] : []}
-        math={{ splitSymbol: 'dollar' }}
+        reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }}
         disableTyping={disableTyping}
         autoStartTyping={false}
         onStart={handleTypingStart}

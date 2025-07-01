@@ -128,11 +128,7 @@ import MarkdownTyper from 'react-markdown-typer';
 import 'react-markdown-typer/style.css';
 
 function App() {
-  return (
-    <MarkdownTyper interval={20} answerType="answer">
-      # Hello react-markdown-typer 这是一个**高性能**的打字动画组件！ ## 特性 - ⚡ 零延迟流式处理 - 🎬 流畅打字动画 - 🎯 完美语法支持
-    </MarkdownTyper>
-  );
+  return <MarkdownTyper interval={20}># Hello react-markdown-typer 这是一个**高性能**的打字动画组件！ ## 特性 - ⚡ 零延迟流式处理 - 🎬 流畅打字动画 - 🎯 完美语法支持</MarkdownTyper>;
 }
 ```
 

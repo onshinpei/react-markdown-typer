@@ -2,17 +2,17 @@ import type { DemoData } from './defined';
 
 // 演示数据
 export const demoData: DemoData = {
-  installation: `# 📦 安装 ds-markdown
+  installation: `# 📦 安装 react-markdown-typer
 
 \`\`\`bash
 # 使用 npm 安装
-npm install ds-markdown
+npm install react-markdown-typer
 
 # 使用 yarn 安装  
-yarn add ds-markdown
+yarn add react-markdown-typer
 
 # 使用 pnpm 安装
-pnpm add ds-markdown
+pnpm add react-markdown-typer
 \`\`\`
 
 ## 快速开始
@@ -21,7 +21,7 @@ pnpm add ds-markdown
 
 > 💡 **提示**: 记得同时引入样式文件来获得最佳视觉效果。`,
 
-  basic: `# Hello ds-markdown
+  basic: `# Hello react-markdown-typer
 
 这是一个**高性能**的打字动画组件！
 
@@ -128,7 +128,7 @@ if (theme === 'dark') {
 
 \`\`\`tsx
 import React, { useRef } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'ds-markdown';
+import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
 
 function StreamingDemo() {
   const markdownRef = useRef<MarkdownCMDRef>(null);

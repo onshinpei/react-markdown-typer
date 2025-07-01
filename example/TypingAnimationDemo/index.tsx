@@ -1,6 +1,8 @@
 import React, { useState, useRef, useCallback } from 'react';
 import DsMarkdown, { type MarkdownRef } from '../../src';
-import { katexPlugin } from '../../src/plugins';
+
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 import 'katex/dist/katex.min.css';
 
@@ -24,7 +26,6 @@ interface TypingStats {
 interface ComponentConfig {
   interval: number;
   timerType: 'setTimeout' | 'requestAnimationFrame';
-  answerType: 'thinking' | 'answer';
   theme: 'light' | 'dark';
   disableTyping: boolean;
   autoStartTyping: boolean;
@@ -34,7 +35,6 @@ interface ComponentConfig {
 interface ITypedChar {
   currentIndex: number;
   currentChar: string;
-  answerType: 'thinking' | 'answer';
   prevStr: string;
   currentStr: string;
   percent: number;
@@ -43,7 +43,6 @@ interface ITypedChar {
 interface IBeforeTypedChar {
   currentIndex: number;
   currentChar: string;
-  answerType: 'thinking' | 'answer';
   prevStr: string;
   percent: number;
 }
@@ -64,7 +63,6 @@ const TypingAnimationDemo: React.FC<DemoProps> = () => {
   const [config, setConfig] = useState<ComponentConfig>({
     interval: 30,
     timerType: 'requestAnimationFrame',
-    answerType: 'answer',
     theme: 'light',
     disableTyping: false,
     autoStartTyping: false,
@@ -109,7 +107,7 @@ const TypingAnimationDemo: React.FC<DemoProps> = () => {
   const getDemoContent = () => {
     return `# 🚀 全面API演示
 
-这个演示展示了 **ds-markdown** 的所有核心功能和特性。
+这个演示展示了 **react-markdown-typer** 的所有核心功能和特性。
 
 ## ⌨️ 打字效果特性
 
@@ -121,9 +119,6 @@ const TypingAnimationDemo: React.FC<DemoProps> = () => {
 3. **theme**: 主题切换
    - ☀️ **light** - 亮色主题，适合日间使用
    - 🌙 **dark** - 暗色主题，适合夜间使用
-4. **answerType**: 内容类型
-   - 💬 **answer** - 回答模式
-   - 🤔 **thinking** - 思考模式
 
 ### 🎮 控制方法
 支持以下 ref 方法：
@@ -159,14 +154,13 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 
 ### 用户体验
 - 根据使用环境选择合适的主题
-- 根据内容类型选择合适的 answerType
 - 利用回调函数添加自定义交互效果
 
 ### 代码示例
 
 \`\`\`typescript
-import DsMarkdown from 'ds-markdown';
-import { katexPlugin } from 'ds-markdown/plugins';
+import DsMarkdown from 'react-markdown-typer';
+import { katexPlugin } from 'react-markdown-typer/plugins';
 
 <DsMarkdown
   interval={30}
@@ -321,15 +315,6 @@ import { katexPlugin } from 'ds-markdown/plugins';
               <option value="dark">Dark</option>
             </select>
           </div>
-
-          {/* 内容类型 */}
-          <div className="select-wrapper">
-            <label className="select-label">内容类型:</label>
-            <select className="select-control" value={config.answerType} onChange={(e) => updateConfig('answerType', e.target.value)}>
-              <option value="answer">Answer</option>
-              <option value="thinking">Thinking</option>
-            </select>
-          </div>
         </div>
 
         {/* 布尔开关 */}
@@ -430,7 +415,6 @@ import { katexPlugin } from 'ds-markdown/plugins';
             <div>onTypedChar: {callbackData.onTypedChar?.currentChar || '-'}</div>
             <div>进度: {callbackData.onTypedChar?.percent?.toFixed(1) || 0}%</div>
             <div>索引: {callbackData.onTypedChar?.currentIndex || 0}</div>
-            <div>类型: {callbackData.onTypedChar?.answerType || config.answerType}</div>
           </div>
         </div>
       </div>
@@ -441,14 +425,15 @@ import { katexPlugin } from 'ds-markdown/plugins';
           ref={markdownRef}
           interval={config.interval}
           timerType={config.timerType}
-          answerType={config.answerType}
-          theme={config.theme}
           disableTyping={config.disableTyping}
           autoStartTyping={config.autoStartTyping}
-          plugins={config.mathEnabled ? [katexPlugin] : []}
           math={{ splitSymbol: 'dollar' }}
           onStart={handleStart}
           onEnd={handleEnd}
+          reactMarkdownProps={{
+            remarkPlugins: [remarkMath],
+            rehypePlugins: [rehypeKatex],
+          }}
           onBeforeTypedChar={handleBeforeTypedChar}
           onTypedChar={handleTypedChar}
         >

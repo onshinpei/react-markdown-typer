@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/react-markdown-typer/',
   build: {
     sourcemap: false, // 或 'inline',
-    outDir: 'docs',
+    outDir: 'example-dist',
   },
   define: {
     'process.env.NODE_ENV': JSON.stringify('development'),

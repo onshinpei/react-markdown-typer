@@ -155,7 +155,7 @@ import 'react-markdown-typer/style.css';
 
 function App() {
   return (
-    <MarkdownTyper interval={20} answerType="answer">
+    <MarkdownTyper interval={20}>
       # Hello react-markdown-typer This is a **high-performance** typing animation component! ## Features - ⚡ Zero-latency streaming - 🎬 Smooth typing animation - 🎯 Perfect syntax support
     </MarkdownTyper>
   );
@@ -871,5 +871,3 @@ function AdvancedCallbackDemo() {
   );
 }
 ```
-
-</rewritten_file>

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'ds-markdown';
+import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
 
 interface DemoProps {
   markdown: string;
@@ -47,7 +47,7 @@ const StreamingDemo: React.FC<DemoProps> = ({ markdown }) => {
       { content: '# React 组件示例\n\n', type: 'answer' },
       { content: '```tsx\n', type: 'answer' },
       { content: "import React, { useState } from 'react';\n", type: 'answer' },
-      { content: "import DsMarkdown from 'ds-markdown';\n\n", type: 'answer' },
+      { content: "import DsMarkdown from 'react-markdown-typer';\n\n", type: 'answer' },
       { content: 'function ChatComponent() {\n', type: 'answer' },
       { content: '  const [messages, setMessages] = useState([]);\n\n', type: 'answer' },
       { content: '  const handleNewMessage = (content) => {\n', type: 'answer' },
@@ -64,21 +64,21 @@ const StreamingDemo: React.FC<DemoProps> = ({ markdown }) => {
       { content: '  );\n', type: 'answer' },
       { content: '}\n', type: 'answer' },
       { content: '```\n\n', type: 'answer' },
-      { content: '这个组件展示了如何集成 ds-markdown 到聊天应用中。', type: 'answer' },
+      { content: '这个组件展示了如何集成 react-markdown-typer 到聊天应用中。', type: 'answer' },
     ],
     documentation: [
       { content: '📚 正在生成文档...', type: 'thinking' },
       { content: '\n\n', type: 'answer' },
-      { content: '# ds-markdown 使用指南\n\n', type: 'answer' },
+      { content: '# react-markdown-typer 使用指南\n\n', type: 'answer' },
       { content: '## 快速开始\n\n', type: 'answer' },
       { content: '### 1. 安装依赖\n\n', type: 'answer' },
       { content: '```bash\n', type: 'answer' },
-      { content: 'npm install ds-markdown\n', type: 'answer' },
+      { content: 'npm install react-markdown-typer\n', type: 'answer' },
       { content: '```\n\n', type: 'answer' },
       { content: '### 2. 基础使用\n\n', type: 'answer' },
       { content: '```tsx\n', type: 'answer' },
-      { content: "import DsMarkdown from 'ds-markdown';\n", type: 'answer' },
-      { content: "import 'ds-markdown/style.css';\n\n", type: 'answer' },
+      { content: "import DsMarkdown from 'react-markdown-typer';\n", type: 'answer' },
+      { content: "import 'react-markdown-typer/style.css';\n\n", type: 'answer' },
       { content: 'function App() {\n', type: 'answer' },
       { content: '  return (\n', type: 'answer' },
       { content: '    <DsMarkdown interval={20}>\n', type: 'answer' },
@@ -188,7 +188,7 @@ const StreamingDemo: React.FC<DemoProps> = ({ markdown }) => {
         </button>
       </div>
 
-      <MarkdownCMD ref={markdownRef} interval={15} timerType="setTimeout" theme={theme} autoStartTyping={true} onStart={handleTypingStart} onEnd={handleTypingEnd} />
+      <MarkdownCMD ref={markdownRef} interval={15} timerType="setTimeout" autoStartTyping={true} onStart={handleTypingStart} onEnd={handleTypingEnd} />
     </div>
   );
 };

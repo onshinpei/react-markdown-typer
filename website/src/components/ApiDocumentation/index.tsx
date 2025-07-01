@@ -11,7 +11,6 @@ import {
   timerComparisonData,
   formulaTypesData,
   bestPractices,
-  codeExamples,
 } from './apiData';
 
 // API文档组件
@@ -33,9 +32,6 @@ const ApiDocumentation: React.FC = () => (
     <ApiTable data={iMarkdownMathData} title="IMarkdownMath" />
     <ApiTable data={iMarkdownPluginData} title="IMarkdownPlugin" />
 
-    {/* 内置插件 */}
-    <PluginSection title="内置插件" codeExample={codeExamples.katexPlugin} />
-
     {/* 定时器模式对比 */}
     <ComparisonTable data={timerComparisonData} title="定时器模式对比" />
 
@@ -44,13 +40,6 @@ const ApiDocumentation: React.FC = () => (
 
     {/* 最佳实践建议 */}
     <BestPracticesList practices={bestPractices} title="最佳实践建议" />
-
-    {/* 使用示例 */}
-    <h3>使用示例</h3>
-    <CodeExample code={codeExamples.streamingChat} title="流式对话示例" />
-    <CodeExample code={codeExamples.callbackExample} title="回调函数示例" />
-    <CodeExample code={codeExamples.startExample} title="手动开始动画示例" />
-    <CodeExample code={codeExamples.restartExample} title="重新开始动画示例" />
   </section>
 );
 

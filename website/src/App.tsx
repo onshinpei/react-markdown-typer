@@ -1,10 +1,6 @@
 import React from 'react';
 import './App.css';
 
-// 导入样式
-import 'ds-markdown/style.css';
-import 'ds-markdown/katex.css';
-
 // 导入组件
 import Header from './components/Header';
 import Navigation from './components/Navigation';
@@ -28,11 +24,11 @@ import customThemeDemoMarkdown from './components/Demos/CustomThemeDemo/markdown
 import streamingDemoMarkdown from './components/Demos/StreamingDemo/markdown.md?raw';
 
 const installationSource = `// npm
-npm install ds-markdown
+npm install react-markdown-typer
 // yarn
-yarn add ds-markdown
+yarn add react-markdown-typer
 // pnpm
-pnpm add ds-markdown
+pnpm add react-markdown-typer
 `;
 // 主App组件
 const App: React.FC = () => {

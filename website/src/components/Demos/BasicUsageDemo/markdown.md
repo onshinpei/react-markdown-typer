@@ -1,4 +1,4 @@
-# Hello ds-markdown
+# Hello react-markdown-typer
 
 这是一个**高性能**的打字动画组件！
 

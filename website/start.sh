@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# ds-markdown 文档网站启动脚本 (Vite 版本)
+# react-markdown-typer 文档网站启动脚本 (Vite 版本)
 
-echo "🚀 启动 ds-markdown 文档网站 (Vite)..."
+echo "🚀 启动 react-markdown-typer 文档网站 (Vite)..."
 
 # 检查是否在正确的目录
 if [ ! -f "index.html" ]; then

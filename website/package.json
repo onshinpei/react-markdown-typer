@@ -1,7 +1,7 @@
 {
-  "name": "ds-markdown-website",
+  "name": "react-markdown-typer-website",
   "version": "1.0.0",
-  "description": "ds-markdown 库的在线文档网站",
+  "description": "react-markdown-typer 库的在线文档网站",
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
@@ -16,19 +16,20 @@
     "type-check": "tsc --noEmit"
   },
   "keywords": [
-    "ds-markdown",
+    "react-markdown-typer",
     "documentation",
     "markdown",
     "react",
     "typescript"
   ],
-  "author": "ds-markdown team",
+  "author": "react-markdown-typer team",
   "license": "MIT",
   "dependencies": {
-    "ds-markdown": "^0.1.3-beta.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-syntax-highlighter": "^15.6.1"
+    "react-markdown-typer": "^0.0.2",
+    "react-syntax-highlighter": "^15.6.1",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import DsMarkdown, { type MarkdownRef } from 'ds-markdown';
+import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
+import remarkGfm from 'remark-gfm';
 
 interface DemoProps {
   markdown: string;
@@ -77,7 +78,17 @@ const BasicUsageDemo: React.FC<DemoProps> = ({ markdown }) => {
           {disableTyping ? '开启打字效果' : '关闭打字效果'}
         </button>
       </div>
-      <DsMarkdown ref={markdownRef} interval={25} answerType="answer" theme={theme} disableTyping={disableTyping} autoStartTyping={true} onStart={handleTypingStart} onEnd={handleTypingEnd}>
+      <DsMarkdown
+        ref={markdownRef}
+        interval={25}
+        reactMarkdownProps={{
+          remarkPlugins: [remarkGfm],
+        }}
+        disableTyping={disableTyping}
+        autoStartTyping={true}
+        onStart={handleTypingStart}
+        onEnd={handleTypingEnd}
+      >
         {markdown}
       </DsMarkdown>
     </div>

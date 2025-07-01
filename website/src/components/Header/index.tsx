@@ -89,22 +89,22 @@ const Header: React.FC = () => (
   <header className="header">
     <DigitalRain />
     <div className="container">
-      <h1 className="logo" data-text="ds-markdown">
-        ds-markdown
+      <h1 className="logo" data-text="react-markdown-typer">
+        react-markdown-typer
       </h1>
       <p className="subtitle">🚀 智能 Markdown 打字动画渲染引擎</p>
       <div className="badges">
-        <a href="https://www.npmjs.com/package/ds-markdown" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/npm/v/ds-markdown" alt="NPM Version" />
+        <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/npm/v/react-markdown-typer" alt="NPM Version" />
         </a>
-        <a href="https://www.npmjs.com/package/ds-markdown" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/npm/l/ds-markdown" alt="License" />
+        <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/npm/l/react-markdown-typer" alt="License" />
         </a>
-        <a href="https://www.npmjs.com/package/ds-markdown" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/npm/dt/ds-markdown" alt="Downloads" />
+        <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/npm/dt/react-markdown-typer" alt="Downloads" />
         </a>
-        <a href="https://github.com/onshinpei/ds-markdown" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/stars/onshinpei/ds-markdown" alt="GitHub Stars" />
+        <a href="https://github.com/onshinpei/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/stars/onshinpei/react-markdown-typer" alt="GitHub Stars" />
         </a>
       </div>
     </div>

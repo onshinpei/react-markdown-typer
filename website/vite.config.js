@@ -54,7 +54,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         // 设置别名，方便引用父目录的 dist 文件
-        '@ds-markdown': '../dist',
+        '@react-markdown-typer': '../dist',
       },
     },
 
