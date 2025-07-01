@@ -1,7 +1,7 @@
 import type { DemoData } from './defined';
 
-// 演示数据
-export const demoData: DemoData = {
+// 双语演示数据
+export const demoDataZh: DemoData = {
   installation: `# 📦 安装 react-markdown-typer
 
 \`\`\`bash
@@ -183,3 +183,189 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 > 💡 流式演示完美模拟了真实的 AI 对话体验，支持思考过程和回答内容的区分。`,
 };
+
+export const demoDataEn: DemoData = {
+  installation: `# 📦 Install react-markdown-typer
+
+\`\`\`bash
+# Install with npm
+npm install react-markdown-typer
+
+# Install with yarn  
+yarn add react-markdown-typer
+
+# Install with pnpm
+pnpm add react-markdown-typer
+\`\`\`
+
+## Quick Start
+
+After installation, you can use this powerful Markdown typing animation component in your project!
+
+> 💡 **Tip**: Remember to import the style file for optimal visual effects.`,
+
+  basic: `# Hello react-markdown-typer
+
+This is a **high-performance** typing animation component!
+
+## ✨ Features
+
+- ⚡ Zero-latency streaming processing
+- 🎬 Smooth typing animation  
+- 🎯 Perfect syntax support
+- 📊 Rich content types
+
+### Code Example
+
+\`\`\`javascript
+const message = "Hello World!";
+console.log(message);
+
+// Support multiple programming language highlighting
+function greet(name) {
+    return \`Hello, \${name}!\`;
+}
+\`\`\`
+
+### Table Support
+
+| Feature | Support Level | Description |
+|---------|---------------|-------------|
+| Markdown | ✅ Complete | Support standard Markdown syntax |
+| Typing Animation | ✅ Smooth | Customizable speed and effects |
+| Math Formulas | ✅ KaTeX | Support complex mathematical formulas |
+| Code Highlighting | ✅ Multi-language | Support mainstream programming languages |
+
+> This is a quote block, showcasing the powerful features of Markdown.`,
+
+  math: `# 🧮 Pythagorean Theorem
+
+In a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides:
+
+$a^2 + b^2 = c^2$
+
+Where:
+- $a$ and $b$ are the legs
+- $c$ is the hypotenuse
+
+## Example Calculation
+
+For the classic "3-4-5 triangle":
+
+$c = \\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$
+
+## More Complex Formulas
+
+**Quadratic Formula:**
+$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$
+
+**Integral:**
+$\\int_{0}^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}$
+
+> 💡 Math formulas are rendered using KaTeX, supporting most LaTeX mathematical syntax.`,
+
+  typing: `# ⌨️ Typing Animation Demo
+
+This text will be displayed character by character with typewriter effect...
+
+## Control Features
+
+1. **Enable/Disable Typing Effect** - Switch to static display mode
+2. **Pause/Resume** - Pause and resume during typing process  
+3. **Speed Control** - Adjust typing speed through interval property
+
+### Use Cases
+
+- 📄 **AI Conversation Interface** - Simulate real conversation experience
+- 📝 **Online Documentation Display** - Add reading interest
+- 🎬 **Animation Effect Display** - Attract user attention
+- 📊 **Data Streaming Loading** - Real-time data change display
+
+> ⚡ Typing animation supports multiple modes for smooth visual effects.`,
+
+  theme: `# 🎨 Theme Demo
+
+Current theme: **{{THEME}} mode**
+
+## Supported Themes
+
+1. **light** - Light theme, suitable for daytime use ☀️
+2. **dark** - Dark theme, suitable for nighttime use 🌙
+
+### Code Highlighting
+
+\`\`\`javascript
+const theme = 'dark';
+if (theme === 'dark') {
+    document.body.classList.add('dark-theme');
+} else {
+    document.body.classList.remove('dark-theme');
+}
+\`\`\`
+
+> Both themes have perfect code highlighting support, ensuring good reading experience in any environment.`,
+
+  streaming: `# 🌊 Streaming Data Demo
+
+## Using MarkdownCMD Component
+
+\`\`\`tsx
+import React, { useRef } from 'react';
+import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+
+function StreamingDemo() {
+  const markdownRef = useRef<MarkdownCMDRef>(null);
+
+  const handleStreaming = async () => {
+    // Clear previous content
+    markdownRef.current?.clear();
+    
+    // Simulate thinking process
+    markdownRef.current?.push('🤔 Analyzing...', 'thinking');
+    await delay(1000);
+    
+    // Stream content
+    const chunks = [
+      '# AI Assistant Answer\\n\\n',
+      'Based on your question, let me provide a detailed answer:\\n\\n',
+      '## Key Features\\n\\n',
+      '- ⚡ **High Performance**: Based on optimized rendering engine\\n',
+      '- 🎬 **Smooth Animation**: Support various typing effects\\n',
+      '- 🎯 **Perfect Compatibility**: Support complete Markdown syntax\\n'
+    ];
+    
+    for (const chunk of chunks) {
+      await delay(100);
+      markdownRef.current?.push(chunk, 'answer');
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleStreaming}>
+        Start Streaming Demo
+      </button>
+      <MarkdownCMD 
+        ref={markdownRef}
+        interval={15}
+        timerType="requestAnimationFrame"
+      />
+    </div>
+  );
+}
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+\`\`\`
+
+## Core Features
+
+- **Real-time Streaming Processing** - Support network streaming data
+- **Thinking Mode** - Simulate AI thinking process
+- **Interrupt Recovery** - Support pause and resume
+- **Multiple Scenarios** - AI conversation, code generation, document generation
+
+> 💡 Streaming demo perfectly simulates real AI conversation experience, supporting distinction between thinking process and answer content.`,
+};
+
+// 兼容性导出，默认使用中文
+export const demoData = demoDataZh;

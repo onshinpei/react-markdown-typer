@@ -4,10 +4,12 @@
 import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import type { DemoSectionProps } from '../../defined';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Demo组件
 const DemoSection: React.FC<DemoSectionProps> = ({ id, title, sourceCode, showHeader = true, renderComponent, children, onlyShowCode = false }) => {
   const [activeTab, setActiveTab] = useState<'code' | 'markdown'>(onlyShowCode ? 'code' : 'markdown');
+  const { t } = useLanguage();
 
   return (
     <section id={id} className="section">
@@ -18,10 +20,10 @@ const DemoSection: React.FC<DemoSectionProps> = ({ id, title, sourceCode, showHe
             <div className="source-header">
               <div className="tabs">
                 <button className={`tab ${activeTab === 'markdown' ? 'active' : ''}`} onClick={() => setActiveTab('markdown')}>
-                  📝 Markdown String
+                  📝 {t('demo.markdownString')}
                 </button>
                 <button className={`tab ${activeTab === 'code' ? 'active' : ''}`} onClick={() => setActiveTab('code')}>
-                  📄 Code
+                  📄 {t('demo.code')}
                 </button>
               </div>
             </div>
@@ -43,7 +45,7 @@ const DemoSection: React.FC<DemoSectionProps> = ({ id, title, sourceCode, showHe
         </div>
         {showHeader && renderComponent && (
           <div className="demo-effect">
-            <h3 className="demo-effect-header">显示效果：</h3>
+            <h3 className="demo-effect-header">{t('demo.effect')}：</h3>
             <div className={`demo-box`}>{renderComponent}</div>
           </div>
         )}

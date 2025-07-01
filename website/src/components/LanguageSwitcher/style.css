@@ -1,0 +1,124 @@
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.language-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.language-select-wrapper {
+  position: relative;
+}
+
+.language-select {
+  padding: 8px 32px 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+}
+
+.language-select:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.language-select:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.language-select option {
+  background-color: #ffffff;
+  color: #333;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.language-select option:hover {
+  background-color: #f8fbff;
+}
+
+.language-select option:checked {
+  background-color: #007acc;
+  color: white;
+}
+
+/* 暗色主题适配 */
+[data-theme='dark'] .language-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme='dark'] .language-select {
+  background-color: rgba(42, 42, 42, 0.9);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e0e0e0;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23e0e0e0' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+[data-theme='dark'] .language-select:hover {
+  background-color: rgba(68, 68, 68, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .language-select:focus {
+  background-color: rgba(68, 68, 68, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .language-select option {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .language-select option:hover {
+  background-color: #333;
+}
+
+[data-theme='dark'] .language-select option:checked {
+  background-color: #007acc;
+  color: white;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .language-switcher {
+    gap: 8px;
+  }
+
+  .language-label {
+    font-size: 13px;
+    color: #fff;
+  }
+
+  .language-select {
+    min-width: 120px;
+    font-size: 12px;
+    padding: 6px 28px 6px 10px;
+    background-size: 12px;
+    background-position: right 8px center;
+  }
+}

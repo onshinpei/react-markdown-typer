@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
+import LanguageSwitcher from '../LanguageSwitcher';
 
 // 数字雨背景组件
 const DigitalRain: React.FC = () => {
@@ -85,30 +87,37 @@ const DigitalRain: React.FC = () => {
 };
 
 // Header 组件
-const Header: React.FC = () => (
-  <header className="header">
-    <DigitalRain />
-    <div className="container">
-      <h1 className="logo" data-text="react-markdown-typer">
-        react-markdown-typer
-      </h1>
-      <p className="subtitle">🚀 智能 Markdown 打字动画渲染引擎</p>
-      <div className="badges">
-        <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/npm/v/react-markdown-typer" alt="NPM Version" />
-        </a>
-        <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/npm/l/react-markdown-typer" alt="License" />
-        </a>
-        <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/npm/dt/react-markdown-typer" alt="Downloads" />
-        </a>
-        <a href="https://github.com/onshinpei/react-markdown-typer" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/stars/onshinpei/react-markdown-typer" alt="GitHub Stars" />
-        </a>
+const Header: React.FC = () => {
+  const { t } = useLanguage();
+
+  return (
+    <header className="header">
+      <DigitalRain />
+      <div className="container">
+        <div className="header-top">
+          <LanguageSwitcher />
+        </div>
+        <h1 className="logo" data-text={t('site.title')}>
+          {t('site.title')}
+        </h1>
+        <p className="subtitle">{t('site.subtitle')}</p>
+        <div className="badges">
+          <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/npm/v/react-markdown-typer" alt="NPM Version" />
+          </a>
+          <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/npm/l/react-markdown-typer" alt="License" />
+          </a>
+          <a href="https://www.npmjs.com/package/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/npm/dt/react-markdown-typer" alt="Downloads" />
+          </a>
+          <a href="https://github.com/onshinpei/react-markdown-typer" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/github/stars/onshinpei/react-markdown-typer" alt="GitHub Stars" />
+          </a>
+        </div>
       </div>
-    </div>
-  </header>
-);
+    </header>
+  );
+};
 
 export default Header;

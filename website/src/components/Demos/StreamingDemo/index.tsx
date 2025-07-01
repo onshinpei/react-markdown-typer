@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 interface DemoProps {
   markdown: string;
@@ -21,6 +22,7 @@ const StreamingDemo: React.FC<DemoProps> = ({ markdown }) => {
   const [isStopped, setIsStopped] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [streamingType, setStreamingType] = useState<StreamingType>('ai-chat');
+  const { t } = useLanguage();
 
   // 模拟流式数据
   const streamingData: Record<StreamingType, StreamingItem[]> = {
@@ -110,11 +112,11 @@ const StreamingDemo: React.FC<DemoProps> = ({ markdown }) => {
       await new Promise((resolve) => setTimeout(resolve, 50 + Math.random() * 100));
 
       if (item.type === 'thinking') {
-        markdownRef.current?.push(item.content, 'thinking');
+        markdownRef.current?.push(item.content);
         // 思考时间稍长
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } else {
-        markdownRef.current?.push(item.content, 'answer');
+        markdownRef.current?.push(item.content);
       }
     }
 
@@ -163,28 +165,28 @@ const StreamingDemo: React.FC<DemoProps> = ({ markdown }) => {
     <div className={`demo-impl ${theme === 'dark' ? 'demo-impl-dark' : 'demo-impl-light'}`}>
       <div style={{ marginBottom: 16, display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
         <div className="select-wrapper" style={{ marginRight: 16 }}>
-          <label className="select-label">场景选择:</label>
+          <label className="select-label">{t('label.scenarioSelect')}:</label>
           <select className="select-control" value={streamingType} onChange={(e) => handleStreamingTypeChange(e.target.value as StreamingType)} disabled={isStreaming}>
-            <option value="ai-chat">🤖 AI 对话</option>
-            <option value="code-generation">💻 代码生成</option>
-            <option value="documentation">📚 文档生成</option>
+            <option value="ai-chat">{t('label.aiChat')}</option>
+            <option value="code-generation">{t('label.codeGeneration')}</option>
+            <option value="documentation">{t('label.documentation')}</option>
           </select>
         </div>
 
         <button className="btn btn-success" onClick={handleStartStreaming} disabled={isStreaming}>
-          ▶️ 开始流式演示
+          {t('button.startStreaming')}
         </button>
         <button className="btn btn-danger" onClick={handleStop} disabled={!isStreaming}>
-          ⏹️ 停止
+          {t('button.stop')}
         </button>
         <button className="btn btn-warning" onClick={handleResume} disabled={!isStopped}>
-          ⏭️ 继续
+          {t('button.resume')}
         </button>
         <button className="btn btn-secondary" onClick={handleClear}>
-          🗑️ 清空
+          {t('button.clear')}
         </button>
         <button className="btn btn-outline" onClick={handleToggleTheme}>
-          {theme === 'light' ? '🌙 暗色主题' : '☀️ 亮色主题'}
+          {theme === 'light' ? t('button.darkTheme') : t('button.lightTheme')}
         </button>
       </div>
 

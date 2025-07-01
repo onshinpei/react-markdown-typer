@@ -3,6 +3,7 @@ import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
 // 支持数学公式
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 interface DemoProps {
   markdown: string;
@@ -16,6 +17,7 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [mathOpen, setMathOpen] = useState(true);
   const [disableTyping, setDisableTyping] = useState(false);
+  const { t } = useLanguage();
 
   // 事件处理函数
   const handleToggleTheme = () => {
@@ -66,7 +68,8 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
   };
 
   // 根据当前主题替换占位符
-  const markdownContent = markdown.replace('{{THEME}}', theme === 'light' ? '亮色' : '暗色');
+  const themeText = theme === 'light' ? t('button.switchToLight') : t('button.switchToDark');
+  const markdownContent = markdown.replace('{{THEME}}', themeText);
 
   return (
     <div className={`demo-impl ${theme === 'dark' ? 'demo-impl-dark' : 'demo-impl-light'}`}>
@@ -79,7 +82,7 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
             marginRight: '10px',
           }}
         >
-          切换为{theme === 'light' ? '暗色' : '亮色'}主题
+          切换为{theme === 'light' ? t('button.switchToDark') : t('button.switchToLight')}主题
         </button>
         <span
           style={{
@@ -92,22 +95,22 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
             boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           }}
         >
-          当前: {theme === 'light' ? '☀️ 亮色模式' : '🌙 暗色模式'}
+          {t('label.current')}: {theme === 'light' ? t('label.lightMode') : t('label.darkMode')}
         </span>
         <button className="btn btn-primary" onClick={handleToggleMath}>
-          {mathOpen ? '关闭公式转换' : '开启公式转换'}
+          {mathOpen ? t('button.disableMath') : t('button.enableMath')}
         </button>
         <button className="btn btn-outline" onClick={handleToggleTyping}>
-          {disableTyping ? '开启打字效果' : '关闭打字效果'}
+          {disableTyping ? t('button.enableTyping') : t('button.disableTyping')}
         </button>
         <button className="btn btn-success" onClick={handleStart} disabled={isStopped}>
-          {isStarted ? '🔄 重新开始' : '▶️ 开始'}
+          {isStarted ? t('button.restart') : t('button.start')}
         </button>
         <button className="btn btn-danger" onClick={handleStop} disabled={!isTyping || isStopped}>
-          ⏹️ 停止
+          {t('button.stop')}
         </button>
         <button className="btn btn-warning" onClick={handleResume} disabled={!isStopped}>
-          ⏭️ 继续
+          {t('button.resume')}
         </button>
       </div>
       <div>

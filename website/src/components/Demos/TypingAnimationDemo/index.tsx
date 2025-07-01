@@ -1,8 +1,9 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import DsMarkdown, { type MarkdownRef } from 'react-markdown-typer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 interface DemoProps {
   markdown: string;
@@ -24,6 +25,7 @@ interface ComponentConfig {
   disableTyping: boolean;
   autoStartTyping: boolean;
   mathEnabled: boolean;
+  answerType: string;
 }
 
 interface ITypedChar {
@@ -60,6 +62,7 @@ const DEFAULT_CONFIG: TypingStats = {
 // 全面的打字动画演示组件
 const TypingAnimationDemo: React.FC<DemoProps> = ({ markdown }) => {
   const markdownRef = useRef<MarkdownRef>(null);
+  const { t } = useLanguage();
 
   // 组件配置状态
   const [config, setConfig] = useState<ComponentConfig>({
