@@ -1,6 +1,6 @@
 # react-markdown-typer
 
-> 🚀 HReact Markdown typing animation component
+> 🚀 React Markdown typing animation component
 
 **[🇨🇳 中文](./README.zh.md) | 🇺🇸 English**
 
