@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "paths": {
+      "@/test": [
+        "./test"
+      ],
+      "@/test/*": [
+        "./test/*"
+      ],
+    },
+    "noEmit": true,
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom",
+      "@types/jest"
+    ]
+  },
+  "include": [
+    "src",
+    "test",
+    "**/*.test.*",
+    "example"
+  ],
+  "exclude": [
+    "website"
+  ]
+}

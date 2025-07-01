@@ -1,0 +1,76 @@
+:root {
+  --message-list-padding-horizontal: 16px;
+  --message-list-max-width: 800px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+.ds-message {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-message.ds-message-dark .ds-message-box {
+  background-color: #292a2d;
+}
+
+.ds-message-box {
+  flex: 1;
+  overflow: auto;
+}
+
+.ds-message-list {
+  max-width: var(--message-list-max-width);
+  margin: 0 auto;
+  padding: var(--message-list-padding-horizontal);
+}
+
+@media (min-width: 800px) {
+  .ds-message-actions {
+    width: var(--message-list-max-width);
+  }
+}
+
+.ds-message-actions {
+  padding: 30px;
+  max-width: var(--message-list-max-width);
+  padding: var(--message-list-padding-horizontal);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.start-btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #1890ff;
+  background-color: #1890ff;
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.start-btn:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+.theme-btn {
+  margin-right: 20px;
+}
