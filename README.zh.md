@@ -14,7 +14,7 @@
 
 [📖 在线演示](https://onshinpei.github.io/react-markdown-typer/)
 
-<!-- [DEMO：🔧 StackBlitz 体验](https://stackblitz.com/edit/vitejs-vite-ddfw8avb?file=src%2FApp.tsx) -->
+[DEMO：🔧 StackBlitz 体验](https://stackblitz.com/edit/vitejs-vite-ndgqzcbp?file=README.md)
 
 ---
 

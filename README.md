@@ -14,7 +14,9 @@ A React component designed for modern AI applications, providing smooth real-tim
 
 [📖 Online Demo](https://onshinpei.github.io/react-markdown-typer/)
 
-<!-- [DEMO: 🔧 Try on StackBlitz](https://stackblitz.com/edit/vitejs-vite-ddfw8avb?file=src%2FApp.tsx) -->
+[DEMO](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx)
+
+[DEMO: 🔧 Try on StackBlitz](https://stackblitz.com/edit/vitejs-vite-zbrdonvx?file=src%2FApp.tsx)
 
 ---
 
@@ -134,7 +136,7 @@ pnpm add react-markdown-typer
 
 No installation needed, use directly in the browser:
 
-[DEMO](https://stackblitz.com/edit/vitejs-vite-zbrdonvx?file=src%2FApp.tsx)
+<!-- [DEMO](https://stackblitz.com/edit/vitejs-vite-zbrdonvx?file=src%2FApp.tsx) -->
 
 ```html
 <!-- Import the component -->
@@ -147,7 +149,7 @@ No installation needed, use directly in the browser:
 
 ### Basic Usage
 
-<!-- [DEMO](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx) -->
+[DEMO](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx)
 
 ```tsx
 import MarkdownTyper from 'react-markdown-typer';
