@@ -14,8 +14,6 @@ A React component designed for modern AI applications, providing smooth real-tim
 
 [📖 Online Demo](https://onshinpei.github.io/react-markdown-typer/)
 
-[DEMO](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx)
-
 [DEMO: 🔧 Try on StackBlitz](https://stackblitz.com/edit/vitejs-vite-zbrdonvx?file=src%2FApp.tsx)
 
 ---
