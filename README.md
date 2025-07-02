@@ -134,7 +134,7 @@ pnpm add react-markdown-typer
 
 No installation needed, use directly in the browser:
 
-<!-- [DEMO](https://stackblitz.com/edit/stackblitz-starters-7vcclcw7?file=index.html) -->
+[DEMO](https://stackblitz.com/edit/vitejs-vite-zbrdonvx?file=src%2FApp.tsx)
 
 ```html
 <!-- Import the component -->

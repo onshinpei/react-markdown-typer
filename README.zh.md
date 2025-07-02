@@ -121,7 +121,7 @@ pnpm add react-markdown-typer
 
 ### 基础用法
 
-<!-- [DEMO](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx) -->
+[DEMO](https://stackblitz.com/edit/vitejs-vite-ndgqzcbp?file=src%2FApp.tsx)
 
 ```tsx
 import MarkdownTyper from 'react-markdown-typer';
