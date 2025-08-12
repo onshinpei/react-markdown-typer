@@ -2,6 +2,8 @@
 
 > 🚀 React Markdown typing animation component
 
+**if you need styling, support for mathematical formulas, and mermaid chart rendering, we recommend using [ds-markdown](https://github.com/onshinpei/ds-markdown)**
+
 **[🇨🇳 中文](./README.zh.md) | 🇺🇸 English**
 
 A React component designed for modern AI applications, providing smooth real-time typing animation and full Markdown rendering capabilities.

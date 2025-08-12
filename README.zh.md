@@ -2,6 +2,8 @@
 
 > 🚀 React Markdown 打字动画组件
 
+**如果您需要带有样式，支持数据公式、mermaid图表渲染，推荐您用 [ds-markdown](https://github.com/onshinpei/ds-markdown)**
+
 **🇨🇳 中文 | [🇺🇸 English](./README.md) **
 
 一个专为现代 AI 应用设计的 React 组件，提供流畅的实时打字动画和完整的 Markdown 渲染能力。
