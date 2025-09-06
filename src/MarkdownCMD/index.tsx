@@ -174,11 +174,7 @@ const MarkdownCMD = forwardRef<MarkdownCMDRef, MarkdownCMDProps>(
       },
     }));
 
-    return (
-      <HighReactMarkdown reactMarkdownProps={reactMarkdownProps} math={math}>
-        {wholeContentRef.current.content}
-      </HighReactMarkdown>
-    );
+    return <HighReactMarkdown reactMarkdownProps={reactMarkdownProps}>{wholeContentRef.current.content}</HighReactMarkdown>;
   },
 );
 
