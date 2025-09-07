@@ -2,10 +2,8 @@
   "name": "react-markdown-typer",
   "private": false,
   "version": "0.0.2",
-  "main": "./dist/cjs/index.js",
-  "types": "./dist/cjs/index.d.ts",
-  "module": "./dist/esm/index.js",
-  "style": "./dist/style.css",
+  "main": "./es/index.js",
+  "types": "./es/index.d.ts",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -17,24 +15,20 @@
   },
   "exports": {
     ".": {
-      "browser": "./dist/esm/index.js",
       "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
+        "types": "./es/index.d.ts",
+        "default": "./es/index.js"
       },
-      "require": {
-        "types": "./dist/cjs/index.d.ts",
-        "default": "./dist/cjs/index.js"
-      }
+      "default": "./es/index.js"
     }
   },
   "files": [
-    "dist"
+    "es"
   ],
   "scripts": {
     "dev": "vite",
     "build:docs": "rimraf docs && vite build",
-    "build": "rimraf dist && rollup -c",
+    "build": "node scripts/build-lib-ts.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "release": "npm run build && node scripts/set-tag.cjs && cross-env RELEASE_MODE=true npm publish",
@@ -65,6 +59,8 @@
     "@types/react-dom": "^19.1.2",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.4.1",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.3",
     "babel-jest": "^29.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^9.25.0",
