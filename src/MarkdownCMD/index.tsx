@@ -4,6 +4,7 @@ import { __DEV__ } from '../constant';
 import { useTypingTask } from '../hooks/useTypingTask';
 import ReactMarkdown from 'react-markdown';
 import HighReactMarkdown from '../components/HighReactMarkdown';
+import { splitGraphemes } from '../utils/grapheme';
 
 const MarkdownCMD = forwardRef<MarkdownCMDRef, MarkdownCMDProps>(
   ({ interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', math, reactMarkdownProps, disableTyping = false, autoStartTyping = true }, ref) => {
@@ -77,9 +78,9 @@ const MarkdownCMD = forwardRef<MarkdownCMDRef, MarkdownCMDProps>(
       if (content.length === 0) {
         return;
       }
-
+      const segments = splitGraphemes(content);
       charsRef.current.push(
-        ...content.split('').map((chatStr) => {
+        ...segments.map((chatStr) => {
           const index = charIndexRef.current++;
           const charObj: IChar = {
             content: chatStr,
