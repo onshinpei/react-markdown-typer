@@ -73,7 +73,7 @@ const BasicDemo: React.FC = () => {
   }, []);
 
   const interval = 8;
-  const flag = false;
+  const flag = true;
   const timerType = flag ? 'requestAnimationFrame' : 'setTimeout';
 
   return (
@@ -87,12 +87,21 @@ const BasicDemo: React.FC = () => {
           <button disabled={!isStop} onClick={onResume}>
             继续
           </button>
-          <span style={{ marginLeft: 30 }}>React 19有哪些新特性</span>
+          <span style={{ marginLeft: 30 }}>React 19有哪些新特性2</span>
         </div>
       </div>
       <div className="ds-message-box" ref={messageDivRef} onScroll={onScroll}>
         <div className="ds-message-list">
-          <Markdown interval={interval} ref={markdownRef} onTypedChar={throttleOnTypedChar} timerType={timerType}>
+          <Markdown
+            interval={{
+              min: 1,
+              max: 10,
+            }}
+            ref={markdownRef}
+            onTypedChar={throttleOnTypedChar}
+            timerType={timerType}
+            autoStartTyping={true}
+          >
             {json.content}
           </Markdown>
         </div>
