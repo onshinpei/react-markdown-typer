@@ -123,8 +123,6 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
 
     return () => {
       isUnmountRef.current = true;
-
-      clearTimer();
     };
   }, []);
 
@@ -267,14 +265,13 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     let lastFrameTime = performance.now();
 
     const frameLoop = async (currentTime: number) => {
+      if (isUnmountRef.current) return;
       // 如果关闭打字机效果，则打完所有字符
       if (disableTypingRef.current) {
         await typingRemainAll();
         return;
       }
       const chars = getChars();
-
-      if (isUnmountRef.current) return;
 
       if (chars.length === 0) {
         stopAnimationFrame();
@@ -317,7 +314,6 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
         animationFrameRef.current = requestAnimationFrame(frameLoop);
       }
     };
-
     animationFrameRef.current = requestAnimationFrame(frameLoop);
   };
 
@@ -342,11 +338,11 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
         return;
       }
       const currentInterval = getCurrentInterval(chars.length);
-      console.log('currentInterval', currentInterval);
       timerRef.current = setTimeout(startTyped, currentInterval);
     };
 
     const startTyped = async (isStartPoint = false) => {
+      if (isUnmountRef.current) return;
       // 如果关闭打字机效果，则打完所有字符
       if (disableTypingRef.current) {
         typingRemainAll();
@@ -354,7 +350,6 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
       }
 
       const chars = getChars();
-      if (isUnmountRef.current) return;
 
       isTypingRef.current = true;
       const char = chars.shift();
