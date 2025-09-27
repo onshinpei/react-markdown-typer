@@ -1,13 +1,15 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { MarkdownCMDProps, IChar, IWholeContent, MarkdownCMDRef } from '../defined';
 import { __DEV__ } from '../constant';
 import { useTypingTask } from '../hooks/useTypingTask';
 import ReactMarkdown from 'react-markdown';
-import HighReactMarkdown from '../components/HighReactMarkdown';
 import { splitGraphemes } from '../utils/grapheme';
 
 const MarkdownCMD = forwardRef<MarkdownCMDRef, MarkdownCMDProps>(
-  ({ interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', math, reactMarkdownProps, disableTyping = false, autoStartTyping = true }, ref) => {
+  (
+    { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString },
+    ref,
+  ) => {
     /** 是否自动开启打字动画, 后面发生变化将不会生效 */
     const autoStartTypingRef = useRef(autoStartTyping);
 
@@ -175,7 +177,11 @@ const MarkdownCMD = forwardRef<MarkdownCMDRef, MarkdownCMDProps>(
       },
     }));
 
-    return <HighReactMarkdown reactMarkdownProps={reactMarkdownProps}>{wholeContentRef.current.content}</HighReactMarkdown>;
+    const markdownString = useMemo(() => {
+      return customConvertMarkdownString?.(wholeContentRef.current.content) || wholeContentRef.current.content;
+    }, [wholeContentRef.current.content, customConvertMarkdownString]);
+
+    return <ReactMarkdown {...reactMarkdownProps}>{markdownString}</ReactMarkdown>;
   },
 );
 

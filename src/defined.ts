@@ -79,7 +79,8 @@ export interface MarkdownBaseProps {
   /** 是否自动开启打字动画 */
   autoStartTyping?: boolean;
 
-  math?: IMarkdownMath;
+  /** 自定义转换markdown string 函数 */
+  customConvertMarkdownString?: (markdownString: string) => string;
 }
 
 export interface MarkdownProps extends MarkdownBaseProps {
