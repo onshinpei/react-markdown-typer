@@ -59,7 +59,7 @@ A React component designed for modern AI applications, providing smooth real-tim
   - [🚀 5-Minute Quick Start](#-5-minute-quick-start)
     - [Basic Usage](#basic-usage)
     - [Disable Typing Animation](#disable-typing-animation)
-    - [Math Formula Support](#math-formula-support)
+    - [Custom Markdown Processing](#custom-markdown-processing)
     - [AI Chat Scenario](#ai-chat-scenario)
     - [🎯 Advanced Callback Control](#-advanced-callback-control)
     - [🔄 Restart Animation Demo](#-restart-animation-demo)
@@ -68,16 +68,16 @@ A React component designed for modern AI applications, providing smooth real-tim
     - [Default Exported Props for MarkdownTyper and MarkdownCMD](#default-exported-props-for-markdowntyper-and-markdowncmd)
     - [IBeforeTypedChar](#ibeforetypedchar)
     - [ITypedChar](#itypedchar)
-      - [IMarkdownMath](#imarkdownmath)
+      - [Custom Markdown Conversion](#custom-markdown-conversion)
       - [IMarkdownPlugin](#imarkdownplugin)
     - [Exposed Methods](#exposed-methods)
       - [Default Export MarkdownTyper](#default-export-markdowntyper)
       - [MarkdownCMD Exposed Methods](#markdowncmd-exposed-methods)
-  - [🧮 Math Formula Guide](#-math-formula-guide)
-    - [Basic Syntax](#basic-syntax)
-    - [Delimiter Selection](#delimiter-selection)
-    - [Streaming Math Formulas](#streaming-math-formulas)
-    - [Style Customization](#style-customization)
+  - [🔧 Custom Markdown Processing Guide](#-custom-markdown-processing-guide)
+    - [Basic Usage](#basic-usage-1)
+    - [Advanced Processing](#advanced-processing)
+    - [Integration with External Processors](#integration-with-external-processors)
+    - [Content Filtering](#content-filtering)
   - [🔌 Plugin System](#-plugin-system)
   - [🎛️ Timer Modes Explained](#️-timer-modes-explained)
     - [`requestAnimationFrame` Mode 🌟 (Recommended)](#requestanimationframe-mode--recommended)
@@ -85,7 +85,7 @@ A React component designed for modern AI applications, providing smooth real-tim
     - [📊 Performance Comparison](#-performance-comparison)
   - [💡 Practical Examples](#-practical-examples)
     - [📝 AI Streaming Chat](#-ai-streaming-chat)
-    - [🧮 Streaming Math Formula Rendering](#-streaming-math-formula-rendering)
+    - [🔧 Custom Markdown Processing Demo](#-custom-markdown-processing-demo)
     - [🎯 Advanced Callback Control](#-advanced-callback-control-1)
 
 ---
@@ -186,19 +186,23 @@ function StaticDemo() {
 }
 ```
 
-### Math Formula Support
+### Custom Markdown Processing
 
 ```tsx
 import MarkdownTyper from 'react-markdown-typer';
-// If you need to display formulas, import the formula plugins
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 
-function MathDemo() {
+function CustomMarkdownDemo() {
+  const customConvertMarkdownString = (markdownString) => {
+    // Custom processing logic
+    return markdownString
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>') // Convert links
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') // Convert bold
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>'); // Convert italic
+  };
+
   return (
-    <MarkdownTyper interval={20} reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }} math={{ splitSymbol: 'dollar' }}>
-      # Pythagorean Theorem In a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides: $a^2 + b^2 = c^2$ Where: - $a$ and $b$ are the legs - $c$ is the
-      hypotenuse For the classic "3-4-5 triangle": $c = \sqrt{3 ^ (2 + 4) ^ 2} = \sqrt{25} = 5$
+    <MarkdownTyper interval={20} customConvertMarkdownString={customConvertMarkdownString}>
+      # Custom Markdown Processing This is **bold text** and *italic text*. Check out [our website](https://example.com) for more info!
     </MarkdownTyper>
   );
 }
@@ -464,18 +468,18 @@ function StartDemo() {
 import MarkdownTyper, { MarkdownCMD } from 'react-markdown-typer';
 ```
 
-| Prop                | Type                                        | Description                                                                                       | Default                                                                       |
-| ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `interval`          | `number`                                    | Typing interval (ms)                                                                              | `30`                                                                          |
-| `timerType`         | `'setTimeout'` \| `'requestAnimationFrame'` | Timer type, not dynamically changeable                                                            | Default is `setTimeout`, will switch to `requestAnimationFrame` in the future |
-| `theme`             | `'light'` \| `'dark'`                       | Theme type                                                                                        | `'light'`                                                                     |
-| `math`              | [IMarkdownMath](#IMarkdownMath)             | Math formula config                                                                               | `{ splitSymbol: 'dollar' }`                                                   |
-| `onEnd`             | `(data: EndData) => void`                   | Typing end callback                                                                               | -                                                                             |
-| `onStart`           | `(data: StartData) => void`                 | Typing start callback                                                                             | -                                                                             |
-| `onBeforeTypedChar` | `(data: IBeforeTypedChar) => Promise<void>` | Callback before typing a character, supports async, blocks next typing                            | -                                                                             |
-| `onTypedChar`       | `(data: ITypedChar) => void`                | Callback after each character                                                                     | -                                                                             |
-| `disableTyping`     | `boolean`                                   | Disable typing animation                                                                          | `false`                                                                       |
-| `autoStartTyping`   | `boolean`                                   | Whether to auto start typing animation, set false to trigger manually, not dynamically changeable | `true`                                                                        |
+| Prop                          | Type                                        | Description                                                                                       | Default                                                                       |
+| ----------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `interval`                    | `number`                                    | Typing interval (ms)                                                                              | `30`                                                                          |
+| `timerType`                   | `'setTimeout'` \| `'requestAnimationFrame'` | Timer type, not dynamically changeable                                                            | Default is `setTimeout`, will switch to `requestAnimationFrame` in the future |
+| `theme`                       | `'light'` \| `'dark'`                       | Theme type                                                                                        | `'light'`                                                                     |
+| `customConvertMarkdownString` | `(markdownString: string) => string`        | Custom markdown string conversion function                                                        | -                                                                             |
+| `onEnd`                       | `(data: EndData) => void`                   | Typing end callback                                                                               | -                                                                             |
+| `onStart`                     | `(data: StartData) => void`                 | Typing start callback                                                                             | -                                                                             |
+| `onBeforeTypedChar`           | `(data: IBeforeTypedChar) => Promise<void>` | Callback before typing a character, supports async, blocks next typing                            | -                                                                             |
+| `onTypedChar`                 | `(data: ITypedChar) => void`                | Callback after each character                                                                     | -                                                                             |
+| `disableTyping`               | `boolean`                                   | Disable typing animation                                                                          | `false`                                                                       |
+| `autoStartTyping`             | `boolean`                                   | Whether to auto start typing animation, set false to trigger manually, not dynamically changeable | `true`                                                                        |
 
 > Note: If `disableTyping` changes from `true` to `false` during typing, all remaining characters will be displayed at once on the next typing trigger.
 
@@ -498,16 +502,23 @@ import MarkdownTyper, { MarkdownCMD } from 'react-markdown-typer';
 | `currentStr`   | `string` | Full string of current type     | -       |
 | `percent`      | `number` | Typing progress percent (0-100) | `0`     |
 
-#### IMarkdownMath
+#### Custom Markdown Conversion
 
-| Prop          | Type                      | Description                 | Default    |
-| ------------- | ------------------------- | --------------------------- | ---------- |
-| `splitSymbol` | `'dollar'` \| `'bracket'` | Math formula delimiter type | `'dollar'` |
+The `customConvertMarkdownString` function allows you to preprocess markdown content before it's rendered. This is useful for:
 
-**Delimiter Explanation:**
+- Custom markdown syntax extensions
+- Content filtering or sanitization
+- Integration with external markdown processors
+- Custom link handling or formatting
 
-- `'dollar'`: Use `$...$` and `$$...$$` syntax
-- `'bracket'`: Use `\(...\)` and `\[...\]` syntax
+**Example:**
+
+```tsx
+const customConvertMarkdownString = (markdownString) => {
+  // Add custom processing logic here
+  return markdownString.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+};
+```
 
 #### IMarkdownPlugin
 
@@ -547,90 +558,77 @@ markdownRef.current?.restart(); // Restart animation
 
 ---
 
-## 🧮 Math Formula Guide
+## 🔧 Custom Markdown Processing Guide
 
-<!-- [DEMO1: Pythagorean Theorem](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx) -->
-
-<!-- [DEMO2: Problem Solution](https://stackblitz.com/edit/vitejs-vite-xk9lxagc?file=README.md) -->
-
-### Basic Syntax
+### Basic Usage
 
 ```tsx
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
+import MarkdownTyper from 'react-markdown-typer';
 
-// 1. Enable math formula support
-<MarkdownTyper reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex]}}>
-  # Math Formula Example
+function CustomMarkdownDemo() {
+  const customConvertMarkdownString = (markdownString) => {
+    // Add your custom processing logic here
+    return markdownString
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  };
 
-  // Inline formula
-  This is an inline formula: $E = mc^2$
-
-  // Block formula
-  $$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$
-</MarkdownTyper>
+  return (
+    <MarkdownTyper interval={20} customConvertMarkdownString={customConvertMarkdownString}>
+      # Custom Markdown Processing This is **bold text** and *italic text*. Check out [our website](https://example.com) for more info!
+    </MarkdownTyper>
+  );
+}
 ```
 
-### Delimiter Selection
+### Advanced Processing
+
+````tsx
+// Complex custom processing example
+const customConvertMarkdownString = (markdownString) => {
+  return (
+    markdownString
+      // Custom emoji processing
+      .replace(/:([a-zA-Z0-9_]+):/g, '<span class="emoji">:$1:</span>')
+      // Custom mention processing
+      .replace(/@([a-zA-Z0-9_]+)/g, '<span class="mention">@$1</span>')
+      // Custom code block processing
+      .replace(/```(\w+)\n([\s\S]*?)```/g, '<pre class="code-block"><code class="language-$1">$2</code></pre>')
+      // Custom link processing with security
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+        if (url.startsWith('http')) {
+          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+        }
+        return match;
+      })
+  );
+};
+````
+
+### Integration with External Processors
 
 ```tsx
-// Use dollar sign delimiter (default)
-<MarkdownTyper
-  reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex]}}
-  math={{ splitSymbol: 'dollar' }}
->
-  Inline: $a + b = c$
-  Block: $$\sum_{i=1}^{n} x_i = x_1 + x_2 + \cdots + x_n$$
-</MarkdownTyper>
+import { marked } from 'marked';
 
-// Use bracket delimiter
-<MarkdownTyper
-  reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex]}}
-  math={{ splitSymbol: 'bracket' }}
->
-  Inline: \(a + b = c\)
-  Block: \[\sum_{i=1}^{n} x_i = x_1 + x_2 + \cdots + x_n\]
-</MarkdownTyper>
+const customConvertMarkdownString = (markdownString) => {
+  // Use marked.js for processing
+  return marked(markdownString, {
+    breaks: true,
+    gfm: true,
+  });
+};
 ```
 
-### Streaming Math Formulas
+### Content Filtering
 
 ```tsx
-// Perfectly supports streaming output of math formulas
-const mathContent = [
-  'Pythagorean theorem:',
-  '$a^2 + b^2 = c^2$',
-  '\n\n',
-  'Where:',
-  '- $a$ and $b$ are the legs\n',
-  '- $c$ is the hypotenuse\n\n',
-  'For the classic "3-4-5 triangle":\n',
-  '$c = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$\n\n',
-  'This theorem has wide applications in geometry!',
-];
+const customConvertMarkdownString = (markdownString) => {
+  // Filter out sensitive content
+  const filteredContent = markdownString.replace(/password[:\s]*[^\s]+/gi, 'password: [FILTERED]').replace(/token[:\s]*[^\s]+/gi, 'token: [FILTERED]');
 
-mathContent.forEach((chunk) => {
-  markdownRef.current?.push(chunk, 'answer');
-});
-```
-
-### Style Customization
-
-```css
-/* Math formula style customization */
-.katex {
-  font-size: 1.1em;
-}
-
-.katex-display {
-  margin: 1em 0;
-  text-align: center;
-}
-
-/* Dark theme adaptation */
-[data-theme='dark'] .katex {
-  color: #e1e1e1;
-}
+  return filteredContent;
+};
 ```
 
 ---
@@ -752,31 +750,35 @@ function StreamingChat() {
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 ````
 
-### 🧮 Streaming Math Formula Rendering
+### 🔧 Custom Markdown Processing Demo
 
 ```tsx
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-
-function MathStreamingDemo() {
+function CustomMarkdownStreamingDemo() {
   const markdownRef = useRef<MarkdownCMDRef>(null);
 
-  const simulateMathResponse = async () => {
+  const customConvertMarkdownString = (markdownString) => {
+    return markdownString
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
+  };
+
+  const simulateCustomResponse = async () => {
     markdownRef.current?.clear();
 
-    const mathChunks = [
-      '# Pythagorean Theorem Explained\n\n',
-      'In a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides:\n\n',
-      '$a^2 + b^2 = c^2$\n\n',
-      'Where:\n',
-      '- $a$ and $b$ are the legs\n',
-      '- $c$ is the hypotenuse\n\n',
-      'For the classic "3-4-5 triangle":\n',
-      '$c = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$\n\n',
-      'This theorem has wide applications in geometry!',
+    const customChunks = [
+      '# Custom Markdown Processing\n\n',
+      'This demo shows how to use **custom markdown processing** with streaming content:\n\n',
+      '## Features\n',
+      '- *Custom link handling*\n',
+      '- **Bold and italic** text processing\n',
+      '- `Inline code` formatting\n',
+      '- [External links](https://example.com) with security attributes\n\n',
+      'The `customConvertMarkdownString` function allows you to preprocess content before rendering!',
     ];
 
-    for (const chunk of mathChunks) {
+    for (const chunk of customChunks) {
       await delay(150);
       markdownRef.current?.push(chunk, 'answer');
     }
@@ -784,15 +786,9 @@ function MathStreamingDemo() {
 
   return (
     <div>
-      <button onClick={simulateMathResponse}>📐 Explain Pythagorean Theorem</button>
+      <button onClick={simulateCustomResponse}>🔧 Custom Markdown Demo</button>
 
-      <MarkdownCMD
-        ref={markdownRef}
-        interval={20}
-        timerType="requestAnimationFrame"
-        reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }}
-        math={{ splitSymbol: 'dollar' }}
-      />
+      <MarkdownCMD ref={markdownRef} interval={20} timerType="requestAnimationFrame" customConvertMarkdownString={customConvertMarkdownString} />
     </div>
   );
 }

@@ -155,18 +155,23 @@ function StaticDemo() {
 }
 ```
 
-### 数学公式支持
+### 自定义 Markdown 处理
 
 ```tsx
 import MarkdownTyper from 'react-markdown-typer';
-// 如果需要展示公式，则需要引入公式转换插件
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 
-function MathDemo() {
+function CustomMarkdownDemo() {
+  const customConvertMarkdownString = (markdownString) => {
+    // 自定义处理逻辑
+    return markdownString
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>') // 转换链接
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') // 转换粗体
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>'); // 转换斜体
+  };
+
   return (
-    <MarkdownTyper interval={20} reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }} math={{ splitSymbol: 'dollar' }}>
-      # 勾股定理 在直角三角形中，斜边的平方等于两条直角边的平方和： $a^2 + b^2 = c^2$ 其中： - $a$ 和 $b$ 是直角边 - $c$ 是斜边 对于经典的"勾三股四弦五"： $c = \sqrt{3 ^ (2 + 4) ^ 2} = \sqrt{25} = 5$
+    <MarkdownTyper interval={20} customConvertMarkdownString={customConvertMarkdownString}>
+      # 自定义 Markdown 处理 这是**粗体文字**和*斜体文字*。查看[我们的网站](https://example.com)了解更多信息！
     </MarkdownTyper>
   );
 }
@@ -432,18 +437,18 @@ function StartDemo() {
 import MarkdownTyper, { MarkdownCMD } from 'react-markdown-typer';
 ```
 
-| 属性                | 类型                                        | 说明                                                          | 默认值                                                      |
-| ------------------- | ------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
-| `interval`          | `number`                                    | 打字间隔 (毫秒)                                               | `30`                                                        |
-| `timerType`         | `'setTimeout'` \| `'requestAnimationFrame'` | 定时器类型，不支持动态修改                                    | 当前默认值是`setTimeout`，后期会改为`requestAnimationFrame` |
-| `theme`             | `'light'` \| `'dark'`                       | 主题类型                                                      | `'light'`                                                   |
-| `math`              | [IMarkdownMath](#IMarkdownMath)             | 数学公式配置                                                  | `{ splitSymbol: 'dollar' }`                                 |
-| `onEnd`             | `(data: EndData) => void`                   | 打字结束回调                                                  | -                                                           |
-| `onStart`           | `(data: StartData) => void`                 | 打字开始回调                                                  | -                                                           |
-| `onBeforeTypedChar` | `(data: IBeforeTypedChar) => Promise<void>` | 字符打字前的回调，支持异步操作，会阻塞之后的打字              | -                                                           |
-| `onTypedChar`       | `(data: ITypedChar) => void`                | 每字符打字后的回调                                            | -                                                           |
-| `disableTyping`     | `boolean`                                   | 禁用打字动画效果                                              | `false`                                                     |
-| `autoStartTyping`   | `boolean`                                   | 是否自动开始打字动画，设为 false 时需手动触发，不支持动态修改 | `true`                                                      |
+| 属性                          | 类型                                        | 说明                                                          | 默认值                                                      |
+| ----------------------------- | ------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
+| `interval`                    | `number`                                    | 打字间隔 (毫秒)                                               | `30`                                                        |
+| `timerType`                   | `'setTimeout'` \| `'requestAnimationFrame'` | 定时器类型，不支持动态修改                                    | 当前默认值是`setTimeout`，后期会改为`requestAnimationFrame` |
+| `theme`                       | `'light'` \| `'dark'`                       | 主题类型                                                      | `'light'`                                                   |
+| `customConvertMarkdownString` | `(markdownString: string) => string`        | 自定义 markdown 字符串转换函数                                | -                                                           |
+| `onEnd`                       | `(data: EndData) => void`                   | 打字结束回调                                                  | -                                                           |
+| `onStart`                     | `(data: StartData) => void`                 | 打字开始回调                                                  | -                                                           |
+| `onBeforeTypedChar`           | `(data: IBeforeTypedChar) => Promise<void>` | 字符打字前的回调，支持异步操作，会阻塞之后的打字              | -                                                           |
+| `onTypedChar`                 | `(data: ITypedChar) => void`                | 每字符打字后的回调                                            | -                                                           |
+| `disableTyping`               | `boolean`                                   | 禁用打字动画效果                                              | `false`                                                     |
+| `autoStartTyping`             | `boolean`                                   | 是否自动开始打字动画，设为 false 时需手动触发，不支持动态修改 | `true`                                                      |
 
 > 注意： 如果当在打字中 `disableTyping`从 `true` 变为 `false`，则在下一个打字触发时，会把剩下的所有字一次性显示
 
@@ -466,16 +471,23 @@ import MarkdownTyper, { MarkdownCMD } from 'react-markdown-typer';
 | `currentStr`   | `string` | 当前类型内容的完整字符串     | -      |
 | `percent`      | `number` | 打字进度百分比 (0-100)       | `0`    |
 
-#### IMarkdownMath
+#### 自定义 Markdown 转换
 
-| 属性          | 类型                      | 说明               | 默认值     |
-| ------------- | ------------------------- | ------------------ | ---------- |
-| `splitSymbol` | `'dollar'` \| `'bracket'` | 数学公式分隔符类型 | `'dollar'` |
+`customConvertMarkdownString` 函数允许您在渲染前预处理 markdown 内容。这适用于：
 
-**分隔符说明：**
+- 自定义 markdown 语法扩展
+- 内容过滤或清理
+- 与外部 markdown 处理器集成
+- 自定义链接处理或格式化
 
-- `'dollar'`：使用 `$...$` 和 `$$...$$` 语法
-- `'bracket'`：使用 `\(...\)` 和 `\[...\]` 语法
+**示例：**
+
+```tsx
+const customConvertMarkdownString = (markdownString) => {
+  // 在这里添加自定义处理逻辑
+  return markdownString.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+};
+```
 
 #### IMarkdownPlugin
 
@@ -515,90 +527,77 @@ markdownRef.current?.restart(); // 重新开始动画
 
 ---
 
-## 🧮 数学公式使用指南
+## 🔧 自定义 Markdown 处理指南
 
-<!-- [DEMO1：勾股定理](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx) -->
-
-<!-- [DEMO2：题目解答](https://stackblitz.com/edit/vitejs-vite-xk9lxagc?file=README.md) -->
-
-### 基本语法
+### 基本用法
 
 ```tsx
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
+import MarkdownTyper from 'react-markdown-typer';
 
-// 1. 启用数学公式支持
-<MarkdownTyper reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex]}}>
-  # 数学公式示例
+function CustomMarkdownDemo() {
+  const customConvertMarkdownString = (markdownString) => {
+    // 在这里添加您的自定义处理逻辑
+    return markdownString
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  };
 
-  // 行内公式
-  这是一个行内公式：$E = mc^2$
-
-  // 块级公式
-  $$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$
-</MarkdownTyper>
+  return (
+    <MarkdownTyper interval={20} customConvertMarkdownString={customConvertMarkdownString}>
+      # 自定义 Markdown 处理 这是**粗体文字**和*斜体文字*。查看[我们的网站](https://example.com)了解更多信息！
+    </MarkdownTyper>
+  );
+}
 ```
 
-### 分隔符选择
+### 高级处理
+
+````tsx
+// 复杂的自定义处理示例
+const customConvertMarkdownString = (markdownString) => {
+  return (
+    markdownString
+      // 自定义表情符号处理
+      .replace(/:([a-zA-Z0-9_]+):/g, '<span class="emoji">:$1:</span>')
+      // 自定义提及处理
+      .replace(/@([a-zA-Z0-9_]+)/g, '<span class="mention">@$1</span>')
+      // 自定义代码块处理
+      .replace(/```(\w+)\n([\s\S]*?)```/g, '<pre class="code-block"><code class="language-$1">$2</code></pre>')
+      // 自定义链接处理（带安全性）
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+        if (url.startsWith('http')) {
+          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+        }
+        return match;
+      })
+  );
+};
+````
+
+### 与外部处理器集成
 
 ```tsx
-// 使用美元符号分隔符（默认）
-<MarkdownTyper
-  reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex]}}
-  math={{ splitSymbol: 'dollar' }}
->
-  行内：$a + b = c$
-  块级：$$\sum_{i=1}^{n} x_i = x_1 + x_2 + \cdots + x_n$$
-</MarkdownTyper>
+import { marked } from 'marked';
 
-// 使用括号分隔符
-<MarkdownTyper
-  reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex]}}
-  math={{ splitSymbol: 'bracket' }}
->
-  行内：\(a + b = c\)
-  块级：\[\sum_{i=1}^{n} x_i = x_1 + x_2 + \cdots + x_n\]
-</MarkdownTyper>
+const customConvertMarkdownString = (markdownString) => {
+  // 使用 marked.js 进行处理
+  return marked(markdownString, {
+    breaks: true,
+    gfm: true,
+  });
+};
 ```
 
-### 流式数学公式
+### 内容过滤
 
 ```tsx
-// 完美支持流式输出中的数学公式
-const mathContent = [
-  '勾股定理：',
-  '$a^2 + b^2 = c^2$',
-  '\n\n',
-  '其中：',
-  '- $a$ 和 $b$ 是直角边\n',
-  '- $c$ 是斜边\n\n',
-  '对于经典的"勾三股四弦五"：\n',
-  '$c = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$\n\n',
-  '这个定理在几何学中有着广泛的应用！',
-];
+const customConvertMarkdownString = (markdownString) => {
+  // 过滤敏感内容
+  const filteredContent = markdownString.replace(/password[:\s]*[^\s]+/gi, 'password: [已过滤]').replace(/token[:\s]*[^\s]+/gi, 'token: [已过滤]');
 
-mathContent.forEach((chunk) => {
-  markdownRef.current?.push(chunk, 'answer');
-});
-```
-
-### 样式定制
-
-```css
-/* 数学公式样式定制 */
-.katex {
-  font-size: 1.1em;
-}
-
-.katex-display {
-  margin: 1em 0;
-  text-align: center;
-}
-
-/* 暗色主题适配 */
-[data-theme='dark'] .katex {
-  color: #e1e1e1;
-}
+  return filteredContent;
+};
 ```
 
 ---
@@ -720,31 +719,35 @@ function StreamingChat() {
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 ````
 
-### 🧮 数学公式流式渲染
+### 🔧 自定义 Markdown 处理演示
 
 ```tsx
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-
-function MathStreamingDemo() {
+function CustomMarkdownStreamingDemo() {
   const markdownRef = useRef<MarkdownCMDRef>(null);
 
-  const simulateMathResponse = async () => {
+  const customConvertMarkdownString = (markdownString) => {
+    return markdownString
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
+  };
+
+  const simulateCustomResponse = async () => {
     markdownRef.current?.clear();
 
-    const mathChunks = [
-      '# 勾股定理详解\n\n',
-      '在直角三角形中，斜边的平方等于两条直角边的平方和：\n\n',
-      '$a^2 + b^2 = c^2$\n\n',
-      '其中：\n',
-      '- $a$ 和 $b$ 是直角边\n',
-      '- $c$ 是斜边\n\n',
-      '对于经典的"勾三股四弦五"：\n',
-      '$c = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$\n\n',
-      '这个定理在几何学中有着广泛的应用！',
+    const customChunks = [
+      '# 自定义 Markdown 处理\n\n',
+      '这个演示展示了如何在流式内容中使用**自定义 markdown 处理**：\n\n',
+      '## 功能特性\n',
+      '- *自定义链接处理*\n',
+      '- **粗体和斜体**文字处理\n',
+      '- `行内代码`格式化\n',
+      '- [外部链接](https://example.com) 带安全属性\n\n',
+      '`customConvertMarkdownString` 函数允许您在渲染前预处理内容！',
     ];
 
-    for (const chunk of mathChunks) {
+    for (const chunk of customChunks) {
       await delay(150);
       markdownRef.current?.push(chunk, 'answer');
     }
@@ -752,15 +755,9 @@ function MathStreamingDemo() {
 
   return (
     <div>
-      <button onClick={simulateMathResponse}>📐 讲解勾股定理</button>
+      <button onClick={simulateCustomResponse}>🔧 自定义 Markdown 演示</button>
 
-      <MarkdownCMD
-        ref={markdownRef}
-        interval={20}
-        timerType="requestAnimationFrame"
-        reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }}
-        math={{ splitSymbol: 'dollar' }}
-      />
+      <MarkdownCMD ref={markdownRef} interval={20} timerType="requestAnimationFrame" customConvertMarkdownString={customConvertMarkdownString} />
     </div>
   );
 }
