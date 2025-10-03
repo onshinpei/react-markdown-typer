@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import Markdown, { MarkdownRef } from '../../src';
+import Markdown, { MarkdownTyperRef } from '../../src';
 import dataJson from './data.json';
 
 import 'katex/dist/katex.min.css';
@@ -23,7 +23,7 @@ const App: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isStop, setIsStop] = useState(false);
 
-  const markdownRef = useRef<MarkdownRef>(null!);
+  const markdownRef = useRef<MarkdownTyperRef>(null!);
 
   const [mathOpen, setMathOpen] = useState(true);
 

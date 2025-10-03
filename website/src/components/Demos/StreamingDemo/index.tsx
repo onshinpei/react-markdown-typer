@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
 interface DemoProps {
@@ -17,7 +17,7 @@ interface StreamingItem {
 
 // 流式演示组件
 const StreamingDemo: React.FC<DemoProps> = ({ markdown }) => {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [isStopped, setIsStopped] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');

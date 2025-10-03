@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import ReactMarkdownTyper, { type MarkdownRef } from 'react-markdown-typer';
+import ReactMarkdownTyper, { type MarkdownTyperRef } from 'react-markdown-typer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
@@ -11,7 +11,7 @@ interface DemoProps {
 
 // 数学公式演示组件
 const MathSupportDemo: React.FC<DemoProps> = ({ markdown }) => {
-  const markdownRef = useRef<MarkdownRef>(null);
+  const markdownRef = useRef<MarkdownTyperRef>(null);
   const [isTyping, setIsTyping] = useState(false);
   const [isStopped, setIsStopped] = useState(false);
   const [isStarted, setIsStarted] = useState(false);

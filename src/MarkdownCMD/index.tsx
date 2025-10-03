@@ -1,11 +1,11 @@
 import { forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { MarkdownCMDProps, IChar, IWholeContent, MarkdownCMDRef } from '../defined';
+import { MarkdownTyperCMDProps, IChar, IWholeContent, MarkdownTyperCMDRef } from '../defined';
 import { __DEV__ } from '../constant';
 import { useTypingTask } from '../hooks/useTypingTask';
 import ReactMarkdown from 'react-markdown';
 import { splitGraphemes } from '../utils/grapheme';
 
-const MarkdownCMD = forwardRef<MarkdownCMDRef, MarkdownCMDProps>(
+const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
   (
     { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString },
     ref,
@@ -186,7 +186,7 @@ const MarkdownCMD = forwardRef<MarkdownCMDRef, MarkdownCMDProps>(
 );
 
 if (__DEV__) {
-  MarkdownCMD.displayName = 'MarkdownCMD';
+  MarkdownTyperCMD.displayName = 'MarkdownTyperCMD';
 }
 
-export default MarkdownCMD;
+export default MarkdownTyperCMD;

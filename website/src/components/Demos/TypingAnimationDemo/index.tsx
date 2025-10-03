@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import ReactMarkdownTyper, { type MarkdownRef } from 'react-markdown-typer';
+import ReactMarkdownTyper, { type MarkdownTyperRef } from 'react-markdown-typer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
@@ -61,7 +61,7 @@ const DEFAULT_CONFIG: TypingStats = {
 
 // 全面的打字动画演示组件
 const TypingAnimationDemo: React.FC<DemoProps> = ({ markdown }) => {
-  const markdownRef = useRef<MarkdownRef>(null);
+  const markdownRef = useRef<MarkdownTyperRef>(null);
   const { t } = useLanguage();
 
   // 组件配置状态

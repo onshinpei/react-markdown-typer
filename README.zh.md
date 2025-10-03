@@ -210,10 +210,10 @@ React 19 带来了许多激动人心的新特性：
 
 ```tsx
 import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 
 function AdvancedCallbackDemo() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
   const [typingStats, setTypingStats] = useState({ progress: 0, currentChar: '', totalChars: 0 });
 
   const handleBeforeTypedChar = async (data) => {
@@ -286,10 +286,10 @@ function AdvancedCallbackDemo() {
 
 ```tsx
 import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 
 function RestartDemo() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
 
@@ -371,10 +371,10 @@ function RestartDemo() {
 
 ```tsx
 import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 
 function StartDemo() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
 
@@ -663,10 +663,10 @@ const customConvertMarkdownString = (markdownString) => {
 
 ````tsx
 import { useRef } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 
 function StreamingChat() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
 
   // 模拟 AI 流式响应
   const simulateAIResponse = async () => {
@@ -723,7 +723,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 ```tsx
 function CustomMarkdownStreamingDemo() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
 
   const customConvertMarkdownString = (markdownString) => {
     return markdownString
@@ -767,10 +767,10 @@ function CustomMarkdownStreamingDemo() {
 
 ```tsx
 import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 
 function AdvancedCallbackDemo() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
   const [typingStats, setTypingStats] = useState({ progress: 0, currentChar: '', totalChars: 0 });
 
   const handleBeforeTypedChar = async (data) => {

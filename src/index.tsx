@@ -1,7 +1,7 @@
 import MarkdownCMD from './MarkdownCMD';
-import Markdown from './Markdown';
-import type { MarkdownCMDRef, MarkdownRef, IMarkdownMath, ITypedChar, MarkdownProps, MarkdownCMDProps } from './defined';
+import MarkdownTyper from './MarkdownTyper';
+import type { MarkdownTyperCMDRef, MarkdownTyperRef, ITypedChar, MarkdownTyperProps, MarkdownTyperCMDProps } from './defined';
 
-export default Markdown;
-export type { MarkdownCMDRef, MarkdownRef, IMarkdownMath, ITypedChar, MarkdownProps, MarkdownCMDProps };
-export { Markdown, MarkdownCMD };
+export default MarkdownTyper;
+export type { MarkdownTyperCMDRef, MarkdownTyperRef, ITypedChar, MarkdownTyperProps, MarkdownTyperCMDProps };
+export { MarkdownTyper, MarkdownCMD };

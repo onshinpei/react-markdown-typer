@@ -128,10 +128,10 @@ if (theme === 'dark') {
 
 \`\`\`tsx
 import React, { useRef } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 
 function StreamingDemo() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
 
   const handleStreaming = async () => {
     // 清空之前的内容
@@ -311,10 +311,10 @@ if (theme === 'dark') {
 
 \`\`\`tsx
 import React, { useRef } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from 'react-markdown-typer';
+import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
 
 function StreamingDemo() {
-  const markdownRef = useRef<MarkdownCMDRef>(null);
+  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
 
   const handleStreaming = async () => {
     // Clear previous content

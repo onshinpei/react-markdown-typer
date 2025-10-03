@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { IChar, ITypedChar, IWholeContent, MarkdownProps, IEndData, IBeforeTypedChar, IntervalType } from '../defined';
+import { IChar, ITypedChar, IWholeContent, MarkdownTyperProps, IEndData, IBeforeTypedChar, IntervalType } from '../defined';
 
 interface UseTypingTaskOptions {
-  timerType: MarkdownProps['timerType'];
+  timerType: MarkdownTyperProps['timerType'];
   interval: IntervalType;
   charsRef: React.RefObject<IChar[]>;
   onEnd?: (data?: IEndData) => void;

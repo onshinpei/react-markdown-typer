@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import ReactMarkdownTyper, { type MarkdownRef } from 'react-markdown-typer';
+import ReactMarkdownTyper, { type MarkdownTyperRef } from 'react-markdown-typer';
 import remarkGfm from 'remark-gfm';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
@@ -9,7 +9,7 @@ interface DemoProps {
 
 // 基础用法演示组件
 const BasicUsageDemo: React.FC<DemoProps> = ({ markdown }) => {
-  const markdownRef = useRef<MarkdownRef>(null);
+  const markdownRef = useRef<MarkdownTyperRef>(null);
   const [isTyping, setIsTyping] = useState(true);
   const [isStopped, setIsStopped] = useState(false);
   const [isStarted, setIsStarted] = useState(true);

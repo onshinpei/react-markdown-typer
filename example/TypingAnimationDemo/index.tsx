@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import DsMarkdown, { type MarkdownRef } from '../../src';
+import DsMarkdown, { type MarkdownTyperRef } from '../../src';
 
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -57,7 +57,7 @@ interface EndData {
 
 // 全面的打字动画演示组件
 const TypingAnimationDemo: React.FC<DemoProps> = () => {
-  const markdownRef = useRef<MarkdownRef>(null);
+  const markdownRef = useRef<MarkdownTyperRef>(null);
 
   // 组件配置状态
   const [config, setConfig] = useState<ComponentConfig>({

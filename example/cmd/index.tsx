@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { MarkdownCMD, MarkdownCMDRef } from '../../src';
+import { MarkdownCMD, MarkdownTyperCMDRef } from '../../src';
 
 // 导入 ./cozeData.text
 
@@ -15,7 +15,7 @@ const input =
 
 const modulePrefix = 'CMDDemo';
 const CMDDemo: React.FC<CMDDemoProps> = (props: CMDDemoProps) => {
-  const cmdRef = useRef<MarkdownCMDRef>(null!);
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null!);
   const mountedRef = useRef(false);
 
   useEffect(() => {

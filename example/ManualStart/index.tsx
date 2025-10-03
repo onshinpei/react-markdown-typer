@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 
-import Markdown, { MarkdownRef } from '../../src';
+import Markdown, { MarkdownTyperRef } from '../../src';
 import dataJson from './data.json';
 
 function throttle<T extends unknown[]>(fn: (...args: T) => void, delay: number) {
@@ -22,7 +22,7 @@ const App: React.FC<{
   const messageDivRef = useRef<HTMLDivElement>(null!);
   const [isStartTyping, setIsStartTyping] = useState(false);
   const [isStopTyping, setIsStopTyping] = useState(false);
-  const markdownRef = useRef<MarkdownRef>(null!);
+  const markdownRef = useRef<MarkdownTyperRef>(null!);
 
   const [mathOpen, setMathOpen] = useState(true);
 

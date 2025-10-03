@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 
-import Markdown, { MarkdownRef } from '../../src';
+import Markdown, { MarkdownTyperRef } from '../../src';
 import json from './data.json';
 
 function throttle(fn: (...args: any[]) => void, delay: number) {
@@ -18,7 +18,7 @@ const BasicDemo: React.FC = () => {
   const messageDivRef = useRef<HTMLDivElement>(null!);
   const [isStop, setIsStop] = useState(false);
   const [isTyping, setIsTyping] = useState(true);
-  const markdownRef = useRef<MarkdownRef>(null!);
+  const markdownRef = useRef<MarkdownTyperRef>(null!);
 
   const scrollCacheRef = useRef<{
     type: 'manual' | 'auto';

@@ -55,7 +55,7 @@ export interface IBeforeTypedChar extends IOnTypedCharData {
   percent: number;
 }
 
-export interface MarkdownBaseProps {
+export interface MarkdownTyperBaseProps {
   reactMarkdownProps?: Options;
   /** 计时类型： 支持setTimeout和requestAnimationFrame */
   timerType?: 'setTimeout' | 'requestAnimationFrame';
@@ -83,12 +83,12 @@ export interface MarkdownBaseProps {
   customConvertMarkdownString?: (markdownString: string) => string;
 }
 
-export interface MarkdownProps extends MarkdownBaseProps {
+export interface MarkdownTyperProps extends MarkdownTyperBaseProps {
   children: string | undefined;
 }
 
 /**  MarkdownCMD 组件不需要 children */
-export interface MarkdownCMDProps extends MarkdownBaseProps {
+export interface MarkdownTyperCMDProps extends MarkdownTyperBaseProps {
   children?: undefined;
 }
 
@@ -98,11 +98,6 @@ export interface IMarkdownPlugin {
   type: 'buildIn' | 'custom';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   id?: any;
-}
-
-export interface IMarkdownMath {
-  /** 是括号还是$作为分隔符, 默认是$ */
-  splitSymbol: 'bracket' | 'dollar';
 }
 
 export interface IWholeContent {
@@ -119,10 +114,10 @@ export interface MarkdownBaseRef {
 }
 
 /** Markdown 组件的ref 类型 */
-export type MarkdownRef = MarkdownBaseRef;
+export type MarkdownTyperRef = MarkdownBaseRef;
 
 /** MarkdownCMD 组件的 ref 类型 */
-export interface MarkdownCMDRef extends MarkdownBaseRef {
+export interface MarkdownTyperCMDRef extends MarkdownBaseRef {
   push: (content: string) => void;
   clear: () => void;
   triggerWholeEnd: () => void;
