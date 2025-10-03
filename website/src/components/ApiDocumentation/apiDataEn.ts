@@ -28,8 +28,8 @@ export interface FormulaType {
 export const propsData: ApiProperty[] = [
   {
     prop: 'interval',
-    type: 'number',
-    description: 'Typing interval (milliseconds)',
+    type: "number | { max: number; min: number; curve?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' | 'step-start' | 'step-end'; curveFn?: (x: number) => number }",
+    description: 'Typing interval config: number or dynamic range with curve (smaller is faster)',
     defaultValue: '30',
   },
   {
@@ -45,10 +45,16 @@ export const propsData: ApiProperty[] = [
     defaultValue: 'false',
   },
   {
-    prop: 'math',
-    type: 'IMarkdownMath',
-    description: 'Math formula configuration, supports KaTeX rendering',
-    defaultValue: "{ splitSymbol: 'dollar' }",
+    prop: 'reactMarkdownProps',
+    type: 'Options (from react-markdown)',
+    description: 'Props passed through to react-markdown (e.g., remarkPlugins, rehypePlugins)',
+    defaultValue: 'undefined',
+  },
+  {
+    prop: 'customConvertMarkdownString',
+    type: '(markdownString: string) => string',
+    description: 'Custom function to transform the markdown string before rendering',
+    defaultValue: 'undefined',
   },
   {
     prop: 'onStart',
@@ -198,12 +204,7 @@ export const iBeforeTypedCharData: ApiProperty[] = [
 
 // IMarkdownMath Type Definition
 export const iMarkdownMathData: ApiProperty[] = [
-  {
-    prop: 'splitSymbol',
-    type: "'dollar' | 'bracket'",
-    description: 'Math formula delimiter type',
-    defaultValue: "'dollar'",
-  },
+  // Deprecated: use reactMarkdownProps to configure remark-math/rehype-katex
 ];
 
 // IMarkdownPlugin Type Definition

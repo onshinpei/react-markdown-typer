@@ -28,8 +28,8 @@ export interface FormulaType {
 export const propsData: ApiProperty[] = [
   {
     prop: 'interval',
-    type: 'number',
-    description: '打字间隔 (毫秒)',
+    type: "number | { max: number; min: number; curve?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' | 'step-start' | 'step-end'; curveFn?: (x: number) => number }",
+    description: '打字间隔配置：支持数字或动态区间与曲线（数值越小越快）',
     defaultValue: '30',
   },
   {
@@ -45,10 +45,16 @@ export const propsData: ApiProperty[] = [
     defaultValue: 'false',
   },
   {
-    prop: 'math',
-    type: 'IMarkdownMath',
-    description: '数学公式配置，支持 KaTeX 渲染',
-    defaultValue: "{ splitSymbol: 'dollar' }",
+    prop: 'reactMarkdownProps',
+    type: 'Options (react-markdown)',
+    description: '透传给 react-markdown 的配置（如 remarkPlugins、rehypePlugins 等）',
+    defaultValue: 'undefined',
+  },
+  {
+    prop: 'customConvertMarkdownString',
+    type: '(markdownString: string) => string',
+    description: '自定义转换 markdown 字符串的函数，渲染前调用',
+    defaultValue: 'undefined',
   },
   {
     prop: 'onStart',
@@ -198,12 +204,7 @@ export const iBeforeTypedCharData: ApiProperty[] = [
 
 // IMarkdownMath 类型定义
 export const iMarkdownMathData: ApiProperty[] = [
-  {
-    prop: 'splitSymbol',
-    type: "'dollar' | 'bracket'",
-    description: '数学公式分隔符类型',
-    defaultValue: "'dollar'",
-  },
+  // 已废弃：请改用 reactMarkdownProps 配置 remark-math/rehype-katex
 ];
 
 // IMarkdownPlugin 类型定义
