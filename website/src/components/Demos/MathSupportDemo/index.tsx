@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
-import ReactMarkdownTyper, { type MarkdownTyperRef } from 'react-markdown-typer';
+import ReactMarkdownTyper from 'react-markdown-typer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 import 'katex/dist/katex.min.css';
 
@@ -10,20 +11,28 @@ interface DemoProps {
 }
 
 // 数学公式演示组件
+interface MarkdownTyperRefLike {
+  start: () => void;
+  stop: () => void;
+  resume: () => void;
+  restart: () => void;
+}
+
 const MathSupportDemo: React.FC<DemoProps> = ({ markdown }) => {
-  const markdownRef = useRef<MarkdownTyperRef>(null);
+  const markdownRef = useRef<MarkdownTyperRefLike>(null);
   const [isTyping, setIsTyping] = useState(false);
   const [isStopped, setIsStopped] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [disableTyping, setDisableTyping] = useState(false);
   const [mathOpen, setMathOpen] = useState(true);
+  const { t } = useLanguage();
 
   // 事件处理函数
   const handleStart = () => {
     if (isStarted) {
       // 如果已经开始过，则重新开始
-      markdownRef.current?.start();
+      markdownRef.current?.restart();
     } else {
       // 第一次开始
       markdownRef.current?.start();
@@ -71,28 +80,28 @@ const MathSupportDemo: React.FC<DemoProps> = ({ markdown }) => {
     <div className={`demo-impl ${theme === 'dark' ? 'demo-impl-dark' : 'demo-impl-light'}`}>
       <div style={{ marginBottom: 16, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
         <button className="btn btn-success" onClick={handleStart} disabled={isStopped}>
-          {isStarted ? '🔄 重新开始' : '▶️ 开始'}
+          {isStarted ? t('button.restart') : t('button.start')}
         </button>
         <button className="btn btn-danger" onClick={handleStop} disabled={!isTyping || isStopped}>
-          ⏹️ 停止
+          {t('button.stop')}
         </button>
         <button className="btn btn-warning" onClick={handleResume} disabled={!isStopped}>
-          ⏭️ 继续
+          {t('button.resume')}
         </button>
         <button className="btn btn-secondary" onClick={handleToggleTheme}>
-          {theme === 'light' ? '🌙 暗色主题' : '☀️ 亮色主题'}
+          {theme === 'light' ? t('button.darkTheme') : t('button.lightTheme')}
         </button>
         <button className="btn btn-primary" onClick={handleToggleMath}>
-          {mathOpen ? '关闭公式转换' : '开启公式转换'}
+          {mathOpen ? t('button.disableMath') : t('button.enableMath')}
         </button>
         <button className="btn btn-outline" onClick={handleToggleTyping}>
-          {disableTyping ? '开启打字效果' : '关闭打字效果'}
+          {disableTyping ? t('button.enableTyping') : t('button.disableTyping')}
         </button>
       </div>
       <ReactMarkdownTyper
         ref={markdownRef}
         interval={20}
-        reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }}
+        reactMarkdownProps={{ remarkPlugins: mathOpen ? [remarkMath] : [], rehypePlugins: mathOpen ? [rehypeKatex] : [] }}
         disableTyping={disableTyping}
         autoStartTyping={false}
         onStart={handleTypingStart}

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import ReactMarkdownTyper, { type MarkdownTyperRef } from 'react-markdown-typer';
+import ReactMarkdownTyper from 'react-markdown-typer';
 // 支持数学公式
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -11,7 +11,7 @@ interface DemoProps {
 
 const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const markdownRef = useRef<MarkdownTyperRef>(null);
+  const markdownRef = useRef<{ start: () => void; stop: () => void; resume: () => void; restart: () => void }>(null);
   const [isTyping, setIsTyping] = useState(false);
   const [isStopped, setIsStopped] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
@@ -35,7 +35,7 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
   const handleStart = () => {
     if (isStarted) {
       // 如果已经开始过，则重新开始
-      markdownRef.current?.start();
+      markdownRef.current?.restart();
     } else {
       // 第一次开始
       markdownRef.current?.start();
@@ -82,7 +82,7 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
             marginRight: '10px',
           }}
         >
-          切换为{theme === 'light' ? t('button.switchToDark') : t('button.switchToLight')}主题
+          {theme === 'light' ? t('button.darkTheme') : t('button.lightTheme')}
         </button>
         <span
           style={{
@@ -117,7 +117,7 @@ const CustomThemeDemo: React.FC<DemoProps> = ({ markdown }) => {
         <ReactMarkdownTyper
           ref={markdownRef}
           interval={20}
-          reactMarkdownProps={{ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }}
+          reactMarkdownProps={{ remarkPlugins: mathOpen ? [remarkMath] : [], rehypePlugins: mathOpen ? [rehypeKatex] : [] }}
           disableTyping={disableTyping}
           autoStartTyping={false}
           onStart={handleTypingStart}
