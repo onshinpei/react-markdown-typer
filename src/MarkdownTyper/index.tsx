@@ -1,7 +1,7 @@
 import React, { forwardRef, memo, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { __DEV__ } from '../constant';
 import { MarkdownTyperCMDRef, MarkdownTyperProps, MarkdownTyperRef } from '../defined';
-import MarkdownCMD from '../MarkdownCMD';
+import MarkdownTyperCMD from '../MarkdownTyperCMD';
 
 interface MarkdownTyperInnerProps extends MarkdownTyperProps {
   markdownRef: React.ForwardedRef<MarkdownTyperRef>;
@@ -56,7 +56,7 @@ const MarkdownTyperInner: React.FC<MarkdownTyperInnerProps> = ({ children: _chil
     },
   }));
 
-  return <MarkdownCMD ref={cmdRef} {...rest} />;
+  return <MarkdownTyperCMD ref={cmdRef} {...rest} />;
 };
 
 const MarkdownTyper = forwardRef<MarkdownTyperRef, MarkdownTyperProps>((props, ref) => {
