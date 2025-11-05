@@ -21,27 +21,7 @@
       },
       "default": "./es/index.js"
     },
-    "./es/*": {
-      "import": {
-        "types": "./es/*.d.ts",
-        "default": "./es/*.js"
-      },
-      "default": "./es/*.js"
-    },
-    "./es/*/index": {
-      "import": {
-        "types": "./es/*/index.d.ts",
-        "default": "./es/*/index.js"
-      },
-      "default": "./es/*/index.js"
-    },
-    "./es/*/*": {
-      "import": {
-        "types": "./es/*/*.d.ts",
-        "default": "./es/*/*.js"
-      },
-      "default": "./es/*/*.js"
-    }
+    "./es/*": "./es/*"
   },
   "files": [
     "es"
