@@ -1,7 +1,7 @@
 {
   "name": "react-markdown-typer",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1-beta.1",
   "main": "./es/index.js",
   "types": "./es/index.d.ts",
   "type": "module",
@@ -20,6 +20,10 @@
         "default": "./es/index.js"
       },
       "default": "./es/index.js"
+    },
+    "./es/*": {
+      "types": "./es/*.d.ts",
+      "default": "./es/*.js"
     }
   },
   "files": [
@@ -112,6 +116,6 @@
     "react-markdown"
   ],
   "publishConfig": {
-    "tag": "latest"
+    "tag": "beta"
   }
 }
