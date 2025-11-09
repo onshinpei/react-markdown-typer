@@ -153,7 +153,6 @@ No installation needed, use directly in the browser:
 
 ```tsx
 import MarkdownTyper from 'react-markdown-typer';
-import 'react-markdown-typer/style.css';
 
 function App() {
   return (
@@ -168,7 +167,6 @@ function App() {
 
 ```tsx
 import MarkdownTyper from 'react-markdown-typer';
-import 'react-markdown-typer/style.css';
 
 function StaticDemo() {
   const [disableTyping, setDisableTyping] = useState(false);
