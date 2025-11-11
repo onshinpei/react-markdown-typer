@@ -87,6 +87,7 @@ const BasicDemo: React.FC = () => {
           <button disabled={!isStop} onClick={onResume}>
             继续
           </button>
+          <button onClick={() => markdownRef.current.restart()}>重新开始</button>
           <span style={{ marginLeft: 30 }}>React 19有哪些新特性2</span>
         </div>
       </div>

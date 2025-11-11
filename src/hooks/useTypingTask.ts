@@ -416,16 +416,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
         return char;
       }),
     );
-    charsRef.current.unshift(
-      ...wholeContentRef.current.content.split('').map((charUnit) => {
-        const char: IChar = {
-          content: charUnit,
-          tokenId: 0,
-          index: 0,
-        };
-        return char;
-      }),
-    );
+
     resetWholeContent();
     triggerUpdate();
     startTypedTask();
