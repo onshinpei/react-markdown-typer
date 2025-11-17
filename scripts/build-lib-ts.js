@@ -74,8 +74,11 @@ async function copyOtherFiles() {
 // 后处理：修复ES Module的导入路径
 async function postProcessESM() {
   const jsFiles = glob.sync(`${ES_DIR}/**/*.js`, { nodir: true });
+  const dtsFiles = glob.sync(`${ES_DIR}/**/*.d.ts`, { nodir: true });
 
-  for (const file of jsFiles) {
+  const files = [...jsFiles, ...dtsFiles];
+
+  for (const file of files) {
     let content = await fs.readFile(file, 'utf8');
 
     console.log('file', file);

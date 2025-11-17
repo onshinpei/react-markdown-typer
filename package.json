@@ -3,7 +3,6 @@
   "private": false,
   "version": "1.0.2",
   "main": "./es/index.js",
-  "types": "./es/index.d.ts",
   "type": "module",
   "license": "MIT",
   "repository": {
