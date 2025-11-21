@@ -21,7 +21,7 @@ export interface TypingTaskController {
   stop: () => void;
   clear: () => void;
   isTyping: () => boolean;
-  /** 是否主动调用 stop 方法 */
+  /** Whether stop method was called manually */
   typedIsManualStopRef: React.RefObject<boolean>;
   resume: () => void;
   restart: () => void;
@@ -42,17 +42,17 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     triggerUpdate,
     resetWholeContent,
   } = options;
-  /** 是否卸载 */
+  /** Whether component is unmounted */
   const isUnmountRef = useRef(false);
-  /** 是否正在打字 */
+  /** Whether currently typing */
   const isTypingRef = useRef(false);
-  /** 动画帧ID */
+  /** Animation frame ID */
   const animationFrameRef = useRef<number | null>(null);
-  /** 传统定时器（兼容模式） */
+  /** Traditional timer (compatibility mode) */
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  // 已经打过的字记录
+  // Record of typed characters
   const typedCharsRef = useRef<{ typedContent: string; prevStr: string } | undefined>(undefined);
-  // 是否主动调用 stop 方法
+  // Whether stop method was called manually
   const typedIsManualStopRef = useRef(false);
 
   const disableTypingRef = useRef(disableTyping);
@@ -61,35 +61,35 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
   const intervalRef = useRef(interval);
   intervalRef.current = interval;
 
-  // 记录本次打字任务的初始/最高剩余字符总量，用于计算剩余占比（流式追加时会增大）
+  // Record the initial/maximum remaining character count for this typing task, used to calculate remaining percentage (increases when streaming appends)
   const initialRemainTotalRef = useRef<number>(0);
 
   /**
-   * 根据剩余字符数与曲线配置，计算当前打字间隔（毫秒）
+   * Calculate current typing interval (milliseconds) based on remaining character count and curve configuration
    */
   const getCurrentInterval = (remainCharsLength: number): number => {
     const cfg = intervalRef.current;
     if (typeof cfg === 'number') return cfg;
 
-    // 动态更新初始参考总量，考虑流式场景新增字符
+    // Dynamically update initial reference total, considering new characters in streaming scenarios
     if (remainCharsLength > initialRemainTotalRef.current) {
       initialRemainTotalRef.current = remainCharsLength;
     }
     const baseTotal = initialRemainTotalRef.current || remainCharsLength || 1;
 
-    // r: 剩余占比 [0,1]，越大表示剩余越多
+    // r: remaining ratio [0,1], larger value means more remaining
     const r = Math.max(0, Math.min(1, remainCharsLength / baseTotal));
 
-    // 曲线函数（优先使用自定义）
+    // Curve function (prefer custom function)
     const pickCurveFn = (): ((x: number) => number) => {
       if (typeof cfg.curveFn === 'function') return cfg.curveFn;
       switch (cfg.curve) {
         case 'linear':
           return (x) => x;
         case 'ease-in':
-          return (x) => x * x; // 加速慢起
+          return (x) => x * x; // Slow start acceleration
         case 'ease-out':
-          return (x) => 1 - (1 - x) * (1 - x); // 减速快止
+          return (x) => 1 - (1 - x) * (1 - x); // Fast stop deceleration
         case 'ease-in-out':
           return (x) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
         case 'step-start':
@@ -98,15 +98,15 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
           return (x) => (x < 1 ? 0 : 1);
         case 'ease':
         default:
-          // 近似通用 ease
+          // Approximate general ease
           return (x) => 1 - Math.pow(1 - x, 1.6);
       }
     };
 
     const curveFn = pickCurveFn();
-    const y = curveFn(r); // y ∈ [0,1]，随 r 增大而增大
+    const y = curveFn(r); // y ∈ [0,1], increases as r increases
 
-    // 设计：剩余越多 => 越快（更小的间隔）。
+    // Design: more remaining => faster (smaller interval).
     // interval = min + (max - min) * (1 - y)
     const min = Math.max(0, cfg.min);
     const max = Math.max(min, cfg.max);
@@ -127,8 +127,8 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
   }, []);
 
   /**
-   * 触发打字开始回调
-   * @param char 当前字符
+   * Trigger typing start callback
+   * @param char Current character
    */
   const triggerOnStart = (char: IChar) => {
     if (!onStart) {
@@ -143,7 +143,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
   };
 
   /**
-   * 触发打字结束回调
+   * Trigger typing end callback
    */
   const triggerOnEnd = (data?: { manual?: boolean }) => {
     if (!onEnd) {
@@ -157,8 +157,8 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
   };
 
   /**
-   * 触发打字过程中回调
-   * @param char 当前字符
+   * Trigger callback during typing process
+   * @param char Current character
    */
   const triggerOnBeforeTypedChar = async (char: IChar) => {
     if (!onBeforeTypedChar) {
@@ -169,7 +169,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
 
     const allLength = wholeContentRef.current.length;
 
-    // 计算之前字符的百分比
+    // Calculate percentage of previous characters
     const percent = (char.index / allLength) * 100;
 
     await onBeforeTypedChar({
@@ -180,7 +180,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     });
   };
 
-  /** 打字完成回调 */
+  /** Callback after typing a character */
   const triggerOnTypedChar = async (char: IChar) => {
     if (!onTypedChar) {
       return;
@@ -198,15 +198,15 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     });
   };
 
-  /** 清除定时器 */
+  /** Clear timer */
   const clearTimer = () => {
-    // 清理 requestAnimationFrame
+    // Clear requestAnimationFrame
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = null;
     }
 
-    // 清理 setTimeout (可能被 timestamp 模式使用)
+    // Clear setTimeout (may be used by timestamp mode)
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
@@ -216,9 +216,9 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     typedCharsRef.current = undefined;
   };
 
-  /** 开始打字任务 */
+  /** Start typing task */
   const startTypedTask = () => {
-    /** 如果手动调用 stop 方法，则不重新开始打字 */
+    /** If stop method was called manually, do not restart typing */
     if (typedIsManualStopRef.current) {
       return;
     }
@@ -234,7 +234,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     }
   };
 
-  /** 打字机打完所有字符 */
+  /** Typewriter finishes typing all characters */
   async function typingRemainAll() {
     const chars = getChars();
 
@@ -260,13 +260,13 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     triggerUpdate();
   }
 
-  /** requestAnimationFrame 模式 */
+  /** requestAnimationFrame mode */
   const startAnimationFrameMode = () => {
     let lastFrameTime = performance.now();
 
     const frameLoop = async (currentTime: number) => {
       if (isUnmountRef.current) return;
-      // 如果关闭打字机效果，则打完所有字符
+      // If typing animation is disabled, type all characters at once
       if (disableTypingRef.current) {
         await typingRemainAll();
         return;
@@ -284,7 +284,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
       needToTypingCharsLength = Math.min(needToTypingCharsLength, chars.length);
 
       if (needToTypingCharsLength > 0) {
-        // 处理字符
+        // Process characters
         for (let i = 0; i < needToTypingCharsLength; i++) {
           const char = chars.shift();
           if (char === undefined) break;
@@ -293,16 +293,16 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
             isTypingRef.current = true;
             triggerOnStart(char);
           }
-          /** 打字前回调 */
+          /** Callback before typing */
           await triggerOnBeforeTypedChar(char);
           processCharDisplay(char);
-          /** 打字完成回调 */
+          /** Callback after typing */
           triggerOnTypedChar(char);
         }
 
         lastFrameTime = performance.now();
 
-        // 继续下一帧
+        // Continue to next frame
         if (chars.length > 0) {
           animationFrameRef.current = requestAnimationFrame(frameLoop);
         } else {
@@ -310,14 +310,14 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
           triggerOnEnd();
         }
       } else {
-        // 本次你不需要打字，继续下一帧
+        // No typing needed this frame, continue to next frame
         animationFrameRef.current = requestAnimationFrame(frameLoop);
       }
     };
     animationFrameRef.current = requestAnimationFrame(frameLoop);
   };
 
-  /** 停止动画帧模式 */
+  /** Stop animation frame mode */
   const stopAnimationFrame = (manual = false) => {
     isTypingRef.current = false;
     if (animationFrameRef.current) {
@@ -329,7 +329,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     }
   };
 
-  /** setTimeout 模式 */
+  /** setTimeout mode */
   const startTimeoutMode = () => {
     const nextTyped = () => {
       const chars = getChars();
@@ -343,7 +343,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
 
     const startTyped = async (isStartPoint = false) => {
       if (isUnmountRef.current) return;
-      // 如果关闭打字机效果，则打完所有字符
+      // If typing animation is disabled, type all characters at once
       if (disableTypingRef.current) {
         typingRemainAll();
         return;
@@ -362,10 +362,10 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
       if (isStartPoint) {
         triggerOnStart(char);
       }
-      /** 打字前回调 */
+      /** Callback before typing */
       await triggerOnBeforeTypedChar(char);
       processCharDisplay(char);
-      /** 打字完成回调 */
+      /** Callback after typing */
       triggerOnTypedChar(char);
       nextTyped();
     };
@@ -373,7 +373,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     startTyped(true);
   };
 
-  /** 停止超时模式 */
+  /** Stop timeout mode */
   const stopTimeout = () => {
     isTypingRef.current = false;
     if (timerRef.current) {
@@ -391,13 +391,13 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     }
   };
 
-  /** 暂时停止 */
+  /** Temporarily stop */
   const stopTask = () => {
     typedIsManualStopRef.current = true;
     cancelTask();
   };
 
-  /** 停止打字任务 */
+  /** Stop typing task */
   const endTask = () => {
     cancelTask();
   };
@@ -405,7 +405,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
   function restartTypedTask() {
     endTask();
     typedIsManualStopRef.current = false;
-    // 将wholeContentRef的内容放到charsRef中
+    // Put wholeContentRef content into charsRef
     charsRef.current.unshift(
       ...wholeContentRef.current.content.split('').map((charUnit) => {
         const char: IChar = {

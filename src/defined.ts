@@ -3,35 +3,35 @@ import { Options } from 'react-markdown';
 export type IntervalType =
   | number
   | {
-      /** 最大间隔 */
+      /** Maximum interval */
       max: number;
-      /** 最小间隔 */
+      /** Minimum interval */
       min: number;
-      /** 曲线函数自定义 */
+      /** Custom curve function */
       curveFn?: (x: number) => number;
-      /** 曲线函数，如果配置了curveFn，则curve无效 */
+      /** Curve function, if curveFn is configured, curve will be ignored */
       curve?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' | 'step-start' | 'step-end';
     };
 
 /**
- * 字符接口
+ * Character interface
  */
 export interface IChar {
   content: string;
   tokenId: number;
-  /** 字符索引 */
+  /** Character index */
   index: number;
 }
 
 /**
- * 段落类型
- * 段落类型为br时，表示换行
- * 段落类型为text时，表示文本
+ * Paragraph type
+ * When paragraph type is br, it represents a line break
+ * When paragraph type is text, it represents text
  */
 export interface IParagraph {
-  /** 段落内容 */
+  /** Paragraph content */
   content?: string;
-  /** 是否已打字 */
+  /** Whether it has been typed */
   isTyped: boolean;
 }
 
@@ -57,29 +57,29 @@ export interface IBeforeTypedChar extends IOnTypedCharData {
 
 export interface MarkdownTyperBaseProps {
   reactMarkdownProps?: Options;
-  /** 计时类型： 支持setTimeout和requestAnimationFrame */
+  /** Timer type: supports setTimeout and requestAnimationFrame */
   timerType?: 'setTimeout' | 'requestAnimationFrame';
-  /** 打字机效果间隔时间 */
+  /** Typing animation interval time */
   interval: IntervalType;
-  /** 是否关闭打字机效果 */
+  /** Whether to disable typing animation */
   disableTyping?: boolean;
-  /** 打字完成后回调,  */
+  /** Callback after typing is complete */
   onEnd?: (data?: IEndData) => void;
-  /** 开始打字回调 */
+  /** Callback when typing starts */
   onStart?: (data?: IOnTypedCharData) => void;
-  /** 打字前回调 */
+  /** Callback before typing a character */
   onBeforeTypedChar?: (data?: IBeforeTypedChar) => Promise<void>;
   /**
-   * 打字机打完一个字符回调
-   * @param char 字符
-   * @param index 字符索引
+   * Callback after typing a character
+   * @param char Character
+   * @param index Character index
    */
   onTypedChar?: (data?: ITypedChar) => void;
 
-  /** 是否自动开启打字动画 */
+  /** Whether to automatically start typing animation */
   autoStartTyping?: boolean;
 
-  /** 自定义转换markdown string 函数 */
+  /** Custom function to convert markdown string */
   customConvertMarkdownString?: (markdownString: string) => string;
 }
 
@@ -87,7 +87,7 @@ export interface MarkdownTyperProps extends MarkdownTyperBaseProps {
   children: string | undefined;
 }
 
-/**  MarkdownCMD 组件不需要 children */
+/** MarkdownCMD component does not need children */
 export interface MarkdownTyperCMDProps extends MarkdownTyperBaseProps {
   children?: undefined;
 }
@@ -113,10 +113,10 @@ export interface MarkdownBaseRef {
   restart: () => void;
 }
 
-/** Markdown 组件的ref 类型 */
+/** Markdown component ref type */
 export type MarkdownTyperRef = MarkdownBaseRef;
 
-/** MarkdownCMD 组件的 ref 类型 */
+/** MarkdownCMD component ref type */
 export interface MarkdownTyperCMDRef extends MarkdownBaseRef {
   push: (content: string) => void;
   clear: () => void;
@@ -125,6 +125,6 @@ export interface MarkdownTyperCMDRef extends MarkdownBaseRef {
 
 export interface IEndData {
   manual: boolean;
-  /** 打字机打过的字符串, 和answerStr 相同 */
+  /** The string typed by the typewriter, same as answerStr */
   str: string;
 }

@@ -10,23 +10,23 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
     { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString },
     ref,
   ) => {
-    /** 是否自动开启打字动画, 后面发生变化将不会生效 */
+    /** Whether to automatically start typing animation, changes after initialization will not take effect */
     const autoStartTypingRef = useRef(autoStartTyping);
 
-    /** 是否打过字 */
+    /** Whether typing has started */
     const isStartedTypingRef = useRef(false);
 
-    /** 当前需要打字的内容 */
+    /** Current content to be typed */
     const charsRef = useRef<IChar[]>([]);
 
     /**
-     * 打字是否已经完全结束
-     * 如果打字已经完全结束，则不会再触发打字效果
+     * Whether typing has completely ended
+     * If typing has completely ended, typing animation will not be triggered again
      */
     const isWholeTypedEndRef = useRef(false);
     const charIndexRef = useRef(0);
 
-    /** 整个内容引用 */
+    /** Reference to the entire content */
     const wholeContentRef = useRef<IWholeContent>({
       content: '',
       length: 0,
@@ -39,7 +39,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
     };
 
     /**
-     * 处理字符显示逻辑
+     * Handle character display logic
      */
     const processCharDisplay = (char: IChar) => {
       if (!isStartedTypingRef.current) {
@@ -57,7 +57,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       wholeContentRef.current.prevLength = 0;
     };
 
-    // 使用新的打字任务 hook
+    // Use new typing task hook
     const typingTask = useTypingTask({
       timerType,
       interval,
@@ -74,7 +74,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
     });
 
     /**
-     * 内部推送处理逻辑
+     * Internal push processing logic
      */
     const processHasTypingPush = (content: string) => {
       if (content.length === 0) {
@@ -93,7 +93,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
         }),
       );
 
-      // 如果关闭了自动打字， 并且没有打过字， 则不开启打字动画
+      // If auto typing is disabled and typing hasn't started, do not start typing animation
       if (!autoStartTypingRef.current && !isStartedTypingRef.current) {
         return;
       }
@@ -106,7 +106,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
     const processNoTypingPush = (content: string) => {
       wholeContentRef.current.content += content;
 
-      // 记录打字前的长度
+      // Record length before typing
       wholeContentRef.current.prevLength = wholeContentRef.current.length;
       wholeContentRef.current.length += content.length;
       triggerUpdate();
@@ -118,9 +118,9 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
 
     useImperativeHandle(ref, () => ({
       /**
-       * 添加内容
-       * @param content 内容 {string}
-       * @param answerType 回答类型 {AnswerType}
+       * Add content
+       * @param content Content {string}
+       * @param answerType Answer type {AnswerType}
        */
       push: (content: string) => {
         if (disableTyping) {
@@ -130,7 +130,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
         processHasTypingPush(content);
       },
       /**
-       * 清除打字任务
+       * Clear typing task
        */
       clear: () => {
         typingTask.stop();
@@ -144,34 +144,34 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
 
         triggerUpdate();
       },
-      /** 开启打字，只有在关闭了自动打字才生效 */
+      /** Start typing, only takes effect when auto typing is disabled */
       start: () => {
         if (!autoStartTypingRef.current) {
           typingTask.start();
         }
       },
-      /** 停止打字任务 */
+      /** Stop typing task */
       stop: () => {
         typingTask.stop();
       },
-      /** 重新开始打字任务 */
+      /** Resume typing task */
       resume: () => {
         typingTask.resume();
       },
       /**
-       * 主动触发打字结束
+       * Manually trigger typing end
        */
       triggerWholeEnd: () => {
         isWholeTypedEndRef.current = true;
         if (!typingTask.isTyping()) {
-          // 这里需要手动触发结束回调，因为 hook 中的 triggerOnEnd 不能直接调用
+          // Need to manually trigger end callback here, because triggerOnEnd in hook cannot be called directly
           onEnd?.({
             str: wholeContentRef.current.content,
             manual: true,
           });
         }
       },
-      /** 重新开始打字任务 */
+      /** Restart typing task */
       restart: () => {
         typingTask.restart();
       },
