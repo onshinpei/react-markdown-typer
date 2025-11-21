@@ -1,7 +1,7 @@
 {
   "name": "react-markdown-typer",
   "private": false,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./es/index.js",
   "type": "module",
   "license": "MIT",
