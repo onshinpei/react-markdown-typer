@@ -8,6 +8,7 @@ import CDMDemo from './cmd';
 import KatexDemo from './katex';
 import ManualStartDemo from './ManualStart';
 import TypingAnimationDemo from './TypingAnimationDemo';
+import CursorDemo from './cursor';
 const App = () => {
   return (
     <div className={`ds-message `}>

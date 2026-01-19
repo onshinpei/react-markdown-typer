@@ -4,10 +4,12 @@ import { __DEV__ } from '../constant';
 import { useTypingTask } from '../hooks/useTypingTask';
 import ReactMarkdown from 'react-markdown';
 import { splitGraphemes } from '../utils/grapheme';
+import { createRehypeCursorPlugin } from '../plugins/rehypeCursor';
+import { CursorSpan } from '../components/CursorSpan';
 
 const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
   (
-    { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString },
+    { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString, showCursor = false, cursor = '|' },
     ref,
   ) => {
     /** Whether to automatically start typing animation, changes after initialization will not take effect */
@@ -181,7 +183,67 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       return customConvertMarkdownString?.(wholeContentRef.current.content) || wholeContentRef.current.content;
     }, [wholeContentRef.current.content, customConvertMarkdownString]);
 
-    return <ReactMarkdown {...reactMarkdownProps}>{markdownString}</ReactMarkdown>;
+    // Show cursor when typing is in progress and showCursor is enabled
+    // Use ref to avoid re-render timing issues
+    const shouldShowCursor = showCursor && typingTask.isTypingRef.current && !disableTyping;
+
+    // Build display string with cursor placeholder
+    const displayString = useMemo(() => {
+      // Check if currently typing using ref (not state)
+      const isCurrentlyTyping = typingTask.isTypingRef.current;
+      if (showCursor && isCurrentlyTyping && !disableTyping) {
+        // Use a unique marker that won't conflict with markdown syntax
+        // Using zero-width space to make it invisible if somehow rendered
+        return markdownString + '\u200B__MDTYPER_CURSOR__\u200B';
+      }
+      return markdownString;
+    }, [markdownString, showCursor, disableTyping, typingTask.isTypingRef]);
+
+    // Create rehype plugin to handle cursor placeholder
+    const rehypeCursorPlugin = useMemo(() => {
+      if (!shouldShowCursor) {
+        return null;
+      }
+      return createRehypeCursorPlugin(cursor);
+    }, [shouldShowCursor, cursor]);
+
+    // Merge rehype plugins
+    const mergedRehypePlugins = useMemo(() => {
+      const basePlugins = reactMarkdownProps?.rehypePlugins || [];
+      if (rehypeCursorPlugin) {
+        return [...basePlugins, rehypeCursorPlugin];
+      }
+      return basePlugins;
+    }, [reactMarkdownProps?.rehypePlugins, rehypeCursorPlugin]);
+
+    // Merge components
+    const mergedComponents = useMemo(() => {
+      if (!shouldShowCursor || typeof cursor === 'string') {
+        return reactMarkdownProps?.components;
+      }
+
+      // For ReactNode cursor, wrap span component to handle cursor placeholder
+      return {
+        ...reactMarkdownProps?.components,
+        span: (props: any) => (
+          <CursorSpan 
+            cursor={cursor}
+            userSpanComponent={reactMarkdownProps?.components?.span}
+            {...props}
+          />
+        ),
+      };
+    }, [shouldShowCursor, cursor, reactMarkdownProps?.components]);
+
+    const mergedReactMarkdownProps = useMemo(() => {
+      return {
+        ...reactMarkdownProps,
+        rehypePlugins: mergedRehypePlugins,
+        components: mergedComponents,
+      };
+    }, [reactMarkdownProps, mergedRehypePlugins, mergedComponents]);
+
+    return <ReactMarkdown {...mergedReactMarkdownProps}>{displayString}</ReactMarkdown>;
   },
 );
 
