@@ -81,6 +81,12 @@ export interface MarkdownTyperBaseProps {
 
   /** Custom function to convert markdown string */
   customConvertMarkdownString?: (markdownString: string) => string;
+
+  /** Whether to show cursor during typing */
+  showCursor?: boolean;
+
+  /** Custom cursor, can be string or ReactNode, default is '|' */
+  cursor?: React.ReactNode;
 }
 
 export interface MarkdownTyperProps extends MarkdownTyperBaseProps {

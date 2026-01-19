@@ -25,6 +25,8 @@ export interface TypingTaskController {
   typedIsManualStopRef: React.RefObject<boolean>;
   resume: () => void;
   restart: () => void;
+  /** Whether currently typing (for cursor display) */
+  isTypingRef: React.RefObject<boolean>;
 }
 
 export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskController => {
@@ -439,5 +441,6 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     clear: clear,
     isTyping: () => isTypingRef.current,
     typedIsManualStopRef,
+    isTypingRef,
   };
 };
