@@ -93,9 +93,7 @@ const BasicDemo: React.FC = () => {
       </div>
       <div className="ds-message-box" ref={messageDivRef} onScroll={onScroll}>
         <div className="ds-message-list">
-          <Markdown interval={5} ref={markdownRef} onTypedChar={throttleOnTypedChar} timerType={timerType} autoStartTyping={true}>
-            {json.content}
-          </Markdown>
+         example
         </div>
       </div>
     </>
