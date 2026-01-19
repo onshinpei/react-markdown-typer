@@ -1,12 +1,12 @@
 # react-markdown-typer
 
-> 🚀 React Markdown typing animation component
+> 🚀 React Markdown Typing Animation Component
 
-**if you need styles, support for mathematical formulas, and mermaid chart rendering, we recommend using [ds-markdown](https://github.com/onshinpei/ds-markdown)**
+**If you need styling, support for math formulas, and mermaid chart rendering, we recommend [ds-markdown](https://github.com/onshinpei/ds-markdown)**
 
-**[🇨🇳 中文](./README.zh.md) | 🇺🇸 English**
+**🇨🇳 [中文](./README.zh.md) | 🇺🇸 English**
 
-A React component designed for modern AI applications, providing smooth real-time typing animation and full Markdown rendering capabilities.
+A React component designed for modern AI applications, providing smooth real-time typing animations and full Markdown rendering capabilities.
 
 [![npm version](https://img.shields.io/npm/v/react-markdown-typer)](https://www.npmjs.com/package/react-markdown-typer)
 [![npm downloads](https://img.shields.io/npm/dm/react-markdown-typer.svg)](https://www.npmjs.com/package/react-markdown-typer)
@@ -14,142 +14,49 @@ A React component designed for modern AI applications, providing smooth real-tim
 [![React](https://img.shields.io/badge/React-16.8+-blue)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
 
-[📖 Online Demo](https://onshinpei.github.io/react-markdown-typer/)
-
-[DEMO: 🔧 Try on StackBlitz](https://stackblitz.com/edit/vitejs-vite-zbrdonvx?file=src%2FApp.tsx)
+[📖 Live Demo](https://onshinpei.github.io/react-markdown-typer/) | [🔧 StackBlitz](https://stackblitz.com/edit/vitejs-vite-ndgqzcbp?file=README.md)
 
 ---
 
-## ❓ Why use react-markdown-typer?
+## Why choose react-markdown-typer?
 
-- **Perfect for backend streaming data**  
-  Many AI/LLM backend APIs (like OpenAI, DeepSeek, etc.) push data chunks containing multiple characters at once. Ordinary typewriter implementations may stutter or skip characters.  
-  **react-markdown-typer automatically splits each chunk into single characters and renders them smoothly one by one, ensuring a fluid typing animation no matter how many characters are pushed at once.**
+### Optimized for AI Applications
 
-- **Ultimate developer experience**  
-  Rich imperative API, supports streaming data, async callbacks, plugin extensions, and flexible animation/content control.
+Do regular typewriters stutter with AI streaming data? We don't. **Automatically splits each chunk into characters**, ensuring smooth character-by-character rendering no matter how much the backend pushes at once.
 
-- **Lightweight & high performance**  
-  Small bundle size, high performance, works on both mobile and desktop. Core dependency is [react-markdown](https://github.com/remarkjs/react-markdown) (industry-standard, mature Markdown renderer), no heavy dependencies, ready to use out of the box.
+### Lightweight yet Powerful
 
-- **Multi-theme & plugin architecture**  
-  compatible with [react-markdown](https://github.com/remarkjs/react-markdown) remark/rehype plugins for advanced customization and extension.
+- Built on industry-standard [react-markdown](https://github.com/remarkjs/react-markdown)
+- Zero additional dependencies, works out of the box
 
-- **Wide range of use cases**
-  - AI chatbots/assistants
-  - Real-time Q&A/knowledge base
-  - Educational/math/programming content
-  - Product demos, interactive docs
-  - Any scenario needing "typewriter" animation and streaming Markdown rendering
+### Complete Typing Control
 
----
+Not just playing animations, but also **pause, resume, restart, and clear**. Full imperative API gives you complete control.
 
-## 📋 Table of Contents
+### Plugin Ecosystem Compatible
 
-- [react-markdown-typer](#react-markdown-typer)
-  - [❓ Why use react-markdown-typer?](#-why-use-react-markdown-typer)
-  - [📋 Table of Contents](#-table-of-contents)
-  - [✨ Core Features](#-core-features)
-    - [🤖 **AI Chat Scenario**](#-ai-chat-scenario)
-    - [📊 **Content Display Scenario**](#-content-display-scenario)
-    - [🔧 **Developer Experience**](#-developer-experience)
-    - [🎬 **Smooth Animation**](#-smooth-animation)
-  - [📦 Quick Installation](#-quick-installation)
-    - [Use via ESM CDN](#use-via-esm-cdn)
-  - [🚀 5-Minute Quick Start](#-5-minute-quick-start)
-    - [Basic Usage](#basic-usage)
-    - [Disable Typing Animation](#disable-typing-animation)
-    - [Custom Markdown Processing](#custom-markdown-processing)
-    - [AI Chat Scenario](#ai-chat-scenario)
-    - [🎯 Advanced Callback Control](#-advanced-callback-control)
-    - [🔄 Restart Animation Demo](#-restart-animation-demo)
-    - [▶️ Manual Start Animation Demo](#️-manual-start-animation-demo)
-  - [📚 Full API Documentation](#-full-api-documentation)
-    - [Default Exported Props for MarkdownTyper and MarkdownCMD](#default-exported-props-for-markdowntyper-and-markdowncmd)
-    - [IBeforeTypedChar](#ibeforetypedchar)
-    - [ITypedChar](#itypedchar)
-      - [Custom Markdown Conversion](#custom-markdown-conversion)
-      - [IMarkdownPlugin](#imarkdownplugin)
-    - [Exposed Methods](#exposed-methods)
-      - [Default Export MarkdownTyper](#default-export-markdowntyper)
-      - [MarkdownCMD Exposed Methods](#markdowncmd-exposed-methods)
-  - [🔧 Custom Markdown Processing Guide](#-custom-markdown-processing-guide)
-    - [Basic Usage](#basic-usage-1)
-    - [Advanced Processing](#advanced-processing)
-    - [Integration with External Processors](#integration-with-external-processors)
-    - [Content Filtering](#content-filtering)
-  - [🔌 Plugin System](#-plugin-system)
-  - [🎛️ Timer Modes Explained](#️-timer-modes-explained)
-    - [`requestAnimationFrame` Mode 🌟 (Recommended)](#requestanimationframe-mode--recommended)
-    - [`setTimeout` Mode 📟 (Compatible)](#settimeout-mode--compatible)
-    - [📊 Performance Comparison](#-performance-comparison)
-  - [💡 Practical Examples](#-practical-examples)
-    - [📝 AI Streaming Chat](#-ai-streaming-chat)
-    - [🔧 Custom Markdown Processing Demo](#-custom-markdown-processing-demo)
-    - [🎯 Advanced Callback Control](#-advanced-callback-control-1)
+Compatible with the entire remark/rehype plugin ecosystem, easily extend functionality. Supports code highlighting, math formulas, tables, custom cursors, and more.
+
+### Production Ready
+
+- Native TypeScript support
+- Complete type definitions
+
+**Use Cases**
+
+AI Chat Assistants · Real-time Q&A Systems · Online Education Platforms · Product Demos · Interactive Documentation · Knowledge Base Display
 
 ---
 
-## ✨ Core Features
-
-### 🤖 **AI Chat Scenario**
-
-- 1:1 replica of [DeepSeek official site](https://chat.deepseek.com/) chat response effect
-- Supports both `thinking` and `answer` modes
-- Perfectly fits streaming data, zero-latency user response
-
-### 📊 **Content Display Scenario**
-
-- Full Markdown support, including code highlighting, tables, lists, etc.
-- Math formula rendering (KaTeX), supports `$...$` and `\[...\]` syntax
-- Light/dark theme support for different product styles
-- Plugin architecture, supports remark/rehype plugin extensions
-
-### 🔧 **Developer Experience**
-
-- Supports typing interruption with `stop` and resume with `resume`
-- Typing animation can be enabled/disabled
-
-### 🎬 **Smooth Animation**
-
-- Dual timer optimization: supports both `requestAnimationFrame` and `setTimeout` modes
-- High-frequency typing supported (with `requestAnimationFrame`, interval can be nearly `0ms`)
-- Frame-synced rendering, perfectly matches browser refresh
-- Smart batch character handling for more natural visuals
-
----
-
-## 📦 Quick Installation
+## Quick Install
 
 ```bash
-# npm
 npm install react-markdown-typer
-
-# yarn
-yarn add react-markdown-typer
-
-# pnpm
-pnpm add react-markdown-typer
 ```
 
-### Use via ESM CDN
-
-No installation needed, use directly in the browser:
-
-<!-- [DEMO](https://stackblitz.com/edit/vitejs-vite-zbrdonvx?file=src%2FApp.tsx) -->
-
-```html
-<!-- Import the component -->
-<script type="module">
-  import Markdown from 'https://esm.sh/react-markdown-typer';
-</script>
-```
-
-## 🚀 5-Minute Quick Start
+## Quick Start
 
 ### Basic Usage
-
-[DEMO](https://stackblitz.com/edit/vitejs-vite-z94syu8j?file=src%2FApp.tsx)
 
 ```tsx
 import MarkdownTyper from 'react-markdown-typer';
@@ -157,713 +64,315 @@ import MarkdownTyper from 'react-markdown-typer';
 function App() {
   return (
     <MarkdownTyper interval={20}>
-      # Hello react-markdown-typer This is a **high-performance** typing animation component! ## Features - ⚡ Zero-latency streaming - 🎬 Smooth typing animation - 🎯 Perfect syntax support
+      # Hello World
+      
+      This is a **high-performance** typing animation component!
+      
+      - ⚡ Smooth rendering
+      - 🎯 Perfect syntax support
     </MarkdownTyper>
   );
 }
+```
+
+### AI Streaming Chat
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function ChatDemo() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    // Simulate streaming data
+    async function simulateStreaming() {
+      const chunks = ['# AI Response\n\n', 'This', 'is', 'a', 'streaming', 'response'];
+      
+      for (const chunk of chunks) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        cmdRef.current?.push(chunk);
+      }
+    }
+    
+    simulateStreaming();
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+### Cursor Effect
+
+```tsx
+// String cursor
+<MarkdownTyperCMD 
+  ref={cmdRef}
+  showCursor={true}
+  cursor="|"
+  interval={50}
+/>
+
+// Custom ReactNode cursor
+<MarkdownTyperCMD 
+  ref={cmdRef}
+  showCursor={true}
+  cursor={
+    <span style={{ 
+      color: '#007acc',
+      animation: 'blink 1s infinite'
+    }}>|</span>
+  }
+  interval={50}
+/>
+```
+
+### Control Animation
+
+```tsx
+const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+// Control methods
+cmdRef.current?.stop();     // Pause
+cmdRef.current?.resume();   // Resume
+cmdRef.current?.restart();  // Restart
+cmdRef.current?.clear();    // Clear
+```
+
+---
+
+## API Documentation
+
+### MarkdownTyper Props
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `children` | `string` | - | Markdown content (required) |
+| `interval` | `number \| IntervalType` | `30` | Typing interval (milliseconds) |
+| `timerType` | `'setTimeout' \| 'requestAnimationFrame'` | `'setTimeout'` | Timer type |
+| `showCursor` | `boolean` | `false` | Whether to show cursor |
+| `cursor` | `React.ReactNode` | `"\|"` | Cursor content |
+| `disableTyping` | `boolean` | `false` | Disable typing animation |
+| `autoStartTyping` | `boolean` | `true` | Auto start typing |
+| `onStart` | `(data) => void` | - | Typing start callback |
+| `onEnd` | `(data) => void` | - | Typing end callback |
+| `onTypedChar` | `(data) => void` | - | Callback after each character |
+| `reactMarkdownProps` | `Options` | - | react-markdown configuration |
+
+### MarkdownTyperCMD Props
+
+Same as `MarkdownTyper`, but without `children`.
+
+### MarkdownTyper Methods
+
+| Method | Description |
+|--------|-------------|
+| `start()` | Start typing animation |
+| `stop()` | Pause typing animation |
+| `resume()` | Resume typing animation |
+| `restart()` | Restart animation |
+
+### MarkdownTyperCMD Methods
+
+| Method | Parameters | Description |
+|--------|------------|-------------|
+| `push(content)` | `string` | Add content and start typing |
+| `clear()` | - | Clear all content and state |
+| `start()` | - | Start typing animation |
+| `stop()` | - | Pause typing animation |
+| `resume()` | - | Resume typing animation |
+| `restart()` | - | Restart animation |
+
+### IntervalType
+
+Supports dynamic typing speed:
+
+```typescript
+type IntervalType = number | {
+  max: number;      // Maximum interval
+  min: number;      // Minimum interval
+  curve?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear';
+  curveFn?: (x: number) => number;  // Custom curve function
+}
+```
+
+**Example**:
+```tsx
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'  // Fast start, slow end
+  }}
+>
+  Content...
+</MarkdownTyper>
+```
+
+---
+
+## Math Formulas
+
+Install KaTeX plugins:
+
+```bash
+npm install remark-math rehype-katex katex
+```
+
+Usage:
+
+```tsx
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
+
+<MarkdownTyper
+  interval={20}
+  reactMarkdownProps={{
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex]
+  }}
+>
+  Inline formula: $E = mc^2$
+  
+  Block formula:
+  $$
+  \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+  $$
+</MarkdownTyper>
+```
+
+---
+
+## Plugin System
+
+Fully compatible with [react-markdown](https://github.com/remarkjs/react-markdown) plugin ecosystem:
+
+```tsx
+import rehypeHighlight from 'rehype-highlight';
+import remarkGfm from 'remark-gfm';
+import 'highlight.js/styles/github.css';
+
+<MarkdownTyper
+  reactMarkdownProps={{
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [rehypeHighlight]
+  }}
+>
+  ```javascript
+  console.log('Syntax highlighting');
+  ```
+</MarkdownTyper>
+```
+
+---
+
+## Timer Modes
+
+### `requestAnimationFrame` Mode (Recommended)
+
+- Time-driven, batch character processing
+- Synchronized with browser 60fps refresh rate
+- Suitable for high-frequency typing (interval < 16ms)
+
+### `setTimeout` Mode
+
+- Single character processing, fixed interval
+- Precise time control
+- Suitable for low-frequency typing or scenarios requiring precise rhythm
+
+```tsx
+// High frequency: recommend requestAnimationFrame
+<MarkdownTyper interval={5} timerType="requestAnimationFrame">
+  Fast typing
+</MarkdownTyper>
+
+// Low frequency: recommend setTimeout
+<MarkdownTyper interval={100} timerType="setTimeout">
+  Slow typing
+</MarkdownTyper>
+```
+
+---
+
+## Advanced Features
+
+### Custom Markdown Conversion
+
+```tsx
+<MarkdownTyper
+  customConvertMarkdownString={(str) => {
+    // Custom processing logic
+    return str.replace(/\[([^\]]+)\]\(([^)]+)\)/g, 
+      '<a href="$2" target="_blank">$1</a>');
+  }}
+>
+  [Link](https://example.com)
+</MarkdownTyper>
+```
+
+### Callback Functions
+
+```tsx
+<MarkdownTyper
+  onStart={(data) => console.log('Typing started', data)}
+  onEnd={(data) => console.log('Typing ended', data)}
+  onTypedChar={(data) => {
+    console.log('Progress:', data.percent + '%');
+  }}
+>
+  Content...
+</MarkdownTyper>
 ```
 
 ### Disable Typing Animation
 
 ```tsx
-import MarkdownTyper from 'react-markdown-typer';
+const [disable, setDisable] = useState(false);
 
-function StaticDemo() {
-  const [disableTyping, setDisableTyping] = useState(false);
-
-  return (
-    <div>
-      <button onClick={() => setDisableTyping(!disableTyping)}>{disableTyping ? 'Enable' : 'Disable'} typewriter effect</button>
-
-      <MarkdownTyper interval={20} disableTyping={disableTyping}>
-        # Static Display Mode When `disableTyping` is `true`, all content is shown instantly with no typing animation. This is useful for: - 📄 Static document display - 🔄 Switching display modes -
-        ⚡ Quick content preview
-      </MarkdownTyper>
-    </div>
-  );
-}
-```
-
-### Custom Markdown Processing
-
-```tsx
-import MarkdownTyper from 'react-markdown-typer';
-
-function CustomMarkdownDemo() {
-  const customConvertMarkdownString = (markdownString) => {
-    // Custom processing logic
-    return markdownString
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>') // Convert links
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') // Convert bold
-      .replace(/\*([^*]+)\*/g, '<em>$1</em>'); // Convert italic
-  };
-
-  return (
-    <MarkdownTyper interval={20} customConvertMarkdownString={customConvertMarkdownString}>
-      # Custom Markdown Processing This is **bold text** and *italic text*. Check out [our website](https://example.com) for more info!
-    </MarkdownTyper>
-  );
-}
-```
-
-### AI Chat Scenario
-
-```tsx
-function ChatDemo() {
-  const [answer, setAnswer] = useState('');
-
-  const handleAsk = () => {
-    setAnswer(`# About React 19
-
-React 19 brings many exciting new features:
-
-## 🚀 Major Updates
-1. **React Compiler** - Automatic performance optimization
-2. **Actions** - Simplified form handling
-3. **Document Metadata** - Built-in SEO support
-
-Let's explore these new features together!`);
-  };
-
-  return (
-    <div>
-      <button onClick={handleAsk}>Ask AI</button>
-
-      {answer && <MarkdownTyper interval={15}>{answer}</MarkdownTyper>}
-    </div>
-  );
-}
-```
-
-### 🎯 Advanced Callback Control
-
-```tsx
-import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
-
-function AdvancedCallbackDemo() {
-  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
-  const [typingStats, setTypingStats] = useState({ progress: 0, currentChar: '', totalChars: 0 });
-
-  const handleBeforeTypedChar = async (data) => {
-    // Async operation before typing a character
-    console.log('About to type:', data.currentChar);
-
-    // You can do network requests, data validation, etc. here
-    if (data.currentChar === '!') {
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate delay
-    }
-  };
-
-  const handleTypedChar = (data) => {
-    // Update typing stats
-    setTypingStats({
-      progress: Math.round(data.percent),
-      currentChar: data.currentChar,
-      totalChars: data.currentIndex + 1,
-    });
-
-    // Add sound effects, animations, etc. here
-    if (data.currentChar === '.') {
-      // Play period sound effect
-      console.log('Play period sound');
-    }
-  };
-
-  const handleStart = (data) => {
-    console.log('Typing started:', data.currentChar);
-  };
-
-  const handleEnd = (data) => {
-    console.log('Typing finished:', data.str);
-  };
-
-  const startDemo = () => {
-    markdownRef.current?.clear();
-    markdownRef.current?.push(
-      '# Advanced Callback Demo\n\n' +
-        'This example shows how to use `onBeforeTypedChar` and `onTypedChar` callbacks:\n\n' +
-        '- 🎯 **Before typing callback**: Async operations before displaying a character\n' +
-        '- 📊 **After typing callback**: Real-time progress updates and effects\n' +
-        '- ⚡ **Performance**: Async operations without affecting typing smoothness\n\n' +
-        'Current progress: ' +
-        typingStats.progress +
-        '%\n' +
-        'Characters typed: ' +
-        typingStats.totalChars +
-        '\n\n' +
-        'This is a very powerful feature!',
-      'answer',
-    );
-  };
-
-  return (
-    <div>
-      <button onClick={startDemo}>🚀 Start Advanced Demo</button>
-
-      <div style={{ margin: '10px 0', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
-        <strong>Typing Stats:</strong> Progress {typingStats.progress}% | Current char: "{typingStats.currentChar}" | Total chars: {typingStats.totalChars}
-      </div>
-
-      <MarkdownCMD ref={markdownRef} interval={30} onBeforeTypedChar={handleBeforeTypedChar} onTypedChar={handleTypedChar} onStart={handleStart} onEnd={handleEnd} />
-    </div>
-  );
-}
-```
-
-### 🔄 Restart Animation Demo
-
-```tsx
-import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
-
-function RestartDemo() {
-  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  const startContent = () => {
-    markdownRef.current?.clear();
-    markdownRef.current?.push(
-      '# Restart Animation Demo\n\n' +
-        'This example shows how to use the `restart()` method:\n\n' +
-        '- 🔄 **Restart**: Play current content from the beginning\n' +
-        '- ⏸️ **Pause/Resume**: Pause and resume anytime\n' +
-        '- 🎯 **Precise control**: Full control over animation state\n\n' +
-        'Current state: ' +
-        (isPlaying ? 'Playing' : 'Paused') +
-        '\n\n' +
-        'This is a very practical feature!',
-      'answer',
-    );
-    setIsPlaying(true);
-  };
-
-  const handleStart = () => {
-    if (hasStarted) {
-      // If already started, restart
-      markdownRef.current?.restart();
-    } else {
-      // First start
-      markdownRef.current?.start();
-      setHasStarted(true);
-    }
-    setIsPlaying(true);
-  };
-
-  const handleStop = () => {
-    markdownRef.current?.stop();
-    setIsPlaying(false);
-  };
-
-  const handleResume = () => {
-    markdownRef.current?.resume();
-    setIsPlaying(true);
-  };
-
-  const handleRestart = () => {
-    markdownRef.current?.restart();
-    setIsPlaying(true);
-  };
-
-  const handleEnd = () => {
-    setIsPlaying(false);
-  };
-
-  return (
-    <div>
-      <div style={{ marginBottom: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <button onClick={startContent}>🚀 Start Content</button>
-        <button onClick={handleStart} disabled={isPlaying}>
-          {hasStarted ? '🔄 Restart' : '▶️ Start'}
-        </button>
-        <button onClick={handleStop} disabled={!isPlaying}>
-          ⏸️ Pause
-        </button>
-        <button onClick={handleResume} disabled={isPlaying}>
-          ▶️ Resume
-        </button>
-        <button onClick={handleRestart}>🔄 Restart</button>
-      </div>
-
-      <div style={{ margin: '10px 0', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
-        <strong>Animation State:</strong> {isPlaying ? '🟢 Playing' : '🔴 Paused'}
-      </div>
-
-      <MarkdownCMD ref={markdownRef} interval={25} onEnd={handleEnd} />
-    </div>
-  );
-}
-```
-
-### ▶️ Manual Start Animation Demo
-
-```tsx
-import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
-
-function StartDemo() {
-  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  const loadContent = () => {
-    markdownRef.current?.clear();
-    markdownRef.current?.push(
-      '# Manual Start Animation Demo\n\n' +
-        'This example shows how to use the `start()` method:\n\n' +
-        '- 🎯 **Manual control**: When `autoStartTyping=false`, you need to call `start()` manually\n' +
-        '- ⏱️ **Delayed start**: Start animation after user interaction\n' +
-        '- 🎮 **Gamification**: Suitable for scenarios requiring user trigger\n\n' +
-        'Click the "Start Animation" button to manually trigger typing!',
-      'answer',
-    );
-    setIsPlaying(false);
-  };
-
-  const handleStart = () => {
-    if (hasStarted) {
-      // If already started, restart
-      markdownRef.current?.restart();
-    } else {
-      // First start
-      markdownRef.current?.start();
-      setHasStarted(true);
-    }
-    setIsPlaying(true);
-  };
-
-  const handleEnd = () => {
-    setIsPlaying(false);
-  };
-
-  return (
-    <div>
-      <div style={{ marginBottom: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <button onClick={loadContent}>📝 Load Content</button>
-        <button onClick={handleStart} disabled={isPlaying}>
-          {hasStarted ? '🔄 Restart' : '▶️ Start Animation'}
-        </button>
-      </div>
-
-      <div style={{ margin: '10px 0', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
-        <strong>Status:</strong> {isPlaying ? '🟢 Animation Playing' : '🔴 Waiting to Start'}
-      </div>
-
-      <MarkdownCMD ref={markdownRef} interval={30} autoStartTyping={false} onEnd={handleEnd} />
-    </div>
-  );
-}
+<MarkdownTyper disableTyping={disable}>
+  Content displays immediately, no animation
+</MarkdownTyper>
 ```
 
 ---
 
-## 📚 Full API Documentation
+## Example Projects
 
-### Default Exported Props for MarkdownTyper and MarkdownCMD
+Clone the repository to view complete examples:
 
-```js
-import MarkdownTyper, { MarkdownCMD } from 'react-markdown-typer';
+```bash
+git clone https://github.com/onshinpei/react-markdown-typer.git
+cd react-markdown-typer
+npm install
+npm run dev
 ```
 
-| Prop                          | Type                                        | Description                                                                                       | Default                                                                       |
-| ----------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `interval`                    | `number`                                    | Typing interval (ms)                                                                              | `30`                                                                          |
-| `timerType`                   | `'setTimeout'` \| `'requestAnimationFrame'` | Timer type, not dynamically changeable                                                            | Default is `setTimeout`, will switch to `requestAnimationFrame` in the future |
-| `theme`                       | `'light'` \| `'dark'`                       | Theme type                                                                                        | `'light'`                                                                     |
-| `customConvertMarkdownString` | `(markdownString: string) => string`        | Custom markdown string conversion function                                                        | -                                                                             |
-| `onEnd`                       | `(data: EndData) => void`                   | Typing end callback                                                                               | -                                                                             |
-| `onStart`                     | `(data: StartData) => void`                 | Typing start callback                                                                             | -                                                                             |
-| `onBeforeTypedChar`           | `(data: IBeforeTypedChar) => Promise<void>` | Callback before typing a character, supports async, blocks next typing                            | -                                                                             |
-| `onTypedChar`                 | `(data: ITypedChar) => void`                | Callback after each character                                                                     | -                                                                             |
-| `disableTyping`               | `boolean`                                   | Disable typing animation                                                                          | `false`                                                                       |
-| `autoStartTyping`             | `boolean`                                   | Whether to auto start typing animation, set false to trigger manually, not dynamically changeable | `true`                                                                        |
-
-> Note: If `disableTyping` changes from `true` to `false` during typing, all remaining characters will be displayed at once on the next typing trigger.
-
-### IBeforeTypedChar
-
-| Prop           | Type     | Description                     | Default |
-| -------------- | -------- | ------------------------------- | ------- |
-| `currentIndex` | `number` | Index of current character      | `0`     |
-| `currentChar`  | `string` | Character to be typed           | -       |
-| `prevStr`      | `string` | Prefix string of current type   | -       |
-| `percent`      | `number` | Typing progress percent (0-100) | `0`     |
-
-### ITypedChar
-
-| Prop           | Type     | Description                     | Default |
-| -------------- | -------- | ------------------------------- | ------- |
-| `currentIndex` | `number` | Index of current character      | `0`     |
-| `currentChar`  | `string` | Character just typed            | -       |
-| `prevStr`      | `string` | Prefix string of current type   | -       |
-| `currentStr`   | `string` | Full string of current type     | -       |
-| `percent`      | `number` | Typing progress percent (0-100) | `0`     |
-
-#### Custom Markdown Conversion
-
-The `customConvertMarkdownString` function allows you to preprocess markdown content before it's rendered. This is useful for:
-
-- Custom markdown syntax extensions
-- Content filtering or sanitization
-- Integration with external markdown processors
-- Custom link handling or formatting
-
-**Example:**
-
-```tsx
-const customConvertMarkdownString = (markdownString) => {
-  // Add custom processing logic here
-  return markdownString.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-};
-```
-
-#### IMarkdownPlugin
-
-You can pass all react-markdown props via `reactMarkdownProps` to support plugins.
-
-### Exposed Methods
-
-#### Default Export MarkdownTyper
-
-| Method    | Params | Description                                 |
-| --------- | ------ | ------------------------------------------- |
-| `start`   | -      | Start typing animation                      |
-| `stop`    | -      | Pause typing animation                      |
-| `resume`  | -      | Resume typing animation                     |
-| `restart` | -      | Restart typing animation from the beginning |
-
-#### MarkdownCMD Exposed Methods
-
-| Method            | Params                                      | Description                                 |
-| ----------------- | ------------------------------------------- | ------------------------------------------- |
-| `push`            | `(content: string, answerType: AnswerType)` | Add content and start typing                |
-| `clear`           | -                                           | Clear all content and state                 |
-| `triggerWholeEnd` | -                                           | Manually trigger completion callback        |
-| `start`           | -                                           | Start typing animation                      |
-| `stop`            | -                                           | Pause typing animation                      |
-| `resume`          | -                                           | Resume typing animation                     |
-| `restart`         | -                                           | Restart typing animation from the beginning |
-
-**Usage Example:**
-
-```tsx
-markdownRef.current?.start(); // Start animation
-markdownRef.current?.stop(); // Pause animation
-markdownRef.current?.resume(); // Resume animation
-markdownRef.current?.restart(); // Restart animation
-```
+Example locations:
+- `example/basic/` - Basic usage
+- `example/cmd/` - Imperative API
+- `example/cursor/` - Cursor effects
+- `example/katex/` - Math formulas
 
 ---
 
-## 🔧 Custom Markdown Processing Guide
+## Contributing
 
-### Basic Usage
+Issues and Pull Requests are welcome!
 
-```tsx
-import MarkdownTyper from 'react-markdown-typer';
+## License
 
-function CustomMarkdownDemo() {
-  const customConvertMarkdownString = (markdownString) => {
-    // Add your custom processing logic here
-    return markdownString
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
-  };
-
-  return (
-    <MarkdownTyper interval={20} customConvertMarkdownString={customConvertMarkdownString}>
-      # Custom Markdown Processing This is **bold text** and *italic text*. Check out [our website](https://example.com) for more info!
-    </MarkdownTyper>
-  );
-}
-```
-
-### Advanced Processing
-
-````tsx
-// Complex custom processing example
-const customConvertMarkdownString = (markdownString) => {
-  return (
-    markdownString
-      // Custom emoji processing
-      .replace(/:([a-zA-Z0-9_]+):/g, '<span class="emoji">:$1:</span>')
-      // Custom mention processing
-      .replace(/@([a-zA-Z0-9_]+)/g, '<span class="mention">@$1</span>')
-      // Custom code block processing
-      .replace(/```(\w+)\n([\s\S]*?)```/g, '<pre class="code-block"><code class="language-$1">$2</code></pre>')
-      // Custom link processing with security
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
-        if (url.startsWith('http')) {
-          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-        }
-        return match;
-      })
-  );
-};
-````
-
-### Integration with External Processors
-
-```tsx
-import { marked } from 'marked';
-
-const customConvertMarkdownString = (markdownString) => {
-  // Use marked.js for processing
-  return marked(markdownString, {
-    breaks: true,
-    gfm: true,
-  });
-};
-```
-
-### Content Filtering
-
-```tsx
-const customConvertMarkdownString = (markdownString) => {
-  // Filter out sensitive content
-  const filteredContent = markdownString.replace(/password[:\s]*[^\s]+/gi, 'password: [FILTERED]').replace(/token[:\s]*[^\s]+/gi, 'token: [FILTERED]');
-
-  return filteredContent;
-};
-```
+MIT © [onshinpei](https://github.com/onshinpei)
 
 ---
 
-## 🔌 Plugin System
+## Related Projects
 
-See [react-markdown](https://github.com/remarkjs/react-markdown)
+- [react-markdown](https://github.com/remarkjs/react-markdown) - Markdown rendering core
+- [ds-markdown](https://github.com/onshinpei/ds-markdown) - Enhanced version with styling (supports mermaid charts)
 
----
-
-## 🎛️ Timer Modes Explained
-
-### `requestAnimationFrame` Mode 🌟 (Recommended)
-
-```typescript
-// 🎯 Features
-- Time-driven: Calculates character count based on real elapsed time
-- Batch processing: Multiple characters per frame
-- Frame sync: Syncs with browser 60fps refresh rate
-- High-frequency optimization: Perfect for interval < 16ms
-
-// 🎯 Use cases
-- Default for modern web apps
-- Pursue smooth animation
-- High-frequency typing (interval > 0)
-- AI real-time chat
-```
-
-### `setTimeout` Mode 📟 (Compatible)
-
-```typescript
-// 🎯 Features
-- Single character: Processes one character at a time
-- Fixed interval: Executes strictly by set time
-- Rhythmic: Classic typewriter rhythm
-- Precise control: For specific timing needs
-
-// 🎯 Use cases
-- Need precise timing
-- Retro typewriter effect
-- High compatibility scenarios
-```
-
-### 📊 Performance Comparison
-
-| Feature       | requestAnimationFrame         | setTimeout        |
-| ------------- | ----------------------------- | ----------------- |
-| **Char proc** | Multiple chars per frame      | One char per call |
-| **High freq** | ✅ Excellent (5ms → 3 chars)  | ❌ May stutter    |
-| **Low freq**  | ✅ Normal (100ms → 1 char/6f) | ✅ Precise        |
-| **Visual**    | 🎬 Smooth animation           | ⚡ Rhythmic       |
-| **Perf cost** | 🟢 Low (frame sync)           | 🟡 Medium (timer) |
-
-High frequency: use `requestAnimationFrame`, low frequency: use `setTimeout`
-
----
-
-## 💡 Practical Examples
-
-### 📝 AI Streaming Chat
-
-<!-- [DEMO: 🔧 Try on StackBlitz](https://stackblitz.com/edit/vitejs-vite-2ri8kex3?file=src%2FApp.tsx) -->
-
-````tsx
-import { useRef } from 'react';
-import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
-
-function StreamingChat() {
-  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
-
-  // Simulate AI streaming response
-  const simulateAIResponse = async () => {
-    markdownRef.current?.clear();
-
-    // Thinking phase
-    markdownRef.current?.push('🤔 Analyzing your question...', 'thinking');
-    await delay(1000);
-    markdownRef.current?.push('\n\n✅ Analysis complete, starting answer', 'thinking');
-
-    // Streaming answer
-    const chunks = [
-      '# React 19 New Features\n\n',
-      '## 🚀 React Compiler\n',
-      'The highlight of React 19 is the introduction of **React Compiler**:\n\n',
-      '- 🎯 **Auto optimization**: No need for manual memo/useMemo\n',
-      '- ⚡ **Performance boost**: Compile-time optimization, zero runtime cost\n',
-      '- 🔧 **Backward compatible**: No code changes needed\n\n',
-      '## 📝 Actions Simplify Forms\n',
-      'The new Actions API makes form handling easier:\n\n',
-      '```tsx\n',
-      'function ContactForm({ action }) {\n',
-      '  const [state, formAction] = useActionState(action, null);\n',
-      '  return (\n',
-      '    <form action={formAction}>\n',
-      '      <input name="email" type="email" />\n',
-      '      <button>Submit</button>\n',
-      '    </form>\n',
-      '  );\n',
-      '}\n',
-      '```\n\n',
-      'Hope this helps! 🎉',
-    ];
-
-    for (const chunk of chunks) {
-      await delay(100);
-      markdownRef.current?.push(chunk, 'answer');
-    }
-  };
-
-  return (
-    <div className="chat-container">
-      <button onClick={simulateAIResponse}>🤖 Ask about React 19 features</button>
-
-      <MarkdownCMD ref={markdownRef} interval={10} timerType="requestAnimationFrame" onEnd={(data) => console.log('Paragraph done:', data)} />
-    </div>
-  );
-}
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-````
-
-### 🔧 Custom Markdown Processing Demo
-
-```tsx
-function CustomMarkdownStreamingDemo() {
-  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
-
-  const customConvertMarkdownString = (markdownString) => {
-    return markdownString
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-      .replace(/`([^`]+)`/g, '<code>$1</code>');
-  };
-
-  const simulateCustomResponse = async () => {
-    markdownRef.current?.clear();
-
-    const customChunks = [
-      '# Custom Markdown Processing\n\n',
-      'This demo shows how to use **custom markdown processing** with streaming content:\n\n',
-      '## Features\n',
-      '- *Custom link handling*\n',
-      '- **Bold and italic** text processing\n',
-      '- `Inline code` formatting\n',
-      '- [External links](https://example.com) with security attributes\n\n',
-      'The `customConvertMarkdownString` function allows you to preprocess content before rendering!',
-    ];
-
-    for (const chunk of customChunks) {
-      await delay(150);
-      markdownRef.current?.push(chunk, 'answer');
-    }
-  };
-
-  return (
-    <div>
-      <button onClick={simulateCustomResponse}>🔧 Custom Markdown Demo</button>
-
-      <MarkdownCMD ref={markdownRef} interval={20} timerType="requestAnimationFrame" customConvertMarkdownString={customConvertMarkdownString} />
-    </div>
-  );
-}
-```
-
-### 🎯 Advanced Callback Control
-
-```tsx
-import { useRef, useState } from 'react';
-import { MarkdownCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
-
-function AdvancedCallbackDemo() {
-  const markdownRef = useRef<MarkdownTyperCMDRef>(null);
-  const [typingStats, setTypingStats] = useState({ progress: 0, currentChar: '', totalChars: 0 });
-
-  const handleBeforeTypedChar = async (data) => {
-    // Async operation before typing a character
-    console.log('About to type:', data.currentChar);
-
-    // You can do network requests, data validation, etc. here
-    if (data.currentChar === '!') {
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate delay
-    }
-  };
-
-  const handleTypedChar = (data) => {
-    // Update typing stats
-    setTypingStats({
-      progress: Math.round(data.percent),
-      currentChar: data.currentChar,
-      totalChars: data.currentIndex + 1,
-    });
-
-    // Add sound effects, animations, etc. here
-    if (data.currentChar === '.') {
-      // Play period sound effect
-      console.log('Play period sound');
-    }
-  };
-
-  const handleStart = (data) => {
-    console.log('Typing started:', data.currentChar);
-  };
-
-  const handleEnd = (data) => {
-    console.log('Typing finished:', data.str);
-  };
-
-  const startDemo = () => {
-    markdownRef.current?.clear();
-    markdownRef.current?.push(
-      '# Advanced Callback Demo\n\n' +
-        'This example shows how to use `onBeforeTypedChar` and `onTypedChar` callbacks:\n\n' +
-        '- 🎯 **Before typing callback**: Async operations before displaying a character\n' +
-        '- 📊 **After typing callback**: Real-time progress updates and effects\n' +
-        '- ⚡ **Performance**: Async operations without affecting typing smoothness\n\n' +
-        'Current progress: ' +
-        typingStats.progress +
-        '%\n' +
-        'Characters typed: ' +
-        typingStats.totalChars +
-        '\n\n' +
-        'This is a very powerful feature!',
-      'answer',
-    );
-  };
-
-  return (
-    <div>
-      <button onClick={startDemo}>🚀 Start Advanced Demo</button>
-
-      <div style={{ margin: '10px 0', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
-        <strong>Typing Stats:</strong> Progress {typingStats.progress}% | Current char: "{typingStats.currentChar}" | Total chars: {typingStats.totalChars}
-      </div>
-
-      <MarkdownCMD ref={markdownRef} interval={30} onBeforeTypedChar={handleBeforeTypedChar} onTypedChar={handleTypedChar} onStart={handleStart} onEnd={handleEnd} />
-    </div>
-  );
-}
-```
