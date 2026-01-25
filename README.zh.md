@@ -157,6 +157,7 @@ cmdRef.current?.clear();    // 清除
 | `timerType` | `'setTimeout' \| 'requestAnimationFrame'` | `'setTimeout'` | 定时器类型 |
 | `showCursor` | `boolean` | `false` | 是否显示光标 |
 | `cursor` | `React.ReactNode` | `"\|"` | 光标内容 |
+| `showCursorOnPause` | `boolean` | `true` | 暂停时是否显示光标 |
 | `disableTyping` | `boolean` | `false` | 禁用打字动画 |
 | `autoStartTyping` | `boolean` | `true` | 是否自动开始 |
 | `onStart` | `(data) => void` | - | 打字开始回调 |

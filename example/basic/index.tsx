@@ -81,19 +81,28 @@ const BasicDemo: React.FC = () => {
       <div className="ds-message-actions">
         <div>
           <button onClick={onReset}>重置</button>
-          <button disabled={isStop} onClick={onStop}>
+          {/* <button disabled={isStop} onClick={onStop}>
             停止
           </button>
           <button disabled={!isStop} onClick={onResume}>
             继续
-          </button>
+          </button> */}
+          {
+            isStop ? <button disabled={!isStop} onClick={onResume}>
+              继续
+            </button> : <button disabled={isStop} onClick={onStop}>
+              停止
+            </button>
+          }
           <button onClick={() => markdownRef.current.restart()}>重新开始</button>
           <span style={{ marginLeft: 30 }}>React 19有哪些新特性2</span>
         </div>
       </div>
       <div className="ds-message-box" ref={messageDivRef} onScroll={onScroll}>
         <div className="ds-message-list">
-         example
+          <Markdown interval={15} ref={markdownRef} onTypedChar={throttleOnTypedChar} timerType={timerType} autoStartTyping={true} showCursor>
+            {json.content}
+          </Markdown>
         </div>
       </div>
     </>
