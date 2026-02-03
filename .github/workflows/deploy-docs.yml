@@ -1,32 +1,21 @@
-name: Deploy Documentation
+name: Deploy Nextra Docs to gh-pages
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
     paths:
       - 'nextra-docs-zh/**'
       - 'nextra-docs-en/**'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
+# 设置权限
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write  # 需要写权限以推送到 gh-pages 分支
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -43,7 +32,7 @@ jobs:
       - name: Install dependencies (Chinese docs)
         run: |
           cd nextra-docs-zh
-          npm ci
+          npm ci --force
 
       - name: Build Chinese docs
         run: |
@@ -53,36 +42,36 @@ jobs:
       - name: Install dependencies (English docs)
         run: |
           cd nextra-docs-en
-          npm ci
+          npm ci --force
 
       - name: Build English docs
         run: |
           cd nextra-docs-en
           npm run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Prepare deployment
         run: |
           mkdir -p deploy
-          # Copy Chinese docs (already has basePath in out directory)
-          if [ -d "nextra-docs-zh/out" ]; then
-            cp -r nextra-docs-zh/out/* deploy/ || true
+          # Copy Chinese docs from out/react-markdown-typer/zh to deploy/react-markdown-typer/zh
+          if [ -d "nextra-docs-zh/out/react-markdown-typer/zh" ]; then
+            mkdir -p deploy/react-markdown-typer
+            cp -r nextra-docs-zh/out/react-markdown-typer/zh deploy/react-markdown-typer/
           fi
-          # Copy English docs (already has basePath in out directory)
-          if [ -d "nextra-docs-en/out" ]; then
-            cp -r nextra-docs-en/out/* deploy/ || true
+          # Copy English docs from out/react-markdown-typer/en to deploy/react-markdown-typer/en
+          if [ -d "nextra-docs-en/out/react-markdown-typer/en" ]; then
+            mkdir -p deploy/react-markdown-typer
+            cp -r nextra-docs-en/out/react-markdown-typer/en deploy/react-markdown-typer/
           fi
           # Create root index.html to redirect to zh
           echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=/react-markdown-typer/zh/"><script>window.location.href="/react-markdown-typer/zh/";</script></head><body><a href="/react-markdown-typer/zh/">Redirecting...</a></body></html>' > deploy/index.html
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: './deploy'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          publish_branch: gh-pages
+          force_orphan: true  # 清理历史，只保留最新的部署
+          # 如果需要自定义域名，取消下面的注释
+          # cname: your-domain.com
 
