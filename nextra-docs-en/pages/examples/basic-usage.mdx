@@ -1,0 +1,75 @@
+---
+title: Basic Usage
+---
+
+The simplest way to use.
+
+## Declarative Usage
+
+```tsx
+import MarkdownTyper from 'react-markdown-typer';
+
+function App() {
+  return (
+    <MarkdownTyper interval={20}>
+      # Hello World
+      
+      This is a **high-performance** typing animation component!
+      
+      - ⚡ Smooth rendering
+      - 🎯 Perfect syntax support
+    </MarkdownTyper>
+  );
+}
+```
+
+## Imperative Usage
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function App() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    cmdRef.current?.push('# Hello World\n\nThis is a **high-performance** typing animation component!');
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## Control Typing Speed
+
+```tsx
+// Fast typing
+<MarkdownTyper interval={10}>
+  Content...
+</MarkdownTyper>
+
+// Slow typing
+<MarkdownTyper interval={100}>
+  Content...
+</MarkdownTyper>
+```
+
+## Dynamic Speed
+
+```tsx
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'
+  }}
+>
+  Content...
+</MarkdownTyper>
+```
+

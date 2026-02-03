@@ -1,0 +1,98 @@
+---
+title: 打字动画
+---
+
+自定义打字动画效果的示例。
+
+## 定时器类型
+
+### setTimeout 模式
+
+```tsx
+<MarkdownTyper 
+  interval={100}
+  timerType="setTimeout"
+>
+  内容...
+</MarkdownTyper>
+```
+
+### requestAnimationFrame 模式（推荐）
+
+```tsx
+<MarkdownTyper 
+  interval={5}
+  timerType="requestAnimationFrame"
+>
+  内容...
+</MarkdownTyper>
+```
+
+## 动态速度曲线
+
+```tsx
+// 开始快，结束慢
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'
+  }}
+>
+  内容...
+</MarkdownTyper>
+
+// 开始慢，结束快
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-in'
+  }}
+>
+  内容...
+</MarkdownTyper>
+
+// 自定义曲线
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curveFn: (x) => Math.sin(x * Math.PI) * 50 + 50
+  }}
+>
+  内容...
+</MarkdownTyper>
+```
+
+## 禁用动画
+
+```tsx
+const [disable, setDisable] = useState(false);
+
+<MarkdownTyper disableTyping={disable}>
+  内容会立即显示，无动画
+</MarkdownTyper>
+```
+
+## 手动控制
+
+```tsx
+const ref = useRef<MarkdownTyperRef>(null);
+
+<>
+  <button onClick={() => ref.current?.start()}>开始</button>
+  <button onClick={() => ref.current?.stop()}>暂停</button>
+  <button onClick={() => ref.current?.resume()}>继续</button>
+  <button onClick={() => ref.current?.restart()}>重新开始</button>
+  
+  <MarkdownTyper 
+    ref={ref}
+    autoStartTyping={false}
+    interval={30}
+  >
+    内容...
+  </MarkdownTyper>
+</>
+```
+

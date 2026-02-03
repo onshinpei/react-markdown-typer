@@ -1,0 +1,128 @@
+---
+title: Methods
+---
+
+## MarkdownTyper Methods
+
+Access via `ref`:
+
+```tsx
+const ref = useRef<MarkdownTyperRef>(null);
+
+ref.current?.start();     // Start typing
+ref.current?.stop();       // Pause typing
+ref.current?.resume();     // Resume typing
+ref.current?.restart();    // Restart
+```
+
+### start()
+
+Start typing animation.
+
+```tsx
+ref.current?.start();
+```
+
+**Note**: Only needed when `autoStartTyping={false}`.
+
+### stop()
+
+Pause typing animation.
+
+```tsx
+ref.current?.stop();
+```
+
+### resume()
+
+Resume paused typing animation.
+
+```tsx
+ref.current?.resume();
+```
+
+### restart()
+
+Restart typing animation.
+
+```tsx
+ref.current?.restart();
+```
+
+## MarkdownTyperCMD Methods
+
+Access via `ref`:
+
+```tsx
+const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+cmdRef.current?.push(content);    // Add content
+cmdRef.current?.clear();         // Clear
+cmdRef.current?.start();          // Start
+cmdRef.current?.stop();           // Pause
+cmdRef.current?.resume();         // Resume
+cmdRef.current?.restart();         // Restart
+cmdRef.current?.triggerWholeEnd(); // Manually trigger end
+```
+
+### push(content)
+
+Add content and start typing.
+
+```tsx
+cmdRef.current?.push('# Hello World\n\nThis is content');
+```
+
+**Parameters**:
+- `content: string` - Markdown content to add
+
+### clear()
+
+Clear all content and state.
+
+```tsx
+cmdRef.current?.clear();
+```
+
+### start()
+
+Start typing animation.
+
+```tsx
+cmdRef.current?.start();
+```
+
+### stop()
+
+Pause typing animation.
+
+```tsx
+cmdRef.current?.stop();
+```
+
+### resume()
+
+Resume paused typing animation.
+
+```tsx
+cmdRef.current?.resume();
+```
+
+### restart()
+
+Restart typing animation.
+
+```tsx
+cmdRef.current?.restart();
+```
+
+### triggerWholeEnd()
+
+Manually trigger typing end callback.
+
+```tsx
+cmdRef.current?.triggerWholeEnd();
+```
+
+**Use Case**: When you need to manually mark typing as complete.
+

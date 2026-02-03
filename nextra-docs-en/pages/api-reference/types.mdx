@@ -1,0 +1,96 @@
+---
+title: Types
+---
+
+## IntervalType
+
+Typing interval type:
+
+```typescript
+type IntervalType = number | {
+  max: number;      // Maximum interval (milliseconds)
+  min: number;      // Minimum interval (milliseconds)
+  curve?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' | 'step-start' | 'step-end';
+  curveFn?: (x: number) => number;  // Custom curve function
+}
+```
+
+## MarkdownTyperRef
+
+MarkdownTyper component ref type:
+
+```typescript
+interface MarkdownTyperRef {
+  start: () => void;
+  stop: () => void;
+  resume: () => void;
+  restart: () => void;
+}
+```
+
+## MarkdownTyperCMDRef
+
+MarkdownTyperCMD component ref type:
+
+```typescript
+interface MarkdownTyperCMDRef {
+  push: (content: string) => void;
+  clear: () => void;
+  start: () => void;
+  stop: () => void;
+  resume: () => void;
+  restart: () => void;
+  triggerWholeEnd: () => void;
+}
+```
+
+## ITypedChar
+
+Typed character callback data type:
+
+```typescript
+interface ITypedChar {
+  currentIndex: number;    // Current character index
+  currentChar: string;     // Current character
+  prevStr: string;         // Previous string
+  currentStr: string;      // Current full string
+  percent: number;        // Progress percentage
+}
+```
+
+## IOnTypedCharData
+
+Typing start callback data type:
+
+```typescript
+interface IOnTypedCharData {
+  currentIndex: number;    // Current character index
+  currentChar: string;     // Current character
+  prevStr: string;        // Previous string
+}
+```
+
+## IBeforeTypedChar
+
+Before typing callback data type:
+
+```typescript
+interface IBeforeTypedChar {
+  currentIndex: number;    // Current character index
+  currentChar: string;     // Current character
+  prevStr: string;        // Previous string
+  percent: number;        // Progress percentage
+}
+```
+
+## IEndData
+
+Typing end callback data type:
+
+```typescript
+interface IEndData {
+  manual: boolean;          // Whether manually triggered
+  str: string;             // Full string
+}
+```
+

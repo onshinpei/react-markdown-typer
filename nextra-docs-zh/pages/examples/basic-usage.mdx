@@ -1,0 +1,75 @@
+---
+title: 基础用法
+---
+
+最简单的使用方式。
+
+## 声明式用法
+
+```tsx
+import MarkdownTyper from 'react-markdown-typer';
+
+function App() {
+  return (
+    <MarkdownTyper interval={20}>
+      # Hello World
+      
+      这是一个**高性能**的打字动画组件！
+      
+      - ⚡ 流畅渲染
+      - 🎯 完美语法支持
+    </MarkdownTyper>
+  );
+}
+```
+
+## 命令式用法
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function App() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    cmdRef.current?.push('# Hello World\n\n这是一个**高性能**的打字动画组件！');
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## 控制打字速度
+
+```tsx
+// 快速打字
+<MarkdownTyper interval={10}>
+  内容...
+</MarkdownTyper>
+
+// 慢速打字
+<MarkdownTyper interval={100}>
+  内容...
+</MarkdownTyper>
+```
+
+## 动态速度
+
+```tsx
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'
+  }}
+>
+  内容...
+</MarkdownTyper>
+```
+

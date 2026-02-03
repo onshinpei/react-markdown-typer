@@ -1,0 +1,95 @@
+---
+title: Basic Usage
+---
+
+## Declarative Usage
+
+Use `MarkdownTyper` component with content via `children`:
+
+```tsx
+import MarkdownTyper from 'react-markdown-typer';
+
+function App() {
+  return (
+    <MarkdownTyper interval={20}>
+      # Hello World
+      
+      This is a **high-performance** typing animation component!
+      
+      - ⚡ Smooth rendering
+      - 🎯 Perfect syntax support
+    </MarkdownTyper>
+  );
+}
+```
+
+## Imperative Usage
+
+Use `MarkdownTyperCMD` component controlled via `ref`:
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function App() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    // Add content
+    cmdRef.current?.push('# Hello World\n\nThis is a **high-performance** typing animation component!');
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## Control Animation
+
+```tsx
+const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+// Control methods
+cmdRef.current?.start();     // Start
+cmdRef.current?.stop();       // Pause
+cmdRef.current?.resume();     // Resume
+cmdRef.current?.restart();    // Restart
+cmdRef.current?.clear();     // Clear
+```
+
+## Typing Speed
+
+Control typing speed via `interval` (milliseconds):
+
+```tsx
+// Fast typing
+<MarkdownTyper interval={10}>
+  Content...
+</MarkdownTyper>
+
+// Slow typing
+<MarkdownTyper interval={100}>
+  Content...
+</MarkdownTyper>
+```
+
+## Dynamic Speed
+
+Support dynamic typing speed:
+
+```tsx
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'  // Fast start, slow end
+  }}
+>
+  Content...
+</MarkdownTyper>
+```
+

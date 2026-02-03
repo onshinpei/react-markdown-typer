@@ -1,0 +1,81 @@
+---
+title: Cursor Styles
+---
+
+Examples for custom cursor effects.
+
+## String Cursor
+
+```tsx
+// Default cursor
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="|"
+/>
+
+// Block cursor
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="▋"
+/>
+
+// Underline cursor
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="_"
+/>
+```
+
+## Custom ReactNode Cursor
+
+```tsx
+// Blinking animation
+const BlinkingCursor = () => (
+  <span style={{
+    color: '#007acc',
+    animation: 'blink 1s infinite'
+  }}>|</span>
+);
+
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor={<BlinkingCursor />}
+/>
+
+// CSS
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+```
+
+## Colored Cursor
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor={
+    <span style={{ 
+      color: '#ff6b6b',
+      fontWeight: 'bold'
+    }}>|</span>
+  }
+/>
+```
+
+## Control on Pause
+
+```tsx
+// Show cursor when paused (default)
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={true}
+/>
+
+// Hide cursor when paused
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={false}
+/>
+```
+

@@ -1,0 +1,33 @@
+---
+title: API Overview
+---
+
+react-markdown-typer provides two main components:
+
+## MarkdownTyper
+
+Declarative component that accepts content via `children`.
+
+```tsx
+<MarkdownTyper interval={20}>
+  # Hello World
+</MarkdownTyper>
+```
+
+## MarkdownTyperCMD
+
+Imperative component controlled via `ref`.
+
+```tsx
+const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+cmdRef.current?.push('# Hello World');
+
+<MarkdownTyperCMD ref={cmdRef} interval={30} />
+```
+
+## Documentation Navigation
+
+- [Props](/api-reference/props) - All available props
+- [Methods](/api-reference/methods) - Component methods
+- [Types](/api-reference/types) - TypeScript types
+

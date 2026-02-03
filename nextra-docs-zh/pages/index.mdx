@@ -1,0 +1,93 @@
+---
+title: react-markdown-typer
+description: React Markdown 打字动画组件
+---
+
+<blockquote>
+🚀 React Markdown 打字动画组件
+</blockquote>
+
+一个专为现代 AI 应用设计的 React 组件，提供流畅的实时打字动画和完整的 Markdown 渲染能力。
+
+**如果您需要带有样式，支持数学公式、mermaid图表渲染，推荐您用 [ds-markdown](https://github.com/onshinpei/ds-markdown)**
+
+## 为什么选择 react-markdown-typer？
+
+### 专为 AI 应用优化
+
+普通打字机遇到 AI 流式数据会卡顿？我们不会。**自动将每个 chunk 拆分为字符**，无论后端一次推送多少，都能逐字流畅渲染。
+
+### 轻量但强大
+
+- 基于业界标准 [react-markdown](https://github.com/remarkjs/react-markdown)
+- 零额外依赖，开箱即用
+
+### 完整的打字控制
+
+不只是播放动画，还能 **暂停、继续、重新开始、清空**。完全的命令式 API，让你掌控一切。
+
+### 插件生态兼容
+
+兼容整个 remark/rehype 插件生态，轻松扩展功能。支持代码高亮、数学公式、表格、自定义光标等丰富功能。
+
+### 生产就绪
+
+- TypeScript 原生支持
+- 完整的类型定义
+
+**适用场景**
+
+AI 聊天助手 · 实时问答系统 · 在线教育平台 · 产品演示 · 交互式文档 · 知识库展示
+
+## 快速开始
+
+```bash
+npm install react-markdown-typer
+```
+
+```tsx
+import MarkdownTyper from 'react-markdown-typer';
+
+function App() {
+  return (
+    <MarkdownTyper interval={20}>
+      # Hello react-markdown-typer
+      
+      这是一个**高性能**的打字动画组件！
+      
+      - ⚡ 零延迟流式处理
+      - 🎬 流畅打字动画
+      - 🎯 完美语法支持
+    </MarkdownTyper>
+  );
+}
+```
+
+## 安装
+
+<blockquote>
+ℹ️ **注意**: 需要 React 16.8+ 或更高版本
+</blockquote>
+
+```bash
+# npm
+npm install react-markdown-typer
+
+# yarn
+yarn add react-markdown-typer
+
+# pnpm
+pnpm add react-markdown-typer
+```
+
+## 下一步
+
+- 阅读 [快速开始](/get-started) 了解基础用法
+- 查看 [API 文档](/api-reference) 了解所有配置选项
+- 浏览 [示例](/examples) 查看实际应用场景
+
+## 相关项目
+
+- **[ds-markdown](https://github.com/onshinpei/ds-markdown)** - 如果你需要一个带样式的 markdown 打字组件
+- **[react-markdown](https://github.com/remarkjs/react-markdown)** - Markdown 渲染核心
+

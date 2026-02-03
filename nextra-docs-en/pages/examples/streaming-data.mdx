@@ -1,0 +1,120 @@
+---
+title: Streaming Data
+---
+
+Examples for handling AI streaming responses.
+
+## Simulate Streaming Data
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function StreamingDemo() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    async function simulateStreaming() {
+      const chunks = [
+        '# AI Response\n\n',
+        'This',
+        'is',
+        'a',
+        'streaming',
+        'response',
+        '.',
+        'The',
+        'component',
+        'will',
+        'automatically',
+        'split',
+        'each',
+        'chunk',
+        'for',
+        'smooth',
+        'typing',
+        '.'
+      ];
+      
+      for (const chunk of chunks) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        cmdRef.current?.push(chunk);
+      }
+    }
+    
+    simulateStreaming();
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## Real API Integration
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function ChatDemo() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    async function fetchStreamingResponse() {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        body: JSON.stringify({ message: 'Hello' })
+      });
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        cmdRef.current?.push(chunk);
+      }
+    }
+
+    fetchStreamingResponse();
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={20}
+    />
+  );
+}
+```
+
+## Pause and Resume
+
+```tsx
+function StreamingWithControls() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  const handlePause = () => {
+    cmdRef.current?.stop();
+  };
+
+  const handleResume = () => {
+    cmdRef.current?.resume();
+  };
+
+  return (
+    <>
+      <button onClick={handlePause}>Pause</button>
+      <button onClick={handleResume}>Resume</button>
+      <MarkdownTyperCMD ref={cmdRef} interval={30} />
+    </>
+  );
+}
+```
+

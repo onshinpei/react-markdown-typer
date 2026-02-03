@@ -1,0 +1,66 @@
+---
+title: 核心特性
+---
+
+## 专为 AI 应用优化
+
+**自动拆分流式数据**
+
+普通打字机遇到 AI 流式数据会卡顿？我们不会。自动将每个 chunk 拆分为字符，无论后端一次推送多少，都能逐字流畅渲染。
+
+## 轻量但强大
+
+- 基于业界标准 [react-markdown](https://github.com/remarkjs/react-markdown)
+- 零额外依赖，开箱即用
+- 完整的 Markdown 语法支持
+
+## 完整的打字控制
+
+不只是播放动画，还能：
+
+- **暂停** - `stop()`
+- **继续** - `resume()`
+- **重新开始** - `restart()`
+- **清空** - `clear()`
+
+完全的命令式 API，让你掌控一切。
+
+## 插件生态兼容
+
+兼容整个 remark/rehype 插件生态：
+
+- 代码高亮（rehype-highlight）
+- 数学公式（remark-math, rehype-katex）
+- GitHub Flavored Markdown（remark-gfm）
+- 表格、任务列表等
+
+## 打字光标
+
+- 支持字符串光标
+- 支持自定义 ReactNode 光标
+- 暂停时可选显示/隐藏
+
+## 动态打字速度
+
+支持动态打字速度，可以模拟真实打字效果：
+
+```tsx
+interval={{
+  min: 10,
+  max: 100,
+  curve: 'ease-out'
+}}
+```
+
+## TypeScript 支持
+
+- 完整的类型定义
+- 智能提示
+- 类型安全
+
+## 生产就绪
+
+- 经过充分测试
+- 性能优化
+- 文档完善
+

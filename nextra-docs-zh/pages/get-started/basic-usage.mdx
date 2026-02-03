@@ -1,0 +1,95 @@
+---
+title: 基础用法
+---
+
+## 声明式用法
+
+使用 `MarkdownTyper` 组件，通过 `children` 传入内容：
+
+```tsx
+import MarkdownTyper from 'react-markdown-typer';
+
+function App() {
+  return (
+    <MarkdownTyper interval={20}>
+      # Hello World
+      
+      这是一个**高性能**的打字动画组件！
+      
+      - ⚡ 流畅渲染
+      - 🎯 完美语法支持
+    </MarkdownTyper>
+  );
+}
+```
+
+## 命令式用法
+
+使用 `MarkdownTyperCMD` 组件，通过 `ref` 控制：
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function App() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    // 添加内容
+    cmdRef.current?.push('# Hello World\n\n这是一个**高性能**的打字动画组件！');
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## 控制动画
+
+```tsx
+const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+// 控制方法
+cmdRef.current?.start();     // 开始
+cmdRef.current?.stop();       // 暂停
+cmdRef.current?.resume();     // 继续
+cmdRef.current?.restart();    // 重新开始
+cmdRef.current?.clear();     // 清除
+```
+
+## 打字速度
+
+通过 `interval` 控制打字速度（毫秒）：
+
+```tsx
+// 快速打字
+<MarkdownTyper interval={10}>
+  内容...
+</MarkdownTyper>
+
+// 慢速打字
+<MarkdownTyper interval={100}>
+  内容...
+</MarkdownTyper>
+```
+
+## 动态速度
+
+支持动态打字速度：
+
+```tsx
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'  // 开始快，结束慢
+  }}
+>
+  内容...
+</MarkdownTyper>
+```
+
