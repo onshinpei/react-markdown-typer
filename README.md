@@ -142,6 +142,7 @@ cmdRef.current?.stop();     // Pause
 cmdRef.current?.resume();   // Resume
 cmdRef.current?.restart();  // Restart
 cmdRef.current?.clear();    // Clear
+
 ```
 
 ---
