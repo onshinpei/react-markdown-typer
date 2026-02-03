@@ -1,0 +1,71 @@
+---
+title: 快速开始
+---
+
+欢迎使用 react-markdown-typer！本指南将帮助你快速上手。
+
+## 安装
+
+首先，安装 react-markdown-typer：
+
+```bash
+npm install react-markdown-typer
+```
+
+## 基础用法
+
+最简单的使用方式：
+
+```tsx
+import MarkdownTyper from 'react-markdown-typer';
+
+function App() {
+  return (
+    <MarkdownTyper interval={20}>
+      # Hello World
+      
+      这是一个**高性能**的打字动画组件！
+    </MarkdownTyper>
+  );
+}
+```
+
+## AI 流式对话
+
+使用命令式 API 处理流式数据：
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function ChatDemo() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    async function simulateStreaming() {
+      const chunks = ['# AI 回答\n\n', '这是', '一个', '流式', '响应'];
+      
+      for (const chunk of chunks) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        cmdRef.current?.push(chunk);
+      }
+    }
+    
+    simulateStreaming();
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## 下一步
+
+- 了解 [基础用法](/get-started/basic-usage)
+- 学习 [打字光标](/get-started/typing-cursor)
+- 查看 [核心特性](/get-started/features)
+

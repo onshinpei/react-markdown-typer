@@ -1,0 +1,89 @@
+---
+title: Typing Cursor
+---
+
+## Enable Cursor
+
+Enable cursor via `showCursor` prop:
+
+```tsx
+<MarkdownTyperCMD 
+  ref={cmdRef}
+  showCursor={true}
+  cursor="|"
+  interval={50}
+/>
+```
+
+## String Cursor
+
+Simplest cursor style:
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="|"
+/>
+```
+
+Supports any string:
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="▋"
+/>
+```
+
+## Custom ReactNode Cursor
+
+Fully customizable cursor style:
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor={
+    <span style={{ 
+      color: '#007acc',
+      animation: 'blink 1s infinite'
+    }}>|</span>
+  }
+/>
+```
+
+## Show Cursor on Pause
+
+By default, cursor continues to show when paused. Control via `showCursorOnPause`:
+
+```tsx
+// Show cursor when paused (default)
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={true}
+/>
+
+// Hide cursor when paused
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={false}
+/>
+```
+
+## Cursor Animation Example
+
+```tsx
+// Blinking animation
+const BlinkingCursor = () => (
+  <span style={{
+    color: '#007acc',
+    animation: 'blink 1s infinite'
+  }}>|</span>
+);
+
+// CSS
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+```
+

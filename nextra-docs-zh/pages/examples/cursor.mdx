@@ -1,0 +1,81 @@
+---
+title: 光标样式
+---
+
+自定义光标效果的示例。
+
+## 字符串光标
+
+```tsx
+// 默认光标
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="|"
+/>
+
+// 方块光标
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="▋"
+/>
+
+// 下划线光标
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="_"
+/>
+```
+
+## 自定义 ReactNode 光标
+
+```tsx
+// 闪烁动画
+const BlinkingCursor = () => (
+  <span style={{
+    color: '#007acc',
+    animation: 'blink 1s infinite'
+  }}>|</span>
+);
+
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor={<BlinkingCursor />}
+/>
+
+// CSS
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+```
+
+## 彩色光标
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor={
+    <span style={{ 
+      color: '#ff6b6b',
+      fontWeight: 'bold'
+    }}>|</span>
+  }
+/>
+```
+
+## 暂停时控制
+
+```tsx
+// 暂停时显示光标（默认）
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={true}
+/>
+
+// 暂停时隐藏光标
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={false}
+/>
+```
+

@@ -1,0 +1,118 @@
+---
+title: 流式数据
+---
+
+处理 AI 流式响应的示例。
+
+## 模拟流式数据
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function StreamingDemo() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    async function simulateStreaming() {
+      const chunks = [
+        '# AI 回答\n\n',
+        '这是',
+        '一个',
+        '流式',
+        '响应',
+        '。',
+        '组件会',
+        '自动',
+        '拆分',
+        '每个',
+        'chunk',
+        '，',
+        '确保',
+        '流畅',
+        '打字',
+        '。'
+      ];
+      
+      for (const chunk of chunks) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        cmdRef.current?.push(chunk);
+      }
+    }
+    
+    simulateStreaming();
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## 真实 API 集成
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function ChatDemo() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    async function fetchStreamingResponse() {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        body: JSON.stringify({ message: 'Hello' })
+      });
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        cmdRef.current?.push(chunk);
+      }
+    }
+
+    fetchStreamingResponse();
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={20}
+    />
+  );
+}
+```
+
+## 暂停和继续
+
+```tsx
+function StreamingWithControls() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  const handlePause = () => {
+    cmdRef.current?.stop();
+  };
+
+  const handleResume = () => {
+    cmdRef.current?.resume();
+  };
+
+  return (
+    <>
+      <button onClick={handlePause}>暂停</button>
+      <button onClick={handleResume}>继续</button>
+      <MarkdownTyperCMD ref={cmdRef} interval={30} />
+    </>
+  );
+}
+```
+

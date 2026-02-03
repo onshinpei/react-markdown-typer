@@ -1,0 +1,66 @@
+---
+title: Core Features
+---
+
+## Optimized for AI Applications
+
+**Automatic Streaming Data Splitting**
+
+Do regular typewriters stutter with AI streaming data? We don't. Automatically splits each chunk into characters, ensuring smooth character-by-character rendering no matter how much the backend pushes at once.
+
+## Lightweight yet Powerful
+
+- Built on industry-standard [react-markdown](https://github.com/remarkjs/react-markdown)
+- Zero additional dependencies, works out of the box
+- Full Markdown syntax support
+
+## Complete Typing Control
+
+Not just playing animations, but also:
+
+- **Pause** - `stop()`
+- **Resume** - `resume()`
+- **Restart** - `restart()`
+- **Clear** - `clear()`
+
+Full imperative API gives you complete control.
+
+## Plugin Ecosystem Compatible
+
+Compatible with the entire remark/rehype plugin ecosystem:
+
+- Code highlighting (rehype-highlight)
+- Math formulas (remark-math, rehype-katex)
+- GitHub Flavored Markdown (remark-gfm)
+- Tables, task lists, and more
+
+## Typing Cursor
+
+- Supports string cursor
+- Supports custom ReactNode cursor
+- Optional show/hide when paused
+
+## Dynamic Typing Speed
+
+Supports dynamic typing speed to simulate realistic typing:
+
+```tsx
+interval={{
+  min: 10,
+  max: 100,
+  curve: 'ease-out'
+}}
+```
+
+## TypeScript Support
+
+- Complete type definitions
+- IntelliSense
+- Type safety
+
+## Production Ready
+
+- Well tested
+- Performance optimized
+- Well documented
+

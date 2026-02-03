@@ -1,0 +1,100 @@
+---
+title: Props 属性
+---
+
+## MarkdownTyper Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `children` | `string` | - | Markdown 内容（必需） |
+| `interval` | `number \| IntervalType` | `30` | 打字间隔（毫秒） |
+| `timerType` | `'setTimeout' \| 'requestAnimationFrame'` | `'setTimeout'` | 定时器类型 |
+| `showCursor` | `boolean` | `false` | 是否显示光标 |
+| `cursor` | `React.ReactNode` | `"\|"` | 光标内容 |
+| `showCursorOnPause` | `boolean` | `true` | 暂停时是否显示光标 |
+| `disableTyping` | `boolean` | `false` | 禁用打字动画 |
+| `autoStartTyping` | `boolean` | `true` | 是否自动开始 |
+| `onStart` | `(data) => void` | - | 打字开始回调 |
+| `onEnd` | `(data) => void` | - | 打字结束回调 |
+| `onTypedChar` | `(data) => void` | - | 每个字符打字后回调 |
+| `onBeforeTypedChar` | `(data) => Promise<void>` | - | 每个字符打字前回调 |
+| `reactMarkdownProps` | `Options` | - | react-markdown 配置 |
+| `customConvertMarkdownString` | `(str: string) => string` | - | 自定义 Markdown 转换函数 |
+
+## MarkdownTyperCMD Props
+
+与 `MarkdownTyper` 相同，但不需要 `children`。
+
+## IntervalType
+
+支持动态打字速度：
+
+```typescript
+type IntervalType = number | {
+  max: number;      // 最大间隔
+  min: number;      // 最小间隔
+  curve?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' | 'step-start' | 'step-end';
+  curveFn?: (x: number) => number;  // 自定义曲线函数
+}
+```
+
+**示例**：
+
+```tsx
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'  // 开始快，结束慢
+  }}
+>
+  内容...
+</MarkdownTyper>
+```
+
+## 回调函数
+
+### onStart
+
+打字开始时触发：
+
+```tsx
+onStart={(data) => {
+  console.log('开始打字', data);
+  // data: { currentIndex: number, currentChar: string, prevStr: string }
+}}
+```
+
+### onEnd
+
+打字结束时触发：
+
+```tsx
+onEnd={(data) => {
+  console.log('打字结束', data);
+  // data: { manual: boolean, str: string }
+}}
+```
+
+### onTypedChar
+
+每个字符打字后触发：
+
+```tsx
+onTypedChar={(data) => {
+  console.log('进度:', data.percent + '%');
+  // data: { currentIndex, currentChar, prevStr, currentStr, percent }
+}}
+```
+
+### onBeforeTypedChar
+
+每个字符打字前触发（支持异步）：
+
+```tsx
+onBeforeTypedChar={async (data) => {
+  await someAsyncOperation();
+  // data: { currentIndex, currentChar, prevStr, percent }
+}}
+```
+

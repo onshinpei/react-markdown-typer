@@ -1,0 +1,98 @@
+---
+title: Typing Animation
+---
+
+Examples for custom typing animation effects.
+
+## Timer Types
+
+### setTimeout Mode
+
+```tsx
+<MarkdownTyper 
+  interval={100}
+  timerType="setTimeout"
+>
+  Content...
+</MarkdownTyper>
+```
+
+### requestAnimationFrame Mode (Recommended)
+
+```tsx
+<MarkdownTyper 
+  interval={5}
+  timerType="requestAnimationFrame"
+>
+  Content...
+</MarkdownTyper>
+```
+
+## Dynamic Speed Curves
+
+```tsx
+// Fast start, slow end
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'
+  }}
+>
+  Content...
+</MarkdownTyper>
+
+// Slow start, fast end
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-in'
+  }}
+>
+  Content...
+</MarkdownTyper>
+
+// Custom curve
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curveFn: (x) => Math.sin(x * Math.PI) * 50 + 50
+  }}
+>
+  Content...
+</MarkdownTyper>
+```
+
+## Disable Animation
+
+```tsx
+const [disable, setDisable] = useState(false);
+
+<MarkdownTyper disableTyping={disable}>
+  Content will display immediately without animation
+</MarkdownTyper>
+```
+
+## Manual Control
+
+```tsx
+const ref = useRef<MarkdownTyperRef>(null);
+
+<>
+  <button onClick={() => ref.current?.start()}>Start</button>
+  <button onClick={() => ref.current?.stop()}>Pause</button>
+  <button onClick={() => ref.current?.resume()}>Resume</button>
+  <button onClick={() => ref.current?.restart()}>Restart</button>
+  
+  <MarkdownTyper 
+    ref={ref}
+    autoStartTyping={false}
+    interval={30}
+  >
+    Content...
+  </MarkdownTyper>
+</>
+```
+

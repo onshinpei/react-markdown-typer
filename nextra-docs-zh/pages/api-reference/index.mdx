@@ -1,0 +1,33 @@
+---
+title: API 概览
+---
+
+react-markdown-typer 提供了两个主要组件：
+
+## MarkdownTyper
+
+声明式组件，通过 `children` 传入内容。
+
+```tsx
+<MarkdownTyper interval={20}>
+  # Hello World
+</MarkdownTyper>
+```
+
+## MarkdownTyperCMD
+
+命令式组件，通过 `ref` 控制内容。
+
+```tsx
+const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+cmdRef.current?.push('# Hello World');
+
+<MarkdownTyperCMD ref={cmdRef} interval={30} />
+```
+
+## 文档导航
+
+- [Props 属性](/api-reference/props) - 所有可用属性
+- [方法](/api-reference/methods) - 组件方法
+- [类型定义](/api-reference/types) - TypeScript 类型
+

@@ -1,0 +1,71 @@
+---
+title: Get Started
+---
+
+Welcome to react-markdown-typer! This guide will help you get started quickly.
+
+## Installation
+
+First, install react-markdown-typer:
+
+```bash
+npm install react-markdown-typer
+```
+
+## Basic Usage
+
+The simplest way to use:
+
+```tsx
+import MarkdownTyper from 'react-markdown-typer';
+
+function App() {
+  return (
+    <MarkdownTyper interval={20}>
+      # Hello World
+      
+      This is a **high-performance** typing animation component!
+    </MarkdownTyper>
+  );
+}
+```
+
+## AI Streaming Chat
+
+Use imperative API to handle streaming data:
+
+```tsx
+import { useRef, useEffect } from 'react';
+import { MarkdownTyperCMD, MarkdownTyperCMDRef } from 'react-markdown-typer';
+
+function ChatDemo() {
+  const cmdRef = useRef<MarkdownTyperCMDRef>(null);
+
+  useEffect(() => {
+    async function simulateStreaming() {
+      const chunks = ['# AI Response\n\n', 'This', 'is', 'a', 'streaming', 'response'];
+      
+      for (const chunk of chunks) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        cmdRef.current?.push(chunk);
+      }
+    }
+    
+    simulateStreaming();
+  }, []);
+
+  return (
+    <MarkdownTyperCMD 
+      ref={cmdRef}
+      interval={30}
+    />
+  );
+}
+```
+
+## Next Steps
+
+- Learn [Basic Usage](/get-started/basic-usage)
+- Explore [Typing Cursor](/get-started/typing-cursor)
+- Check [Core Features](/get-started/features)
+

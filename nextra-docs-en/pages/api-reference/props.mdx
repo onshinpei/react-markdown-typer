@@ -1,0 +1,100 @@
+---
+title: Props
+---
+
+## MarkdownTyper Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | - | Markdown content (required) |
+| `interval` | `number \| IntervalType` | `30` | Typing interval (milliseconds) |
+| `timerType` | `'setTimeout' \| 'requestAnimationFrame'` | `'setTimeout'` | Timer type |
+| `showCursor` | `boolean` | `false` | Whether to show cursor |
+| `cursor` | `React.ReactNode` | `"\|"` | Cursor content |
+| `showCursorOnPause` | `boolean` | `true` | Whether to show cursor when paused |
+| `disableTyping` | `boolean` | `false` | Disable typing animation |
+| `autoStartTyping` | `boolean` | `true` | Auto start typing |
+| `onStart` | `(data) => void` | - | Typing start callback |
+| `onEnd` | `(data) => void` | - | Typing end callback |
+| `onTypedChar` | `(data) => void` | - | Callback after each character |
+| `onBeforeTypedChar` | `(data) => Promise<void>` | - | Callback before each character |
+| `reactMarkdownProps` | `Options` | - | react-markdown configuration |
+| `customConvertMarkdownString` | `(str: string) => string` | - | Custom Markdown conversion function |
+
+## MarkdownTyperCMD Props
+
+Same as `MarkdownTyper`, but doesn't require `children`.
+
+## IntervalType
+
+Supports dynamic typing speed:
+
+```typescript
+type IntervalType = number | {
+  max: number;      // Maximum interval
+  min: number;      // Minimum interval
+  curve?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' | 'step-start' | 'step-end';
+  curveFn?: (x: number) => number;  // Custom curve function
+}
+```
+
+**Example**:
+
+```tsx
+<MarkdownTyper 
+  interval={{
+    min: 10,
+    max: 100,
+    curve: 'ease-out'  // Fast start, slow end
+  }}
+>
+  Content...
+</MarkdownTyper>
+```
+
+## Callback Functions
+
+### onStart
+
+Triggered when typing starts:
+
+```tsx
+onStart={(data) => {
+  console.log('Typing started', data);
+  // data: { currentIndex: number, currentChar: string, prevStr: string }
+}}
+```
+
+### onEnd
+
+Triggered when typing ends:
+
+```tsx
+onEnd={(data) => {
+  console.log('Typing ended', data);
+  // data: { manual: boolean, str: string }
+}}
+```
+
+### onTypedChar
+
+Triggered after each character:
+
+```tsx
+onTypedChar={(data) => {
+  console.log('Progress:', data.percent + '%');
+  // data: { currentIndex, currentChar, prevStr, currentStr, percent }
+}}
+```
+
+### onBeforeTypedChar
+
+Triggered before each character (supports async):
+
+```tsx
+onBeforeTypedChar={async (data) => {
+  await someAsyncOperation();
+  // data: { currentIndex, currentChar, prevStr, percent }
+}}
+```
+

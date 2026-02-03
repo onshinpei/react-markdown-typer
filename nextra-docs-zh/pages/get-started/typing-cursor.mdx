@@ -1,0 +1,89 @@
+---
+title: 打字光标
+---
+
+## 启用光标
+
+通过 `showCursor` 属性启用光标：
+
+```tsx
+<MarkdownTyperCMD 
+  ref={cmdRef}
+  showCursor={true}
+  cursor="|"
+  interval={50}
+/>
+```
+
+## 字符串光标
+
+最简单的光标样式：
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="|"
+/>
+```
+
+支持任意字符串：
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor="▋"
+/>
+```
+
+## 自定义 ReactNode 光标
+
+完全自定义光标样式：
+
+```tsx
+<MarkdownTyperCMD 
+  showCursor={true}
+  cursor={
+    <span style={{ 
+      color: '#007acc',
+      animation: 'blink 1s infinite'
+    }}>|</span>
+  }
+/>
+```
+
+## 暂停时显示光标
+
+默认情况下，暂停时会继续显示光标。可以通过 `showCursorOnPause` 控制：
+
+```tsx
+// 暂停时显示光标（默认）
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={true}
+/>
+
+// 暂停时隐藏光标
+<MarkdownTyperCMD 
+  showCursor={true}
+  showCursorOnPause={false}
+/>
+```
+
+## 光标动画示例
+
+```tsx
+// 闪烁动画
+const BlinkingCursor = () => (
+  <span style={{
+    color: '#007acc',
+    animation: 'blink 1s infinite'
+  }}>|</span>
+);
+
+// CSS
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+```
+
