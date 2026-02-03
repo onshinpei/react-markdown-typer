@@ -128,6 +128,7 @@ const App: React.FC = () => {
             math={{ splitSymbol: 'bracket' }}
             disableTyping={disableTyping}
             autoStartTyping={false}
+            showCursor
             reactMarkdownProps={mathOpen ? { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] } : undefined}
           >
             {dataJson.content}

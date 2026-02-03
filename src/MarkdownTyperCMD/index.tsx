@@ -9,7 +9,7 @@ import { CursorSpan } from '../components/CursorSpan';
 
 const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
   (
-    { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString, showCursor = false, cursor = '|' },
+    { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString, showCursor = false, cursor = '|', showCursorOnPause = true },
     ref,
   ) => {
     /** Whether to automatically start typing animation, changes after initialization will not take effect */
@@ -35,7 +35,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       prevLength: 0,
     });
 
-    const [, setUpdate] = useState(0);
+    const [updateCount, setUpdate] = useState(0);
     const triggerUpdate = () => {
       setUpdate((prev) => prev + 1);
     };
@@ -150,15 +150,21 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       start: () => {
         if (!autoStartTypingRef.current) {
           typingTask.start();
+          // Trigger re-render to show cursor placeholder
+          triggerUpdate();
         }
       },
       /** Stop typing task */
       stop: () => {
         typingTask.stop();
+        // Trigger re-render to remove cursor placeholder
+        triggerUpdate();
       },
       /** Resume typing task */
       resume: () => {
         typingTask.resume();
+        // Trigger re-render to show cursor placeholder
+        triggerUpdate();
       },
       /**
        * Manually trigger typing end
@@ -183,21 +189,33 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       return customConvertMarkdownString?.(wholeContentRef.current.content) || wholeContentRef.current.content;
     }, [wholeContentRef.current.content, customConvertMarkdownString]);
 
-    // Show cursor when typing is in progress and showCursor is enabled
-    // Use ref to avoid re-render timing issues
-    const shouldShowCursor = showCursor && typingTask.isTypingRef.current && !disableTyping;
-
     // Build display string with cursor placeholder
+    // Include updateCount to ensure re-calculation when typing state changes
     const displayString = useMemo(() => {
-      // Check if currently typing using ref (not state)
-      const isCurrentlyTyping = typingTask.isTypingRef.current;
-      if (showCursor && isCurrentlyTyping && !disableTyping) {
+      // Show cursor when:
+      // 1. Currently typing (isTypingRef.current = true), or
+      // 2. Paused and showCursorOnPause is true and has pending content
+      const isTyping = typingTask.isTypingRef.current;
+      const hasPendingContent = charsRef.current.length > 0;
+      const isPaused = !isTyping && hasPendingContent;
+      const shouldShowCursorNow = showCursor && (isTyping || (isPaused && showCursorOnPause)) && !disableTyping;
+
+      if (shouldShowCursorNow) {
         // Use a unique marker that won't conflict with markdown syntax
         // Using zero-width space to make it invisible if somehow rendered
         return markdownString + '\u200B__MDTYPER_CURSOR__\u200B';
       }
       return markdownString;
-    }, [markdownString, showCursor, disableTyping, typingTask.isTypingRef]);
+    }, [markdownString, showCursor, showCursorOnPause, disableTyping, updateCount]);
+
+    // Show cursor when typing is in progress (or paused based on config) and showCursor is enabled
+    // Must calculate after displayString to use same updateCount
+    const shouldShowCursor = useMemo(() => {
+      const isTyping = typingTask.isTypingRef.current;
+      const hasPendingContent = charsRef.current.length > 0;
+      const isPaused = !isTyping && hasPendingContent;
+      return showCursor && (isTyping || (isPaused && showCursorOnPause)) && !disableTyping;
+    }, [showCursor, showCursorOnPause, disableTyping, updateCount]);
 
     // Create rehype plugin to handle cursor placeholder
     const rehypeCursorPlugin = useMemo(() => {
@@ -226,7 +244,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       return {
         ...reactMarkdownProps?.components,
         span: (props: any) => (
-          <CursorSpan 
+          <CursorSpan
             cursor={cursor}
             userSpanComponent={reactMarkdownProps?.components?.span}
             {...props}

@@ -157,6 +157,7 @@ cmdRef.current?.clear();    // Clear
 | `timerType` | `'setTimeout' \| 'requestAnimationFrame'` | `'setTimeout'` | Timer type |
 | `showCursor` | `boolean` | `false` | Whether to show cursor |
 | `cursor` | `React.ReactNode` | `"\|"` | Cursor content |
+| `showCursorOnPause` | `boolean` | `true` | Whether to show cursor when paused |
 | `disableTyping` | `boolean` | `false` | Disable typing animation |
 | `autoStartTyping` | `boolean` | `true` | Auto start typing |
 | `onStart` | `(data) => void` | - | Typing start callback |

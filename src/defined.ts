@@ -87,6 +87,9 @@ export interface MarkdownTyperBaseProps {
 
   /** Custom cursor, can be string or ReactNode, default is '|' */
   cursor?: React.ReactNode;
+
+  /** Whether to show cursor when typing is paused, default is true */
+  showCursorOnPause?: boolean;
 }
 
 export interface MarkdownTyperProps extends MarkdownTyperBaseProps {

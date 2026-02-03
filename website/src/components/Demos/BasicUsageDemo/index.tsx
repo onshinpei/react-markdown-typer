@@ -83,6 +83,7 @@ const BasicUsageDemo: React.FC<DemoProps> = ({ markdown }) => {
       <ReactMarkdownTyper
         ref={markdownRef}
         interval={25}
+        showCursor
         reactMarkdownProps={{
           remarkPlugins: [remarkGfm],
         }}
