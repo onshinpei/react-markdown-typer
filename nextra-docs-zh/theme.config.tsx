@@ -61,6 +61,14 @@ const config: DocsThemeConfig = {
   navbar: {
     extraContent: <LanguageSwitch />,
   },
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="react-markdown-typer" />
+      <meta property="og:description" content="一个专为现代 AI 应用设计的 React 组件，提供流畅的实时打字动画和完整的 Markdown 渲染能力" />
+      <link rel="icon" href="/react-markdown-typer/zh/favicon.ico" />
+    </>
+  ),
 }
 
 export default config

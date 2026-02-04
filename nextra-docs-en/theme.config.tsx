@@ -61,6 +61,14 @@ const config: DocsThemeConfig = {
   navbar: {
     extraContent: <LanguageSwitch />,
   },
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="react-markdown-typer" />
+      <meta property="og:description" content="A React component designed for modern AI applications, providing smooth real-time typing animations and full Markdown rendering capabilities" />
+      <link rel="icon" href="/react-markdown-typer/en/favicon.ico" />
+    </>
+  ),
 }
 
 export default config
