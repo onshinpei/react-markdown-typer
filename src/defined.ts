@@ -90,6 +90,15 @@ export interface MarkdownTyperBaseProps {
 
   /** Whether to show cursor when typing is paused, default is true */
   showCursorOnPause?: boolean;
+
+  /**
+   * Experimental incremental render mode.
+   * When enabled, the component avoids full markdown re-parse on every typed character.
+   */
+  experimentalIncrementalRender?: boolean;
+
+  /** Tail size threshold for incremental mode flush decisions. */
+  incrementalFlushThreshold?: number;
 }
 
 export interface MarkdownTyperProps extends MarkdownTyperBaseProps {
@@ -128,6 +137,8 @@ export type MarkdownTyperRef = MarkdownBaseRef;
 /** MarkdownCMD component ref type */
 export interface MarkdownTyperCMDRef extends MarkdownBaseRef {
   push: (content: string) => void;
+  /** Replace current rendered content immediately without typing animation. */
+  setContent: (content: string) => void;
   clear: () => void;
   triggerWholeEnd: () => void;
 }

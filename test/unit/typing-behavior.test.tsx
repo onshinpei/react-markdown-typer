@@ -2,7 +2,7 @@ import { act, createRef } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { MarkdownTyper, MarkdownTyperCMD, MarkdownTyperCMDRef } from '../../src';
 
-function mount(element: React.ReactElement): { unmount: () => void } {
+function mount(element: React.ReactElement): { unmount: () => void; rerender: (next: React.ReactElement) => void; getText: () => string } {
   const container = document.createElement('div');
   document.body.appendChild(container);
   let root: Root;
@@ -11,6 +11,12 @@ function mount(element: React.ReactElement): { unmount: () => void } {
     root.render(element);
   });
   return {
+    rerender: (next) => {
+      act(() => {
+        root.render(next);
+      });
+    },
+    getText: () => container.textContent || '',
     unmount: () => {
       act(() => {
         root.unmount();
@@ -18,6 +24,10 @@ function mount(element: React.ReactElement): { unmount: () => void } {
       container.remove();
     },
   };
+}
+
+function stripWhitespace(value: string): string {
+  return value.replace(/\s+/g, '');
 }
 
 describe('typing behavior', () => {
@@ -94,5 +104,90 @@ describe('typing behavior', () => {
     const app = mount(<MarkdownTyper interval={1}>hello</MarkdownTyper>);
     app.unmount();
     expect(consoleSpy).not.toHaveBeenCalled();
+  });
+
+  test('experimentalIncrementalRender handles prefix changes by typing only new suffix', async () => {
+    jest.useFakeTimers();
+    const onTypedChar = jest.fn();
+    const app = mount(
+      <MarkdownTyper interval={1} experimentalIncrementalRender onTypedChar={onTypedChar}>
+        abcde
+      </MarkdownTyper>,
+    );
+
+    await act(async () => {
+      await jest.runAllTimersAsync();
+      await Promise.resolve();
+    });
+
+    onTypedChar.mockClear();
+    app.rerender(
+      <MarkdownTyper interval={1} experimentalIncrementalRender onTypedChar={onTypedChar}>
+        abcXY
+      </MarkdownTyper>,
+    );
+
+    await act(async () => {
+      await jest.runAllTimersAsync();
+      await Promise.resolve();
+    });
+
+    const typed = onTypedChar.mock.calls.map((call) => call[0]?.currentChar).join('');
+    expect(typed).toBe('XY');
+    app.unmount();
+  });
+
+  test.each([
+    {
+      name: 'setext heading',
+      before: 'Title\n=====\n\nalpha',
+      after: 'Title\n=====\n\nbeta',
+      expectedTyped: 'beta',
+      expectedTextIncludes: 'beta',
+    },
+    {
+      name: 'gfm table',
+      before: '| col | val |\n| --- | --- |\n| a | 1 |\n',
+      after: '| col | val |\n| --- | --- |\n| a | 2 |\n',
+      expectedTyped: '2 |\n',
+      expectedTextIncludes: '2',
+    },
+    {
+      name: 'blockquote and list',
+      before: '> quoted line\n\n- item one\n- item two',
+      after: '> quoted line\n\n- item one\n- item three',
+      expectedTyped: 'hree',
+      expectedTextIncludes: 'item three',
+    },
+  ])('experimentalIncrementalRender keeps block integrity for $name', async ({ before, after, expectedTyped, expectedTextIncludes }) => {
+    jest.useFakeTimers();
+    const onTypedChar = jest.fn();
+    const app = mount(
+      <MarkdownTyper interval={1} experimentalIncrementalRender onTypedChar={onTypedChar}>
+        {before}
+      </MarkdownTyper>,
+    );
+
+    await act(async () => {
+      await jest.runAllTimersAsync();
+      await Promise.resolve();
+    });
+
+    onTypedChar.mockClear();
+    app.rerender(
+      <MarkdownTyper interval={1} experimentalIncrementalRender onTypedChar={onTypedChar}>
+        {after}
+      </MarkdownTyper>,
+    );
+
+    await act(async () => {
+      await jest.runAllTimersAsync();
+      await Promise.resolve();
+    });
+
+    const typed = onTypedChar.mock.calls.map((call) => call[0]?.currentChar).join('');
+    expect(typed).toBe(expectedTyped);
+    expect(stripWhitespace(app.getText())).toContain(stripWhitespace(expectedTextIncludes));
+    app.unmount();
   });
 });
