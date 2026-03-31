@@ -36,9 +36,6 @@ const MarkdownTyperInner: React.FC<MarkdownTyperInnerProps> = ({ children: _chil
       cmdRef.current.push(newContent);
       prefixRef.current = content;
     }
-    return () => {
-      console.log('unmount');
-    };
   }, [content]);
 
   useImperativeHandle(markdownRef, () => ({

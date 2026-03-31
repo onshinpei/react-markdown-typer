@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { IChar, ITypedChar, IWholeContent, MarkdownTyperProps, IEndData, IBeforeTypedChar, IntervalType } from '../defined';
+import { splitGraphemes } from '../utils/grapheme';
 
 interface UseTypingTaskOptions {
   timerType: MarkdownTyperProps['timerType'];
@@ -172,7 +173,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     const allLength = wholeContentRef.current.length;
 
     // Calculate percentage of previous characters
-    const percent = (char.index / allLength) * 100;
+    const percent = allLength > 0 ? (char.index / allLength) * 100 : 0;
 
     await onBeforeTypedChar({
       currentIndex: index,
@@ -189,7 +190,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     }
     const { content, index } = char;
     const allLength = wholeContentRef.current.length;
-    const percent = ((char.index + 1) / allLength) * 100;
+    const percent = allLength > 0 ? ((char.index + 1) / allLength) * 100 : 100;
 
     onTypedChar({
       currentIndex: index,
@@ -409,7 +410,7 @@ export const useTypingTask = (options: UseTypingTaskOptions): TypingTaskControll
     typedIsManualStopRef.current = false;
     // Put wholeContentRef content into charsRef
     charsRef.current.unshift(
-      ...wholeContentRef.current.content.split('').map((charUnit) => {
+      ...splitGraphemes(wholeContentRef.current.content).map((charUnit) => {
         const char: IChar = {
           content: charUnit,
           tokenId: 0,

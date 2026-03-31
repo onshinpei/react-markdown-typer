@@ -113,7 +113,7 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       wholeContentRef.current.length += content.length;
       triggerUpdate();
       onEnd?.({
-        str: content,
+        str: wholeContentRef.current.content,
         manual: false,
       });
     };
