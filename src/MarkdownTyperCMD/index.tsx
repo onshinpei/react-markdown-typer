@@ -7,9 +7,187 @@ import { splitGraphemes } from '../utils/grapheme';
 import { createRehypeCursorPlugin } from '../plugins/rehypeCursor';
 import { CursorSpan } from '../components/CursorSpan';
 
+const CURSOR_MARKER = '\u200B__MDTYPER_CURSOR__\u200B';
+const DEFAULT_INCREMENTAL_FLUSH_THRESHOLD = 1200;
+
+interface IncrementalContext {
+  inFenceCode: boolean;
+  inMathBlock: boolean;
+  inContainerBlock: boolean;
+  inTable: boolean;
+  possibleTableHeader: boolean;
+  previousNonEmptyLine: string;
+  lineBuffer: string;
+}
+
+function createInitialIncrementalContext(): IncrementalContext {
+  return {
+    inFenceCode: false,
+    inMathBlock: false,
+    inContainerBlock: false,
+    inTable: false,
+    possibleTableHeader: false,
+    previousNonEmptyLine: '',
+    lineBuffer: '',
+  };
+}
+
+function isFenceLine(line: string): boolean {
+  return /^\s{0,3}(```|~~~)/.test(line);
+}
+
+function isMathBlockDelimiter(line: string): boolean {
+  return /^\s*\$\$\s*$/.test(line);
+}
+
+function isContainerLine(line: string): boolean {
+  return /^\s{0,3}(>|[-+*]\s+|\d+\.\s+)/.test(line);
+}
+
+function isContainerContinuationLine(line: string): boolean {
+  return /^\s{2,}\S/.test(line);
+}
+
+function isAtxHeadingLine(line: string): boolean {
+  return /^\s{0,3}#{1,6}(?:\s+|$)/.test(line);
+}
+
+function isThematicBreakLine(line: string): boolean {
+  return /^\s{0,3}([-*_]\s*){3,}$/.test(line);
+}
+
+function isSetextUnderlineLine(line: string): boolean {
+  return /^\s{0,3}(=+|-+)\s*$/.test(line);
+}
+
+function isTableSeparatorLine(line: string): boolean {
+  return /^\s*\|?(?:\s*:?-{3,}:?\s*\|)+\s*:?-{3,}:?\s*\|?\s*$/.test(line);
+}
+
+function looksLikeTableHeaderLine(line: string): boolean {
+  return line.includes('|') && !isTableSeparatorLine(line);
+}
+
+function isReferenceDefinitionLine(line: string): boolean {
+  return /^\s{0,3}\[[^\]]+\]:\s+\S+/.test(line);
+}
+
+function shouldFlushAtLineBoundary(line: string, context: IncrementalContext, isSetextHeading: boolean): boolean {
+  if (context.inFenceCode || context.inMathBlock || context.inContainerBlock) {
+    return false;
+  }
+
+  if (context.inTable) {
+    return false;
+  }
+
+  if (/^\s*$/.test(line)) {
+    return true;
+  }
+
+  if (isAtxHeadingLine(line) || isThematicBreakLine(line) || isSetextHeading || isReferenceDefinitionLine(line)) {
+    return true;
+  }
+
+  return false;
+}
+
+function shouldForceFlushBySize(context: IncrementalContext, tail: string, threshold: number): boolean {
+  if (context.inFenceCode || context.inMathBlock) {
+    return tail.length >= threshold * 2;
+  }
+  return tail.length >= threshold;
+}
+
+function buildIncrementalContextFromContent(content: string): IncrementalContext {
+  const context = createInitialIncrementalContext();
+  for (const char of splitGraphemes(content)) {
+    context.lineBuffer += char;
+    if (char !== '\n') {
+      continue;
+    }
+
+    const line = context.lineBuffer.slice(0, -1);
+    context.lineBuffer = '';
+    processCompletedLine(line, context);
+  }
+  return context;
+}
+
+function processCompletedLine(line: string, context: IncrementalContext): boolean {
+  const isBlank = /^\s*$/.test(line);
+
+  if (!context.inFenceCode && !context.inMathBlock && isFenceLine(line)) {
+    context.inFenceCode = true;
+  } else if (context.inFenceCode && isFenceLine(line)) {
+    context.inFenceCode = false;
+  } else if (!context.inFenceCode && isMathBlockDelimiter(line)) {
+    context.inMathBlock = !context.inMathBlock;
+  }
+
+  const wasTableHeader = context.possibleTableHeader;
+  if (context.inFenceCode || context.inMathBlock) {
+    context.inContainerBlock = false;
+    context.inTable = false;
+    context.possibleTableHeader = false;
+  } else if (isBlank) {
+    context.inContainerBlock = false;
+    context.inTable = false;
+    context.possibleTableHeader = false;
+  } else {
+    if (context.inTable) {
+      if (!line.includes('|')) {
+        context.inTable = false;
+      }
+    } else if (wasTableHeader && isTableSeparatorLine(line)) {
+      context.inTable = true;
+    }
+    context.possibleTableHeader = looksLikeTableHeaderLine(line);
+
+    if (isContainerLine(line)) {
+      context.inContainerBlock = true;
+    } else if (context.inContainerBlock && isContainerContinuationLine(line)) {
+      context.inContainerBlock = true;
+    } else {
+      context.inContainerBlock = false;
+    }
+  }
+
+  const isSetextHeading = isSetextUnderlineLine(line)
+    && !context.inFenceCode
+    && !context.inMathBlock
+    && !context.inTable
+    && !context.inContainerBlock
+    && context.previousNonEmptyLine.length > 0;
+
+  const shouldFlush = shouldFlushAtLineBoundary(line, context, isSetextHeading);
+
+  if (!isBlank) {
+    context.previousNonEmptyLine = line;
+  }
+
+  return shouldFlush;
+}
+
 const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
   (
-    { interval = 30, onEnd, onStart, onTypedChar, onBeforeTypedChar, timerType = 'setTimeout', reactMarkdownProps, disableTyping = false, autoStartTyping = true, customConvertMarkdownString, showCursor = false, cursor = '|', showCursorOnPause = true },
+    {
+      interval = 30,
+      onEnd,
+      onStart,
+      onTypedChar,
+      onBeforeTypedChar,
+      timerType = 'setTimeout',
+      reactMarkdownProps,
+      disableTyping = false,
+      autoStartTyping = true,
+      customConvertMarkdownString,
+      showCursor = false,
+      cursor = '|',
+      showCursorOnPause = true,
+      experimentalIncrementalRender = false,
+      incrementalFlushThreshold = DEFAULT_INCREMENTAL_FLUSH_THRESHOLD,
+    },
     ref,
   ) => {
     /** Whether to automatically start typing animation, changes after initialization will not take effect */
@@ -35,9 +213,63 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       prevLength: 0,
     });
 
+    /** Incremental render buffers */
+    const stableContentRef = useRef('');
+    const tailContentRef = useRef('');
+    const incrementalContextRef = useRef<IncrementalContext>(createInitialIncrementalContext());
+
     const [updateCount, setUpdate] = useState(0);
     const triggerUpdate = () => {
       setUpdate((prev) => prev + 1);
+    };
+
+    const appendToIncrementalBuffers = (content: string) => {
+      if (!experimentalIncrementalRender || content.length === 0) {
+        return;
+      }
+
+      tailContentRef.current += content;
+      const context = incrementalContextRef.current;
+
+      const chars = splitGraphemes(content);
+      for (const char of chars) {
+        context.lineBuffer += char;
+        if (char !== '\n') {
+          continue;
+        }
+
+        const line = context.lineBuffer.slice(0, -1);
+        context.lineBuffer = '';
+        if (processCompletedLine(line, context)) {
+          stableContentRef.current += tailContentRef.current;
+          tailContentRef.current = '';
+          break;
+        }
+      }
+
+      const threshold = Math.max(64, incrementalFlushThreshold);
+      if (tailContentRef.current.length > 0 && shouldForceFlushBySize(context, tailContentRef.current, threshold)) {
+        stableContentRef.current += tailContentRef.current;
+        tailContentRef.current = '';
+      }
+    };
+
+    const setIncrementalContent = (content: string) => {
+      if (!experimentalIncrementalRender) {
+        return;
+      }
+      stableContentRef.current = content;
+      tailContentRef.current = '';
+      incrementalContextRef.current = buildIncrementalContextFromContent(content);
+    };
+
+    const resetWholeContent = () => {
+      wholeContentRef.current.content = '';
+      wholeContentRef.current.length = 0;
+      wholeContentRef.current.prevLength = 0;
+      stableContentRef.current = '';
+      tailContentRef.current = '';
+      incrementalContextRef.current = createInitialIncrementalContext();
     };
 
     /**
@@ -50,13 +282,8 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       wholeContentRef.current.prevLength = wholeContentRef.current.length;
       wholeContentRef.current.content += char.content;
       wholeContentRef.current.length += char.content.length;
+      appendToIncrementalBuffers(char.content);
       triggerUpdate();
-    };
-
-    const resetWholeContent = () => {
-      wholeContentRef.current.content = '';
-      wholeContentRef.current.length = 0;
-      wholeContentRef.current.prevLength = 0;
     };
 
     // Use new typing task hook
@@ -111,9 +338,14 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       // Record length before typing
       wholeContentRef.current.prevLength = wholeContentRef.current.length;
       wholeContentRef.current.length += content.length;
+
+      if (experimentalIncrementalRender) {
+        setIncrementalContent(wholeContentRef.current.content);
+      }
+
       triggerUpdate();
       onEnd?.({
-        str: content,
+        str: wholeContentRef.current.content,
         manual: false,
       });
     };
@@ -122,7 +354,6 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       /**
        * Add content
        * @param content Content {string}
-       * @param answerType Answer type {AnswerType}
        */
       push: (content: string) => {
         if (disableTyping) {
@@ -130,6 +361,26 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
           return;
         }
         processHasTypingPush(content);
+      },
+      /** Replace content immediately without typing animation */
+      setContent: (content: string) => {
+        typingTask.clear();
+        typingTask.typedIsManualStopRef.current = false;
+        charsRef.current = [];
+        isWholeTypedEndRef.current = false;
+
+        resetWholeContent();
+        wholeContentRef.current.content = content;
+        wholeContentRef.current.prevLength = content.length;
+        wholeContentRef.current.length = content.length;
+
+        if (experimentalIncrementalRender) {
+          setIncrementalContent(content);
+        }
+
+        charIndexRef.current = splitGraphemes(content).length;
+        isStartedTypingRef.current = content.length > 0;
+        triggerUpdate();
       },
       /**
        * Clear typing task
@@ -185,62 +436,18 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       },
     }));
 
-    const markdownString = useMemo(() => {
-      return customConvertMarkdownString?.(wholeContentRef.current.content) || wholeContentRef.current.content;
-    }, [wholeContentRef.current.content, customConvertMarkdownString]);
-
-    // Build display string with cursor placeholder
-    // Include updateCount to ensure re-calculation when typing state changes
-    const displayString = useMemo(() => {
-      // Show cursor when:
-      // 1. Currently typing (isTypingRef.current = true), or
-      // 2. Paused and showCursorOnPause is true and has pending content
-      const isTyping = typingTask.isTypingRef.current;
-      const hasPendingContent = charsRef.current.length > 0;
-      const isPaused = !isTyping && hasPendingContent;
-      const shouldShowCursorNow = showCursor && (isTyping || (isPaused && showCursorOnPause)) && !disableTyping;
-
-      if (shouldShowCursorNow) {
-        // Use a unique marker that won't conflict with markdown syntax
-        // Using zero-width space to make it invisible if somehow rendered
-        return markdownString + '\u200B__MDTYPER_CURSOR__\u200B';
-      }
-      return markdownString;
-    }, [markdownString, showCursor, showCursorOnPause, disableTyping, updateCount]);
-
-    // Show cursor when typing is in progress (or paused based on config) and showCursor is enabled
-    // Must calculate after displayString to use same updateCount
     const shouldShowCursor = useMemo(() => {
       const isTyping = typingTask.isTypingRef.current;
       const hasPendingContent = charsRef.current.length > 0;
       const isPaused = !isTyping && hasPendingContent;
       return showCursor && (isTyping || (isPaused && showCursorOnPause)) && !disableTyping;
-    }, [showCursor, showCursorOnPause, disableTyping, updateCount]);
+    }, [showCursor, showCursorOnPause, disableTyping, updateCount, typingTask.isTypingRef]);
 
-    // Create rehype plugin to handle cursor placeholder
-    const rehypeCursorPlugin = useMemo(() => {
-      if (!shouldShowCursor) {
-        return null;
-      }
-      return createRehypeCursorPlugin(cursor);
-    }, [shouldShowCursor, cursor]);
-
-    // Merge rehype plugins
-    const mergedRehypePlugins = useMemo(() => {
-      const basePlugins = reactMarkdownProps?.rehypePlugins || [];
-      if (rehypeCursorPlugin) {
-        return [...basePlugins, rehypeCursorPlugin];
-      }
-      return basePlugins;
-    }, [reactMarkdownProps?.rehypePlugins, rehypeCursorPlugin]);
-
-    // Merge components
-    const mergedComponents = useMemo(() => {
+    const mergedComponentsWithCursor = useMemo(() => {
       if (!shouldShowCursor || typeof cursor === 'string') {
         return reactMarkdownProps?.components;
       }
 
-      // For ReactNode cursor, wrap span component to handle cursor placeholder
       return {
         ...reactMarkdownProps?.components,
         span: (props: any) => (
@@ -253,15 +460,53 @@ const MarkdownTyperCMD = forwardRef<MarkdownTyperCMDRef, MarkdownTyperCMDProps>(
       };
     }, [shouldShowCursor, cursor, reactMarkdownProps?.components]);
 
-    const mergedReactMarkdownProps = useMemo(() => {
+    const reactMarkdownPropsBase = useMemo(() => {
       return {
         ...reactMarkdownProps,
-        rehypePlugins: mergedRehypePlugins,
-        components: mergedComponents,
+        rehypePlugins: reactMarkdownProps?.rehypePlugins || [],
+        components: reactMarkdownProps?.components,
       };
-    }, [reactMarkdownProps, mergedRehypePlugins, mergedComponents]);
+    }, [reactMarkdownProps]);
 
-    return <ReactMarkdown {...mergedReactMarkdownProps}>{displayString}</ReactMarkdown>;
+    const reactMarkdownPropsWithCursor = useMemo(() => {
+      const basePlugins = reactMarkdownProps?.rehypePlugins || [];
+      return {
+        ...reactMarkdownProps,
+        rehypePlugins: [...basePlugins, createRehypeCursorPlugin(cursor)],
+        components: mergedComponentsWithCursor,
+      };
+    }, [reactMarkdownProps, cursor, mergedComponentsWithCursor]);
+
+    if (!experimentalIncrementalRender) {
+      const markdownString = customConvertMarkdownString?.(wholeContentRef.current.content) || wholeContentRef.current.content;
+      const displayString = shouldShowCursor ? `${markdownString}${CURSOR_MARKER}` : markdownString;
+      const mergedReactMarkdownProps = shouldShowCursor ? reactMarkdownPropsWithCursor : reactMarkdownPropsBase;
+      return <ReactMarkdown {...mergedReactMarkdownProps}>{displayString}</ReactMarkdown>;
+    }
+
+    const stableMarkdownString =
+      customConvertMarkdownString?.(stableContentRef.current) || stableContentRef.current;
+    let tailMarkdownString = customConvertMarkdownString?.(tailContentRef.current) || tailContentRef.current;
+
+    if (shouldShowCursor) {
+      tailMarkdownString = `${tailMarkdownString}${CURSOR_MARKER}`;
+    }
+
+    const hasStable = stableMarkdownString.length > 0;
+    const hasTail = tailMarkdownString.length > 0;
+
+    return (
+      <>
+        {hasStable && (
+          <ReactMarkdown {...reactMarkdownPropsBase}>{stableMarkdownString}</ReactMarkdown>
+        )}
+        {hasTail && (
+          <ReactMarkdown {...(shouldShowCursor ? reactMarkdownPropsWithCursor : reactMarkdownPropsBase)}>
+            {tailMarkdownString}
+          </ReactMarkdown>
+        )}
+      </>
+    );
   },
 );
 
