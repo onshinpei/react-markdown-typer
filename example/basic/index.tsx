@@ -72,7 +72,7 @@ const BasicDemo: React.FC = () => {
     }, 50);
   }, []);
 
-  const interval = 8;
+  const interval = 10;
   const flag = true;
   const timerType = flag ? 'requestAnimationFrame' : 'setTimeout';
 
@@ -100,7 +100,7 @@ const BasicDemo: React.FC = () => {
       </div>
       <div className="ds-message-box" ref={messageDivRef} onScroll={onScroll}>
         <div className="ds-message-list">
-          <Markdown interval={15} ref={markdownRef} onTypedChar={throttleOnTypedChar} timerType={timerType} autoStartTyping={true} showCursor>
+          <Markdown interval={interval} ref={markdownRef} onTypedChar={throttleOnTypedChar} timerType={timerType} autoStartTyping={true} showCursor experimentalIncrementalRender>
             {json.content}
           </Markdown>
         </div>
